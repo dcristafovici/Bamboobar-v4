@@ -1,16 +1,12 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const config = require('config')
-const bodyparser = require('body-parser')
-
+const fileupload = require('express-fileupload')
 
 const app = express()
 
-
-app.use(bodyparser.urlencoded({
-  extended: true
-}));
-app.use(bodyparser.json())
+app.use(express.json())
+app.use(fileupload())
 
 // api/product
 app.use('/api/product/', require('./routes/product'))
