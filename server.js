@@ -8,8 +8,10 @@ const app = express()
 app.use(express.json())
 app.use(fileupload())
 
-// api/product
+// api/NameController
 app.use('/api/product/', require('./routes/product'))
+app.use('/api/category', require('./routes/category'))
+
 
 const PORT = config.get('port') || 5000
 const start = async () =>{

@@ -20,6 +20,10 @@ const ProductSchema = mongoose.Schema({
   category: {
     type: String,
     required: [true, "Product category is required"]
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 })
 

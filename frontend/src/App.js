@@ -1,6 +1,7 @@
 import React from "react"
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 import CreateProduct from "./components/product/CreateProduct";
+import CreateCategory from "./components/category/CreateCategory";
 import './App.css';
 
 
@@ -17,14 +18,20 @@ const App = () => {
               <Link to='/about'>About</Link>
             </li>
             <li>
-              <Link to='/create'>Create</Link>
+              <Link to='/product/create'>Create Product</Link>
+            </li>
+            <li>
+              <Link to='/category/create'>Create Category</Link>
             </li>
           </ul>
         </nav>
 
         <Switch>
-          <Route path="/create">
+          <Route path="/product/create">
             <CreateProduct />
+          </Route>
+          <Route path="/category/create">
+            <CreateCategory />
           </Route>
           <Route path="/">
             <Home />
