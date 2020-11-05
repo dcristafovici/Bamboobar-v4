@@ -3,15 +3,16 @@ const Product = require('../models/Product')
 const createProduct = async (req,res )=>{
   try{
     const data = req.body
-    console.log(req.body)
-    const product = await new Product({
+    const product =  new Product({
       ...data
     })
+    await product.save()
     res.status(200).send({message: 'Продукт создан'})
-    product.save()
 
   } catch (e) {
-    res.status(200).send({message: e})
+    res.status(401).json({
+      message: e.message
+    })
   }
 
 }
