@@ -1,8 +1,10 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const config = require('config')
+const jwtSecret = config.get('JWT_SECRET')
 
-const registerUser = async(req,res) => {
+const register = async(req,res) => {
   try {
     const {email, username, password, passwordCheck} = req.body;
 
@@ -16,7 +18,7 @@ const registerUser = async(req,res) => {
     }
 
     //Check If Existing User
-    const existingUser = User.findOne({email: email})
+    const existingUser = await User.findOne({email: email})
     if(existingUser){
       return res.status(401).json({msg: "Пользователь уже существует"})
     }
@@ -37,4 +39,39 @@ const registerUser = async(req,res) => {
     res.status(500).json({ error: err.message });
   }
 
+}
+
+
+
+const login = async(req, res) => {
+  try{
+    const {email , password} = req.body
+    if(!email || !password){
+      return res.status(401).json({msg: "Пожалуйста заполните все поля"})
+    }
+    const user = await User.findOne({email: email})
+    if(!user){
+      return res.status(401).json({msg: "Пользователь не найден"})
+    }
+
+    const isMath = bcrypt.compare(password, user.password)
+    if(!isMath){
+      return res.status(401).json({msg: "Неправильные данные"})
+    }
+
+    const token = jwt.sign({
+      id: user._id
+    }, jwtSecret)
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username
+      }
+    })
+
+  } catch (e) {
+    res.status(500).json({ error: err.message });
+  }
 }
