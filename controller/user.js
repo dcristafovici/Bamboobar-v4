@@ -36,7 +36,7 @@ const register = async(req,res) => {
     res.json(saveUser)
 
   } catch (e) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: e.message });
   }
 
 }
@@ -72,6 +72,31 @@ const login = async(req, res) => {
     })
 
   } catch (e) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: e.message });
+  }
+}
+
+
+
+const tokenIsValid = async(req,res) => {
+  try {
+    const token = req.header("x-auth-token");
+    if(!token){
+      return res.json(false)
+    }
+    const verified = jwt.verify(token, jwtSecret)
+    if(!verified){
+      return res.json(false)
+    }
+    const user = await User.findById(verified.id)
+    if(!user){
+      return res.json(false)
+    }
+    return res.json(true)
+
+
+  }
+  catch (e) {
+    return res.status(500).json({error: e.message})
   }
 }
