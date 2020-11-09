@@ -38,6 +38,19 @@ const createProduct = async (req,res )=>{
 
 }
 
+
+const findByCategoriesId = async (req, res) => {
+  try{
+    const dataID = req.params.ID
+    const products = await Product.find({category: dataID })
+    return res.status(201).send({products: products})
+  } catch (e) {
+    res.status(401).send({message: e.message})
+  }
+}
+
+
 module.exports = {
-  createProduct
+  createProduct,
+  findByCategoriesId
 }

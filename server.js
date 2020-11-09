@@ -3,11 +3,14 @@ const express = require('express')
 const config = require('config')
 const fileupload = require('express-fileupload')
 const cors = require('cors')
+const path = require('path')
 
 const app = express()
 
 app.use(express.json())
 app.use(fileupload())
+app.use(express.static(path.join(__dirname, "./uploads/")));
+
 app.use(cors())
 
 // api/NameController
