@@ -14,6 +14,17 @@ const addCategory = async(req,res) =>{
 }
 
 
+const getCategories = async(req, res) => {
+  try{
+    const categories = await Category.find()
+    res.status(201).send({data: categories, message: "Categories all"})
+  } catch (e) {
+    res.status(401).send({message: e.message})
+  }
+}
+
+
 module.exports = {
-  addCategory
+  addCategory,
+  getCategories
 }

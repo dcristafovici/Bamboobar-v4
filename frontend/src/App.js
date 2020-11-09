@@ -2,6 +2,7 @@ import React from "react"
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
+import Home from "./pages/Home";
 import './App.css';
 
 
@@ -23,6 +24,7 @@ const App = () => {
             <li>
               <Link to='/category/create'>Create Category</Link>
             </li>
+
           </ul>
         </nav>
 
@@ -33,21 +35,18 @@ const App = () => {
           <Route path="/category/create">
             <CreateCategory />
           </Route>
+
           <Route path="/">
             <Home />
           </Route>
         </Switch>
-
-
       </div>
     </Router>
   )
 }
 
 
-function Home() {
-  return <h2>Home</h2>;
-}
+
 
 
 export default App;

@@ -1,4 +1,5 @@
 const Product = require('../models/Product')
+const mongoose = require('mongoose')
 const path = require('path')
 
 const createProduct = async (req,res )=>{
@@ -8,9 +9,18 @@ const createProduct = async (req,res )=>{
     const fileName = `photo${uniqueSuffix}${path.parse(file.name).ext}`;
 
     const jsonData = req.body['form']
-    const data = JSON.parse(jsonData)
+
+    const {name, price, weight} = JSON.parse(jsonData)
+    const {category} = JSON.parse(jsonData)
+    console.log(name)
+    console.log(price)
+    console.log(weight)
+    console.log(category)
     const product =  new Product({
-      ...data,
+      name: name,
+      price: price,
+      weight: weight,
+      category: mongoose.Types.ObjectId(category),
       productImage: `uploads/product/${fileName}`
     })
     await product.save()

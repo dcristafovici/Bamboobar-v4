@@ -11,8 +11,9 @@ app.use(fileupload())
 app.use(cors())
 
 // api/NameController
-app.use('/api/product/', require('./routes/product'))
+app.use('/api/product', require('./routes/product'))
 app.use('/api/category', require('./routes/category'))
+app.use('/api/user', require('./routes/user'))
 
 
 const PORT = config.get('port') || 5000

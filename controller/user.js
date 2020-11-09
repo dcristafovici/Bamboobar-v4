@@ -54,7 +54,7 @@ const login = async(req, res) => {
       return res.status(401).json({msg: "Пользователь не найден"})
     }
 
-    const isMath = bcrypt.compare(password, user.password)
+    const isMath = await bcrypt.compare(password, user.password)
     if(!isMath){
       return res.status(401).json({msg: "Неправильные данные"})
     }
@@ -99,4 +99,26 @@ const tokenIsValid = async(req,res) => {
   catch (e) {
     return res.status(500).json({error: e.message})
   }
+}
+
+
+const displayUser = async(req, res)=>{
+  try {
+    const user = await User.findById(req.user);
+    res.json({
+      displayName: user.displayName,
+      id: user._id,
+    });
+  } catch (e) {
+    return res.status(500).json({error: e.message})
+  }
+}
+
+
+
+module.exports = {
+  login,
+  register,
+  tokenIsValid,
+  displayUser
 }
