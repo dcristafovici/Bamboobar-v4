@@ -1,6 +1,8 @@
 import React from "react"
+import {connect} from 'react-redux'
 
 const Aside = () =>{
+
   return(
     <aside className="aside aside-ready" data-delivery="5000">
       <div className="aside-control">
@@ -63,4 +65,17 @@ const Aside = () =>{
   )
 }
 
-export default Aside
+
+const mapStateToProps = store =>{
+  return{
+    items: store.aside.asideItems,
+    loading: store.aside.loading
+  }
+}
+
+const mapDispatchToProps = dispatch =>{
+   return {}
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Aside);
