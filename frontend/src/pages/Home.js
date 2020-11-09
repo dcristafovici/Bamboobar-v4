@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react"
-import CatalogPoint from "../components/catalog/CatalogPoint";
 import axios from "axios";
+import CatalogPoint from "../components/catalog/CatalogPoint";
+import Aside from "../components/aside/Aside";
+
 const Home = () =>{
 
   const [categories, setCategories] = useState([])
@@ -311,147 +313,7 @@ const Home = () =>{
 
               {!loadingCategories && <CatalogPoint categories={categories}/>}
             </div>
-            <aside className="aside aside-ready" data-delivery="5000">
-              <ul>
-                <li>
-                  <span>name:Фирменные сырники из домашнего творога с густой сметаной и ягодным соусом </span>
-                  <span>price: 750 </span>
-                  <span>quantity: 1</span>
-                </li>
-                <li>
-                  <span>name:Пышные панкейки со сливочно-сметанным соусом, с малиной и голубикой </span>
-                  <span>price: 450 </span>
-                  <span>quantity: 2</span>
-                </li>
-                <li>
-                  <span>name:Венские вафли с лепестками хрустящего миндаля и сгущенным молоком </span>
-                  <span>price: 650 </span>
-                  <span>quantity: 5</span>
-                </li>
-                <li>
-                  <span>name:Творожная запеканка с кусочками персика и сладким соусом </span>
-                  <span>price: 750 </span>
-                  <span>quantity: 1</span>
-                </li>
-              </ul>
-              <div className="aside-progress">
-                <span> 0 </span>
-                <span>  </span>
-              </div>
-
-              <div className="lds-roller">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-              <div className="aside-control">
-                <div className="aside-title"><span>Мой заказ</span>
-                </div>
-                <a href="http://delivery.bamboobar.su?clear-cart" className="aside-close">
-                  <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/close.svg"
-                       alt="Close" />
-                </a>
-              </div>
-              <div className="aside-items mCustomScrollbar _mCS_1" >
-
-                    <div className="aside-item" data-one="750₽" data-id="684">
-                      <div className="aside-item__name"><span>Фирменные сырники из домашнего творога с густой сметаной и я...</span>
-                      </div>
-                      <div className="aside-item__change">
-                        <div className="aside-plus"></div>
-                        <input type="number" className="item-quantity" defaultValue="1" />
-                          <div className="aside-minus remove"></div>
-                      </div>
-                      <div className="aside-item__right">
-                        <span><span className="woocommerce-Price-amount amount"><bdi>750₽</bdi></span></span><span>750 г</span>
-                      </div>
-                    </div>
-
-                    <div className="aside-item" data-one="450₽" data-id="679">
-                      <div className="aside-item__name"><span>Пышные панкейки со сливочно-сметанным соусом, с малиной и го...</span>
-                      </div>
-                      <div className="aside-item__change">
-                        <div className="aside-plus"></div>
-                        <input type="number" className="item-quantity" defaultValue="2" />
-                          <div className="aside-minus"></div>
-                      </div>
-                      <div className="aside-item__right">
-                        <span><span className="woocommerce-Price-amount amount"><bdi>900 ₽</bdi></span></span><span>335 г</span>
-                      </div>
-                    </div>
-
-                    <div className="aside-item" data-one="650₽" data-id="680">
-                      <div className="aside-item__name"><span>Венские вафли с лепестками хрустящего миндаля и сгущенным мо...</span>
-                      </div>
-                      <div className="aside-item__change">
-                        <div className="aside-plus"></div>
-                        <input type="number" className="item-quantity" defaultValue="5" />
-                          <div className="aside-minus"></div>
-                      </div>
-                      <div className="aside-item__right">
-                        <span><span className="woocommerce-Price-amount amount"><bdi>3250 ₽</bdi></span></span><span>145 г</span>
-                      </div>
-                    </div>
-
-                    <div className="aside-item" data-one="750₽" data-id="685">
-                      <div className="aside-item__name">
-                        <span>Творожная запеканка с кусочками персика и сладким соусом</span></div>
-                      <div className="aside-item__change">
-                        <div className="aside-plus"></div>
-                        <input type="number" className="item-quantity" defaultValue="1" />
-                          <div className="aside-minus remove"></div>
-                      </div>
-                      <div className="aside-item__right">
-                        <span><span className="woocommerce-Price-amount amount"><bdi>750₽</bdi></span></span><span>200 г</span>
-                      </div>
-                    </div>
-              </div>
-              <div className="aside-delivery">
-                <div className="aside-delivery__min">заказ по данному адресу возможен от <span
-                  id="min_delivery">5000</span> ₽
-                </div>
-                <div className="aside-delivery__name" ><span>Закажите ещё на <span
-                  id="remaind"></span> ₽ для бесплатной доставки</span>
-                </div>
-                <div className="aside-delivery__count"><span>0 ₽ </span><span>5000 ₽</span>
-                </div>
-                <div className="aside-delivery__line">
-
-                  <div className="aside-delivery__fill" >
-                    <span >5650  ₽</span></div>
-                </div>
-              </div>
-
-              <div className="aside-delivery__info">
-                <div className="aside-info__item"><span>Время доставки</span><span>~60 мин</span>
-                </div>
-
-                <div className="aside-info__item"><span>Итого</span><span id="total-amount">5650 ₽</span>
-                </div>
-              </div>
-              <div className="aside-delivery__button">
-                <a href="#checkout" data-text="Оформить заказ"
-                   className="button button-checkout"><span>Оформить заказ </span></a>
-                <a href="#banner" className="aside-delivery__address button button-checkout">
-                  <span>Указать адресс</span>
-                </a>
-              </div>
-
-              <div className="aside-delivery__general">
-                <ul>
-                  <li>БЕСПЛАТНАЯ ДОСТАВКА</li>
-                  <li>- по Москва-Сити от 1500 руб.</li>
-                  <li>- при заказае от 10 000 руб.</li>
-                  <li>- от 3 000 руб - стоимость доставки 500 руб</li>
-                  <li>- от 5000 рублей бесплатно в радиусе 10 км от Москва-Сити</li>
-                </ul>
-              </div>
-            </aside>
+            <Aside/>
           </div>
         </div>
       </section>
