@@ -1995,6 +1995,23 @@ nav.menu-nav a {
 .aside-items{
   max-height: 150px;
   overflow: hidden;
+  overflow-y: scroll;
+}
+.aside-items::-webkit-scrollbar{
+  width: 5px;
+
+}
+
+.aside-items::-webkit-scrollbar-track-piece{
+  background-color: transparent;
+}
+
+.aside-items::-webkit-scrollbar-thumb{
+  background-color: #CBCBCB;
+}
+
+.aside-items::-webkit-scrollbar-thumb:hover{
+  background-color: #909090;
 }
 
 .lds-ripple {

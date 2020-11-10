@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios";
+import {connect, useDispatch} from "react-redux"
+import {addToAside} from "../../redux/actions/asideAction"
 
 const CatalogItem = ({categoryId}) => {
   const [products, setProducts] = useState([])
@@ -11,13 +13,17 @@ const CatalogItem = ({categoryId}) => {
       .then(result => setProducts(result.data.products))
     loadingCategories = true
   }, [])
+  const dispatch = useDispatch()
+  const handleClick = (id, name, quantity, price) => {
+    dispatch(addToAside({id, name, quantity, price }));
+  }
 
   return products.map((product, key) => {
     let productImage = product.productImage
     productImage = "http://localhost:5000/" + productImage
 
     return(
-      <div className="catalog-item" key={key} data-id={product._id}>
+      <div className="catalog-item" key={key} data-id={product._id} onClick={() => handleClick(product._id, product.name, 1, product.price)}>
         <div className="catalog-item__top">
           <h4>{product.name}</h4>
           <span><span className="woocommerce-Price-amount amount"><bdi>{product.price}<span
@@ -73,4 +79,11 @@ const CatalogItem = ({categoryId}) => {
   )
 }
 
-export default CatalogItem;
+const mapDispatchToProps = (dispatch) => {
+  return{
+    addToAside: payload => dispatch(addToAside(payload))
+  }
+}
+
+
+export default connect(mapDispatchToProps)(CatalogItem)
