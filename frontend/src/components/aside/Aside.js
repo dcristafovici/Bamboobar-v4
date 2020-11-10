@@ -1,8 +1,17 @@
-import React, {Component} from "react"
-import {connect} from "react-redux"
+import React from "react"
+import {connect, useDispatch} from "react-redux"
+import {addQuantity, minQuantity} from "../../redux/actions/asideAction";
 
-class Aside extends React.Component{
-  render(){
+const Aside = ({asideItems, total}) =>{
+  const dispatch = useDispatch()
+
+  const addQuantityHandler = (id, quantity, price) => {
+    dispatch(addQuantity({id, quantity, price}));
+  }
+  const minQuantityHandler = (id, quantity, price) => {
+    dispatch(minQuantity({id, quantity, price}))
+  }
+
     return(
       <aside className="aside aside-ready" data-delivery="5000">
         <div className="aside-control">
@@ -15,15 +24,15 @@ class Aside extends React.Component{
         </div>
         <div className="aside-items mCustomScrollbar _mCS_1" >
           {
-            this.props.asideItems.map((item , key) => {
+            asideItems.map((item , key) => {
               return(
                 <div className="aside-item" data-id={item.id} key={key}>
                   <div className="aside-item__name"><span>{item.name}</span>
                   </div>
                   <div className="aside-item__change">
-                    <div className="aside-plus"></div>
-                    <input type="number" className="item-quantity" defaultValue={item.quantity} />
-                    <div className="aside-minus remove"></div>
+                    <div className="aside-plus" onClick={() => addQuantityHandler(item.id, item.quantity, item.price)}></div>
+                    <input type="text" className="item-quantity" defaultValue={item.quantity} />
+                    <div className="aside-minus remove" onClick={() => minQuantityHandler(item.id, item.quantity, item.price)}></div>
                   </div>
                   <div className="aside-item__right">
                     <span><span className="woocommerce-Price-amount amount"><bdi>{item.price}₽</bdi></span></span><span>750 г</span>
@@ -55,7 +64,7 @@ class Aside extends React.Component{
           <div className="aside-info__item"><span>Время доставки</span><span>~60 мин</span>
           </div>
 
-          <div className="aside-info__item"><span>Итого</span><span id="total-amount">5650 ₽</span>
+          <div className="aside-info__item"><span>Итого</span><span id="total-amount">{total} ₽</span>
           </div>
         </div>
         <div className="aside-delivery__button">
@@ -69,13 +78,12 @@ class Aside extends React.Component{
 
       </aside>
     )
-  }
 }
 
 const mapStateToProps = (state) =>{
-  console.log(state)
   return{
-    asideItems: state.asideItems
+    asideItems: state.asideItems,
+    total: state.total
   }
 }
 
