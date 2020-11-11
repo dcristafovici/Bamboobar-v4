@@ -6,6 +6,6 @@ const router = Router()
 router.post('/login', login)
 router.post('/register', register)
 router.post('/tokenIsValid', tokenIsValid)
-router.get('/', displayUser)
+router.get('/getUser', displayUser)
 
 module.exports = router

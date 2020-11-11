@@ -11,7 +11,6 @@ const asideReducer = (state = initialState, action) =>{
       const existItem =  state.asideItems.find(item => action.payload.id === item.id)
       if(existItem)
       {
-        console.log(existItem)
         return{
           ...state,
           asideItems: state.asideItems.map(mapItem => item.id === mapItem.id ? {...mapItem, quantity: mapItem.quantity + 1} : mapItem),
@@ -38,6 +37,13 @@ const asideReducer = (state = initialState, action) =>{
       const itemToSubQuantity = action.payload.quantity
       if(itemToSubQuantity > 1){
         return{
+          ...state,
+          asideItems: state.asideItems.map(currentItem => itemToSub.id === currentItem.id ? {...currentItem, quantity: currentItem.quantity - 1}: currentItem),
+          total: state.total - itemToSub.price
+        }
+      }
+      else{
+        return {
           ...state,
           asideItems: state.asideItems.map(currentItem => itemToSub.id === currentItem.id ? {...currentItem, quantity: currentItem.quantity - 1}: currentItem),
           total: state.total - itemToSub.price

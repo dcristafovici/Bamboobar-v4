@@ -2944,6 +2944,15 @@ nav.menu-nav li.item-more.active > a::after{
 .mbl-menu{
   display: none;
 }
+
+.register-page .title h1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+}
+
+
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

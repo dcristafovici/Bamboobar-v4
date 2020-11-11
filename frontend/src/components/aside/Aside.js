@@ -32,7 +32,7 @@ const Aside = ({asideItems, total}) =>{
                   <div className="aside-item__change">
                     <div className="aside-plus" onClick={() => addQuantityHandler(item.id, item.quantity, item.price)}></div>
                     <input type="text" className="item-quantity" defaultValue={item.quantity} />
-                    <div className="aside-minus remove" onClick={() => minQuantityHandler(item.id, item.quantity, item.price)}></div>
+                    <div className={item.quantity > 1 ? 'aside-minus' : 'aside-minus remove'} onClick={() => minQuantityHandler(item.id, item.quantity, item.price)}></div>
                   </div>
                   <div className="aside-item__right">
                     <span><span className="woocommerce-Price-amount amount"><bdi>{item.price}₽</bdi></span></span><span>750 г</span>

@@ -92,8 +92,8 @@ const tokenIsValid = async(req,res) => {
     if(!user){
       return res.json(false)
     }
-    return res.json(true)
 
+    return res.status(200).json({data: user,})
 
   }
   catch (e) {
@@ -104,13 +104,13 @@ const tokenIsValid = async(req,res) => {
 
 const displayUser = async(req, res)=>{
   try {
-    const user = await User.findById(req.user);
+    const user = await User.findById(req.headers.id);
     res.json({
-      displayName: user.displayName,
+      username: user.username,
       id: user._id,
     });
   } catch (e) {
-    return res.status(500).json({error: e.message})
+    return res.status(401).json({error: e.message})
   }
 }
 
