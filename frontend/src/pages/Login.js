@@ -1,8 +1,10 @@
 import React, {useState, useContext} from "react"
+import {useHistory} from "react-router-dom"
 import UserContext from "../context/userContext";
 import axios from "axios"
 
 const Login = () => {
+  const history = useHistory()
   const {setUserData} = useContext(UserContext)
   const [form, setForm] = useState({
     email: "", password: ""
@@ -21,7 +23,7 @@ const Login = () => {
       user: loginResponse.data.user
     })
     localStorage.setItem("auth-token", loginResponse.data.token)
-
+    history.push('/')
   }
 
   return(

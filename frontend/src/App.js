@@ -5,6 +5,7 @@ import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login"
+import Account from "./pages/Account";
 import axios from "axios"
 import UserContext from "./context/userContext";
 import './App.css';
@@ -53,9 +54,7 @@ const App = () => {
               <li>
                 <Link to='/'>Home</Link>
               </li>
-              <li>
-                <Link to='/about'>About</Link>
-              </li>
+
               <li>
                 <Link to='/product/create'>Create Product</Link>
               </li>
@@ -91,6 +90,9 @@ const App = () => {
             </Route>
             <Route path="/auth/register">
               <Register/>
+            </Route>
+            <Route path="/auth/account">
+              <Account/>
             </Route>
             <Route path="/auth/login">
               <Login />
