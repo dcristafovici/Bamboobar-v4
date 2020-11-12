@@ -64,8 +64,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return{
-    asideItems: state.asideItems,
-    totalPrice: state.total
+    asideItems: state.asideReducer.asideItems,
+    totalPrice: state.asideReducer.total
   }
 }
 

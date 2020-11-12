@@ -5,10 +5,10 @@ import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login"
-import Account from "./pages/Account";
 import axios from "axios"
 import UserContext from "./context/userContext";
 import './App.css';
+import Account from "./pages/Account";
 
 
 
@@ -36,7 +36,7 @@ const App = () => {
 
   checkLoggedIn()
   }, [])
-
+  console.log(userData)
   const logOut = () =>{
     setUserData({
       token: undefined,

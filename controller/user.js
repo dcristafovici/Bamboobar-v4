@@ -94,7 +94,6 @@ const tokenIsValid = async(req,res) => {
     }
 
     return res.status(200).json({data: user,})
-
   }
   catch (e) {
     return res.status(500).json({error: e.message})
@@ -108,6 +107,8 @@ const displayUser = async(req, res)=>{
     res.json({
       username: user.username,
       id: user._id,
+      email: user.email,
+      phone: user.phone
     });
   } catch (e) {
     return res.status(401).json({error: e.message})

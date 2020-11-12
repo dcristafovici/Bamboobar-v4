@@ -12,10 +12,6 @@ const createProduct = async (req,res )=>{
 
     const {name, price, weight} = JSON.parse(jsonData)
     const {category} = JSON.parse(jsonData)
-    console.log(name)
-    console.log(price)
-    console.log(weight)
-    console.log(category)
     const product =  new Product({
       name: name,
       price: price,

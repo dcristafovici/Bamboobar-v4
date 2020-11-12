@@ -2953,6 +2953,80 @@ nav.menu-nav li.item-more.active > a::after{
 }
 
 
+
+.modal-close{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  z-index: 20;
+  cursor: pointer;
+  transition: all .25s ease-in-out;
+  opacity: .5;
+}
+#checkout{
+  display: block;
+}
+.modal-close:hover{
+  opacity: 1;
+}
+
+.checkout-title{
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.checkout .form{
+  width: 100%;
+}
+.checkout .form-row{
+  display: flex;
+  justify-content: space-between;
+}
+.checkout .form-row .form-group{
+  width: calc(50% - 10px);
+}
+
+.checkout .form-row .form-group.form-group__full{
+  width: 100%;
+}
+
+.checkout .form-row{
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.checkout input{
+  height: 50px;
+}
+
+.form-collection__name{
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+.form-collection{
+  margin-bottom: 50px;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+
+
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

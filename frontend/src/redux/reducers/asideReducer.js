@@ -2,8 +2,9 @@ import {ADD_TO_ASIDE, ADD_QUANTITY, SUB_QUANTITY} from "../actions/actions-types
 
 let itemsInitial = localStorage.getItem('asideItems')
 let priceInitial = localStorage.getItem('totalPrice')
-itemsInitial = JSON.parse(itemsInitial)
-priceInitial = JSON.parse(priceInitial)
+if(itemsInitial) itemsInitial = JSON.parse(itemsInitial)
+
+if(priceInitial) priceInitial = JSON.parse(priceInitial)
 
 
 const initialState = {
