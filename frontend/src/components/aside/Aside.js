@@ -7,9 +7,17 @@ const Aside = ({asideItems, total}) =>{
 
   const addQuantityHandler = (id, quantity, price) => {
     dispatch(addQuantity({id, quantity, price}));
+    const asideItemsJSON = JSON.stringify(asideItems)
+    const totalPriceJSON = JSON.stringify(total)
+    localStorage.setItem('asideItems', asideItemsJSON)
+    localStorage.setItem('totalPrice', totalPriceJSON)
   }
   const minQuantityHandler = (id, quantity, price) => {
     dispatch(minQuantity({id, quantity, price}))
+    const asideItemsJSON = JSON.stringify(asideItems)
+    const totalPriceJSON = JSON.stringify(total)
+    localStorage.setItem('asideItems', asideItemsJSON)
+    localStorage.setItem('totalPrice', totalPriceJSON)
   }
 
     return(

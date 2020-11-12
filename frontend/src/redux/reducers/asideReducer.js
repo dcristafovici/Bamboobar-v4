@@ -1,7 +1,14 @@
 import {ADD_TO_ASIDE, ADD_QUANTITY, SUB_QUANTITY} from "../actions/actions-types/aside-actions"
+
+let itemsInitial = localStorage.getItem('asideItems')
+let priceInitial = localStorage.getItem('totalPrice')
+itemsInitial = JSON.parse(itemsInitial)
+priceInitial = JSON.parse(priceInitial)
+
+
 const initialState = {
-  asideItems: [],
-  total: 0
+  asideItems: itemsInitial || [],
+  total: priceInitial || 0
 }
 
 const asideReducer = (state = initialState, action) =>{
@@ -16,6 +23,7 @@ const asideReducer = (state = initialState, action) =>{
           asideItems: state.asideItems.map(mapItem => item.id === mapItem.id ? {...mapItem, quantity: mapItem.quantity + 1} : mapItem),
           total: state.total + item.price,
         }
+
       }
       else{
         return{
@@ -23,6 +31,7 @@ const asideReducer = (state = initialState, action) =>{
           asideItems: [...state.asideItems , item],
           total: state.total + item.price
         }
+
       }
 
     case ADD_QUANTITY:
