@@ -43,7 +43,6 @@ const App = () => {
       user: undefined
     })
     localStorage.setItem("auth-token","");
-
   }
   return(
     <Router>
