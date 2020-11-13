@@ -1,11 +1,10 @@
-import React, {useState, useContext} from "react"
+import React, {useState, useEffect} from "react"
 import {useHistory} from "react-router-dom"
-import UserContext from "../context/userContext";
 import axios from "axios"
+import {connect} from "react-redux"
 
-const Login = () => {
+const Login = ({loadingAuth}) => {
   const history = useHistory()
-  const {setUserData} = useContext(UserContext)
   const [form, setForm] = useState({
     email: "", password: ""
   })
@@ -16,12 +15,6 @@ const Login = () => {
   const onSubmitHandler = async(event) => {
     event.preventDefault()
     const loginResponse = await axios.post('/api/user/login', form)
-    console.log(loginResponse)
-
-    setUserData({
-      token: loginResponse.data.token,
-      user: loginResponse.data.user
-    })
     localStorage.setItem("auth-token", loginResponse.data.token)
     history.push('/')
   }
@@ -51,5 +44,6 @@ const Login = () => {
     </div>
   )
 }
+
 
 export default Login

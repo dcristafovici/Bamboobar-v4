@@ -1,9 +1,7 @@
 import React, {useState, useContext} from "react"
 import axios from "axios"
-import UserContext from "../context/userContext"
 const Register = () =>{
 
-  const {setUserData} = useContext(UserContext)
   const [form, setForm] = useState({
     email: "", username: "", password: "", passwordCheck: ""
   })
@@ -18,17 +16,17 @@ const Register = () =>{
     const email = form['email']
     const password = form['password']
     const registerResponse = await axios.post('/api/user/register', form)
-    if(registerResponse.status == 200){
-
-      const loginResponse = await axios.post('/api/user/login', {email, password})
-      if(loginResponse.status == 200) {
-        localStorage.setItem("auth-token", loginResponse.data.token)
-        setUserData({
-          token: loginResponse.data.token,
-          user: loginResponse.data.user
-        })
-      }
-    }
+    // if(registerResponse.status == 200){
+    //
+    //   const loginResponse = await axios.post('/api/user/login', {email, password})
+    //   if(loginResponse.status == 200) {
+    //     localStorage.setItem("auth-token", loginResponse.data.token)
+    //     setUserData({
+    //       token: loginResponse.data.token,
+    //       user: loginResponse.data.user
+    //     })
+    //   }
+    // }
   }
 
   return(

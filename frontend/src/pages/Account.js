@@ -1,12 +1,5 @@
-import React, {useContext} from "react"
-import UserContext from "../context/userContext";
+import React from "react"
 const Account = () => {
-
-  const {userData} = useContext(UserContext)
-  let username;
-  if(userData.user){
-    username = userData.user.username
-  }
   return(
     <section className="account">
       <div className="content">
@@ -19,7 +12,7 @@ const Account = () => {
               <div className="account-item__name">Личные данные</div>
               <div className="account-item__info">
                 <ul>
-                  <li><span>Имя:</span><span>{username}</span>
+                  <li><span>Имя:</span><span>Дан</span>
                   </li>
                   <li><span>Email:</span><span>Не указан</span>
                   </li>

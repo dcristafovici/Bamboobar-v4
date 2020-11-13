@@ -1,8 +1,5 @@
-import React, {useContext} from "react"
-import UserContext from "../../context/userContext";
+import React from "react"
 const Header = () => {
-
-  const {userData} = useContext(UserContext)
   return(
     <header className="header">
       <div className="content">
@@ -25,20 +22,11 @@ const Header = () => {
           <div className="header-phone"><a href="tel:7 (985) 766-49-62">7 (985) 766-49-62</a>
           </div>
           <div className="header-account">
-            {userData.user ? (
               <a href="/auth/account" data-fancybox="" className="header-account__top">
                 <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png"
                      alt=""/>
                 <span>Личный кабинет</span>
               </a>
-            ):
-            (
-              <a href="/auth/login" data-fancybox="" className="header-account__top">
-                <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png"
-                     alt=""/>
-                <span>Авторизироваться</span>
-              </a>
-            )}
 
           </div>
           <div className="header-languages">

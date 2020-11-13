@@ -1,13 +1,11 @@
 import React, {useEffect, useState, useContext} from "react"
 import axios from "axios";
 import CatalogPoint from "../components/catalog/CatalogPoint";
-import UserContext from "../context/userContext"
 import Aside from "../components/aside/Aside";
 import Header from "../components/header/Header";
 
 const Home = () =>{
 
-  const {userData} = useContext(UserContext)
   const [categories, setCategories] = useState([])
 
   let loadingCategories = false
