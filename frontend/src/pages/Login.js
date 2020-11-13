@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom"
 import axios from "axios"
 import {connect} from "react-redux"
 
-const Login = ({loadingAuth}) => {
+const Login = ({ updateStateToken, authReducer }) => {
   const history = useHistory()
   const [form, setForm] = useState({
     email: "", password: ""
@@ -45,5 +45,11 @@ const Login = ({loadingAuth}) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return{
+    authReducer : state.authReducer
+  }
+}
 
-export default Login
+
+export default connect(mapStateToProps)(Login)

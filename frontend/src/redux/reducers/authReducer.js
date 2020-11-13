@@ -3,7 +3,7 @@ import {LOAD_AUTH_START, LOAD_AUTH_SUCCESS, LOAD_AUTH_FALSE} from "../actions/ac
 const initialState = {
   token: undefined,
   user: undefined,
-  loading: false,
+  loading: null,
   errors: null
 }
 
@@ -28,6 +28,7 @@ const authReducer = (state = initialState, action) => {
         errors: action.error,
         loading: false,
       }
+
     default:
       return state
   }

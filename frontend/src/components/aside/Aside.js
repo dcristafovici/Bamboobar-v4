@@ -2,10 +2,36 @@ import React, {useState, useContext, useEffect} from "react"
 import {connect, useDispatch} from "react-redux"
 import {addQuantity, minQuantity} from "../../redux/actions/asideAction";
 import Modal from "react-modal"
-const Aside = ({asideItems, total}) =>{
-  const [show, setShow] = useState(false)
+import axios from "axios"
 
+
+const Aside = ({asideItems, total ,asideAuth}) =>{
+  const [show, setShow] = useState(false)
   const dispatch = useDispatch()
+
+
+  let username;
+  let email;
+  let phone;
+  let userId
+
+  if(asideAuth.loading == false){
+    username = asideAuth.user.username;
+    email = asideAuth.user.email;
+    phone = asideAuth.user.phone;
+    userId = asideAuth.user.id;
+  }
+
+  const [order, setOrder] = useState({
+    orderItems : [],
+    paymentMethod: "",
+    shippingPrice: "",
+    itemsPrice: "",
+    totalPrice: "",
+    isPaid: false,
+    isDelivered: false,
+    userID: userId
+  })
 
   const handleShow = event =>{
     event.preventDefault();
@@ -31,6 +57,18 @@ const Aside = ({asideItems, total}) =>{
     localStorage.setItem('asideItems', asideItemsJSON)
     localStorage.setItem('totalPrice', totalPriceJSON)
   }
+
+
+  const createOrder =  async(event) => {
+    event.preventDefault()
+    try {
+      const orderResponse = await axios.post('/api/order/create',)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
 
     return(
       <aside className="aside aside-ready" data-delivery="5000">
@@ -119,13 +157,13 @@ const Aside = ({asideItems, total}) =>{
                 <div className="form-collection__name">Основные</div>
                 <div className="form-row">
                   <div className="form-group">
-                    <input type="text" placeholder="Имя" />
+                    <input type="text" placeholder="Имя" required  defaultValue={username} />
                   </div>
                   <div className="form-group">
-                    <input type="email" placeholder="E-mail"/>
+                    <input type="email" placeholder="E-mail" required defaultValue={email}/>
                   </div>
                   <div className="form-group">
-                    <input type="tel" placeholder="Телефон"/>
+                    <input type="tel" placeholder="Телефон" required defaultValue={phone}/>
                   </div>
                 </div>
               </div>
@@ -134,15 +172,15 @@ const Aside = ({asideItems, total}) =>{
                 <div className="form-collection__name">Адресс</div>
                 <div className="form-row">
                   <div className="form-group form-group__full">
-                    <input type="text" name="address" placeholder="Адресс"/>
+                    <input type="text" name="address" required placeholder="Адресс"/>
                   </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <input type="text" name="date" placeholder="Дата"/>
+                    <input type="text" name="date"  required placeholder="Дата"/>
                   </div>
                   <div className="form-group">
-                    <input type="time" name="time"  step="3600" min="00:00"/>
+                    <input type="time" name="time" required  step="3600" min="00:00"/>
                   </div>
                 </div>
               </div>
@@ -158,9 +196,9 @@ const Aside = ({asideItems, total}) =>{
                   <div className="checkout-total__value">5900 ₽</div>
                 </div>
                 <div className="checkout-total__item">
-                  <a href="#" className="button">
+                  <button className="button" onClick={createOrder}>
                     <span>Оформить заказ</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -175,7 +213,8 @@ const Aside = ({asideItems, total}) =>{
 const mapStateToProps = (state) =>{
   return{
     asideItems: state.asideReducer.asideItems,
-    total: state.asideReducer.total
+    total: state.asideReducer.total,
+    asideAuth : state.authReducer
   }
 }
 
