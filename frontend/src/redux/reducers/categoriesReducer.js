@@ -12,7 +12,7 @@ export default function categoriesReducer(state = initialState, action){
       }
     case FETCH_CATEGORIES_SUCCESS:
       return {
-        ...state, loading: false, categories: action.categories
+        ...state, loading: false, categories: action.categories[0]
       }
     case FETCH_CATEGORIES_ERROR:
       return {

@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useContext} from "react"
 import axios from "axios";
-import CatalogPoint from "../components/catalog/CatalogPoint";
-import Aside from "../components/aside/Aside";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
+import Catalog from "../components/catalog/Catalog";
 
 const Home = () =>{
 
@@ -267,16 +266,7 @@ const Home = () =>{
           </div>
         </section>
       </div>
-      <section className="catalog">
-        <div className="content">
-          <div className="catalog-wrapper">
-            <div className="catalog-main">
-              {!loadingCategories && <CatalogPoint categories={categories}/>}
-            </div>
-            <Aside/>
-          </div>
-        </div>
-      </section>
+      <Catalog />
       <Footer/>
     </main>
   )
