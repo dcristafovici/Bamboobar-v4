@@ -1,10 +1,18 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, Component} from "react"
+import {connect, useDispatch} from "react-redux"
 import CatalogItem from "./CatalogItem";
-import axios from "axios";
-const CatalogPoint = ({categories}) => {
+import {fetchCategories} from "../../redux/actions/categoriesAction";
 
-  return categories.map((category, index) => {
-    return(
+const CatalogPoint = ({categories, loading}) => {
+  const dispatch = useDispatch()
+  useEffect(()=> {
+    dispatch(fetchCategories())
+  }, [dispatch])
+
+
+  const renderCategories = () => {
+    return categories.map((category, index) => {
+      return(
         <div key={index}  className="catalog-point">
           <div className="title">
             <h2>{category.name}</h2>
@@ -21,12 +29,40 @@ const CatalogPoint = ({categories}) => {
             </ul>
           </div>
           <div className="catalog-items">
-            <CatalogItem  categoryId={category._id}/>
+            {/*<CatalogItem  categoryId={category._id}/>*/}
           </div>
         </div>
       )
     })
+  }
+  {
+    loading && categories.length !== 0
+    ? "<h1>Loading</h1>"
+    :
+      {renderCategories}
+  }
+  return (
+    <div>
+      <h1>hello</h1>
+    </div>
+  )
+
 
 }
 
-export default CatalogPoint
+
+const mapStateToProps = (state) =>{
+  return{
+    categories: state.categoriesReducer.categories[0],
+    loading: state.categoriesReducer.loading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    fetchCategories: () => dispatch(fetchCategories())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogPoint)

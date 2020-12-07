@@ -96,7 +96,6 @@ const mapStateToProps = (state) =>{
   return{
     asideItems: state.asideReducer.asideItems,
     total: state.asideReducer.total,
-    asideAuth : state.authReducer
   }
 }
 

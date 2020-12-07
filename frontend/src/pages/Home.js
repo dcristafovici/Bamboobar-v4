@@ -271,7 +271,6 @@ const Home = () =>{
         <div className="content">
           <div className="catalog-wrapper">
             <div className="catalog-main">
-
               {!loadingCategories && <CatalogPoint categories={categories}/>}
             </div>
             <Aside/>
