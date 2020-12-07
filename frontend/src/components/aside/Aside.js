@@ -62,7 +62,8 @@ const Aside = ({asideItems, total ,asideAuth}) =>{
   const createOrder =  async(event) => {
     event.preventDefault()
     try {
-      const orderResponse = await axios.post('/api/order/create',)
+      const orderResponse = await axios.post('/api/order/create', order)
+      console.log(orderResponse)
     } catch (e) {
       console.log(e)
     }
