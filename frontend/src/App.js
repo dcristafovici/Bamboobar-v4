@@ -1,22 +1,13 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
-import {connect} from "react-redux"
-import {loadAuthDate} from "./redux/actions/authAction";
 import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login"
-import Account from "./pages/Account";
 import './App.css';
 
 
 
-const App = ({ loadingAuth, authReducer  }) => {
-  useEffect(() => {
-    loadingAuth()
-  }, [])
-
+const App = () => {
   return(
     <Router>
         <div>
@@ -31,22 +22,6 @@ const App = ({ loadingAuth, authReducer  }) => {
               <li>
                 <Link to='/category/create'>Create Category</Link>
               </li>
-              <li>
-                <Link to="/auth/register">Register</Link>
-              </li>
-
-
-              {authReducer.user ?(
-                <li>
-                  <a href="#">Logout</a>
-                </li>
-              ):
-                (
-                  <li>
-                    <Link to="/auth/login">Login</Link>
-                  </li>
-                )}
-
             </ul>
           </nav>
 
@@ -56,15 +31,6 @@ const App = ({ loadingAuth, authReducer  }) => {
             </Route>
             <Route path="/category/create">
               <CreateCategory />
-            </Route>
-            <Route path="/auth/register">
-              <Register/>
-            </Route>
-            <Route path="/auth/account">
-              <Account/>
-            </Route>
-            <Route path="/auth/login">
-              <Login />
             </Route>
             <Route path="/">
               <Home />
@@ -78,16 +44,6 @@ const App = ({ loadingAuth, authReducer  }) => {
 
 
 
-const mapStateToProps = (state) => {
-  return{
-    authReducer: state.authReducer
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadingAuth : () => dispatch(loadAuthDate()),
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App
