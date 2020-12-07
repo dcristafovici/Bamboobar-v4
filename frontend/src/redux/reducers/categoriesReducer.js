@@ -1,7 +1,8 @@
 import {FETCH_CATEGORIES_START, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_ERROR} from "../actions/actions-types/categories-actions"
 const initialState = {
   categories: [],
-  loading: false
+  loading: false,
+  error: null
 }
 
 export default function categoriesReducer(state = initialState, action){

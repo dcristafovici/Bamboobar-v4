@@ -61,13 +61,13 @@ class Catalog extends Component {
 const mapStateToProps = (state) =>{
   return{
     categories: state.categoriesReducer.categories,
-    loading: state.categoriesReducer.loading
+    loading: state.categoriesReducer.loading,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    fetchCategories: () => dispatch(fetchCategories())
+    fetchCategories: () => dispatch(fetchCategories()),
   }
 }
 
