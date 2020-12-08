@@ -6,6 +6,7 @@ class CatalogItem extends Component{
   componentDidMount(){
     this.props.fetchProductsById(this.props.categoryId)
   }
+
   renderProducts(){
     const products = this.props.products
     return products.map((product, key) => {
