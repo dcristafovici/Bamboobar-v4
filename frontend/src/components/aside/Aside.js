@@ -14,13 +14,13 @@ class Aside extends Component{
           </a>
         </div>
         <div className="aside-items">
-
+          {console.log(this.props.cart)}
           {this.props.cart.map((item, key) => (
             <div className="aside-item" data-id={item.product._id} key={key}>
               <div className="aside-item__name"><span>{item.product.name}</span></div>
               <div className="aside-item__change">
                 <div className="aside-plus"></div>
-                <input type="number" className="item-quantity" defaultValue="1"/>
+                <input type="number" className="item-quantity" defaultValue={item.quantity}/>
                 <div className="aside-minus remove"></div>
               </div>
               <div className="aside-item__right">
