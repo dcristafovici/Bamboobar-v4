@@ -1,6 +1,11 @@
 import {ADD_TO_CART, UPDATE_CART_QUANTITY, REMOVE_FROM_CART} from '../actions/actions-types/aside-actions'
 const initialState = {
-  cart: [],
+  cart: [
+    {product:{name: "Test"} , quantity: 2},
+    {product:{name: "Test2"} , quantity: 3},
+    {product:{name: "Test3"} , quantity: 42},
+    {product:{name: "Test4"} , quantity: 5},
+  ]
 }
 
 export default function asideReducer(state = initialState, action) {

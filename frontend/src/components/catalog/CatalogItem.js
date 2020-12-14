@@ -5,7 +5,7 @@ import {addToCart} from "../../redux/actions/asideAction";
 
 
 class CatalogItem extends Component {
-  state = {}
+
   componentDidMount() {
     this.renderProducts()
   }
@@ -22,7 +22,7 @@ class CatalogItem extends Component {
           let productImage = product.productImage
           productImage = "http://localhost:5000/" + productImage
           return(
-            <div className="catalog-item" onClick={() => this.props.addToCart(product)} key={index} data-id={product._id}>
+            <div className="catalog-item" onClick={(product) => this.props.addToCart(product)} key={index} data-id={product._id}>
               <div className="catalog-item__top">
                 <h4>{product.name}</h4>
                 <span><span className="woocommerce-Price-amount amount"><bdi>{product.price}<span

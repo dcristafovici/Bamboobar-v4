@@ -13,7 +13,6 @@ class Aside extends Component{
           </a>
         </div>
         <div className="aside-items">
-
           <div className="aside-item" data-id="317">
             <div className="aside-item__name"><span>Десерт шоколадный трюфель</span></div>
             <div className="aside-item__change">
