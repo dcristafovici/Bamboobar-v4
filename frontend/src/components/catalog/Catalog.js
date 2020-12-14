@@ -26,7 +26,7 @@ class Catalog extends Component {
               </ul>
             </div>
             <div className="catalog-items">
-              <CatalogItem  categoryId={category._id}/>
+              <CatalogItem   categoryId={category._id}/>
             </div>
           </div>
         )

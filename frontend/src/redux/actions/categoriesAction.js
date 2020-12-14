@@ -21,6 +21,7 @@ export function fetchCategoriesStart() {
   }
 }
 
+
 export function fetchCategoriesSuccess(categories) {
   return{
     type: FETCH_CATEGORIES_SUCCESS,
