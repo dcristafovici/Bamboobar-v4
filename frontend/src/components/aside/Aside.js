@@ -1,6 +1,7 @@
 import React,{Component} from "react"
-class Aside extends Component{
+import {connect} from 'react-redux'
 
+class Aside extends Component{
   render() {
     return(
       <aside className="aside aside-ready" data-delivery="5000">
@@ -13,6 +14,20 @@ class Aside extends Component{
           </a>
         </div>
         <div className="aside-items">
+
+          {this.props.cart.map((item, key) => (
+            <div className="aside-item" data-id={item.product._id} key={key}>
+              <div className="aside-item__name"><span>{item.product.name}</span></div>
+              <div className="aside-item__change">
+                <div className="aside-plus"></div>
+                <input type="number" className="item-quantity" defaultValue="1"/>
+                <div className="aside-minus remove"></div>
+              </div>
+              <div className="aside-item__right">
+                <span><span className="woocommerce-Price-amount amount"><bdi>{item.product.price}₽</bdi></span></span><span>{item.product.weight} г</span>
+              </div>
+            </div>
+          ))}
           <div className="aside-item" data-id="317">
             <div className="aside-item__name"><span>Десерт шоколадный трюфель</span></div>
             <div className="aside-item__change">
@@ -60,4 +75,10 @@ class Aside extends Component{
   }
 }
 
-export default Aside
+const mapStateToProps = (state) => {
+  return{
+    cart: state.asideReducer.cart
+  }
+}
+
+export default connect(mapStateToProps)(Aside)
