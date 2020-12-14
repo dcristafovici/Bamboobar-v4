@@ -1,8 +1,10 @@
 import categoriesReducer from  './categoriesReducer'
+import asideReducer from "./asideReducer";
 import {combineReducers} from "redux";
 
 const rootReducer = combineReducers({
-  categoriesReducer
+  categoriesReducer,
+  asideReducer
 })
 
 export default rootReducer

@@ -1,5 +1,4 @@
 import React,{Component} from "react"
-
 class Aside extends Component{
 
   render() {
@@ -13,7 +12,8 @@ class Aside extends Component{
                  alt="Close" />
           </a>
         </div>
-        <div className="aside-items" >
+        <div className="aside-items">
+
           <div className="aside-item" data-id="317">
             <div className="aside-item__name"><span>Десерт шоколадный трюфель</span></div>
             <div className="aside-item__change">
@@ -59,8 +59,6 @@ class Aside extends Component{
       </aside>
     )
   }
-
 }
-
 
 export default Aside

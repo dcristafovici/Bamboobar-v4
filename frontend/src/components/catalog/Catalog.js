@@ -51,7 +51,7 @@ class Catalog extends Component {
                   </ul>
               }
             </div>
-            <Aside/>
+            <Aside cart={this.props.cart}/>
           </div>
         </div>
       </section>
@@ -62,6 +62,7 @@ const mapStateToProps = (state) =>{
   return{
     categories: state.categoriesReducer.categories,
     loading: state.categoriesReducer.loading,
+    cart: state.asideReducer.cart
   }
 }
 

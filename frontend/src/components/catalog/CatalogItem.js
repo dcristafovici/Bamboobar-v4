@@ -1,6 +1,7 @@
 import React, {Component}  from "react"
+import {connect} from "react-redux"
 import axios from "axios";
-
+import {addToCart} from "../../redux/actions/asideAction";
 
 
 class CatalogItem extends Component {
@@ -9,6 +10,9 @@ class CatalogItem extends Component {
     this.renderProducts()
   }
 
+  addToCart = (product) => {
+    addToCart(product)
+  }
   renderProducts =  async() => {
     try {
       const response = await axios.get('/api/product/findById/' + this.props.categoryId)
@@ -17,9 +21,8 @@ class CatalogItem extends Component {
         Products:  products.map((product, index) => {
           let productImage = product.productImage
           productImage = "http://localhost:5000/" + productImage
-
           return(
-            <div className="catalog-item" key={index} data-id={product._id}>
+            <div className="catalog-item" onClick={() => this.props.addToCart(product)} key={index} data-id={product._id}>
               <div className="catalog-item__top">
                 <h4>{product.name}</h4>
                 <span><span className="woocommerce-Price-amount amount"><bdi>{product.price}<span
@@ -46,6 +49,7 @@ class CatalogItem extends Component {
     }
   }
   render() {
+
     return(
       <React.Fragment>
         {this.state.Products}
@@ -55,4 +59,16 @@ class CatalogItem extends Component {
 
 }
 
-export default CatalogItem
+const mapStateToProps = (state) => {
+  return{
+    products: state.asideReducer.products
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    addToCart: (product) => dispatch(addToCart(product))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogItem)
