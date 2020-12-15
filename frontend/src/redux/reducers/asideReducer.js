@@ -14,8 +14,11 @@ export default function asideReducer(state = initialState, action) {
         newQuantity++;
         return {
           ...state,
-          cart: [{...itemInCart, quantity: newQuantity}]
-
+          cart: state.cart.map(item => {
+            return item !== itemInCart
+              ? item
+              : { ...itemInCart, quantity: newQuantity }
+          })
         }
       } else{
         return {

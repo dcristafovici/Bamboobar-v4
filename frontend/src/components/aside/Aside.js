@@ -28,17 +28,6 @@ class Aside extends Component{
               </div>
             </div>
           ))}
-          <div className="aside-item" data-id="317">
-            <div className="aside-item__name"><span>Десерт шоколадный трюфель</span></div>
-            <div className="aside-item__change">
-              <div className="aside-plus"></div>
-              <input type="number" className="item-quantity" defaultValue="1"/>
-                <div className="aside-minus remove"></div>
-            </div>
-            <div className="aside-item__right">
-              <span><span className="woocommerce-Price-amount amount"><bdi>950₽</bdi></span></span><span>140 г</span>
-            </div>
-          </div>
         </div>
         <div className="aside-delivery">
           <div className="aside-delivery__min">заказ по данному адресу возможен от <span
