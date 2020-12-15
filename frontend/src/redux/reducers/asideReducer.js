@@ -1,6 +1,13 @@
-import {ADD_TO_CART, ADD_QUANTITY, SUB_QUANTITY} from '../actions/actions-types/aside-actions'
+import {
+  ADD_TO_CART,
+  ADD_QUANTITY,
+  SUB_QUANTITY,
+  REMOVE_FROM_CART,
+  EMPTY_CART
+} from '../actions/actions-types/aside-actions'
 const initialState = {
-  cart: []
+  cart: [],
+  totalPrice: 0
 }
 
 export default function asideReducer(state = initialState, action) {
@@ -12,37 +19,57 @@ export default function asideReducer(state = initialState, action) {
       {
         let newQuantity = itemInCart.quantity;
         newQuantity++;
+        let newPriceGroup = newQuantity * itemInCart.product.price
         return {
           ...state,
           cart: state.cart.map(item => {
             return item !== itemInCart
               ? item
-              : { ...itemInCart, quantity: newQuantity }
-          })
+              : { ...itemInCart, quantity: newQuantity, priceGroup: newPriceGroup }
+          }),
+
         }
       } else{
         return {
           ...state,
-          cart: [...state.cart, action.payload]
+          cart: [...state.cart, action.payload],
         }
       }
     case ADD_QUANTITY:
+      let newQuantity = action.payload.quantity
+      newQuantity++
+      let newPrice = newQuantity * action.payload.price
       return {
         ...state,
-        cart: state.cart.map(product =>
-          product._id === action._id
-          ? {...product, quantity : product.quantity + 1}
-          : product
-        )
+        cart: state.cart.map(item =>
+          item.product._id === action.payload.id
+          ? {...item, quantity : newQuantity, priceGroup: newPrice}
+          : item
+        ),
       }
     case SUB_QUANTITY:
+      let newSubQuantity = action.payload.quantity
+      newSubQuantity--
+      let newSubPrice = newSubQuantity * action.payload.price
       return {
         ...state,
-        cart: state.cart.map(product =>
-          product._id === action._id
-          ? {...product, quantity: product.quantity - 1}
-          : product
+        cart: state.cart.map(item =>
+          item.product._id === action.payload.id
+            ? {...item, quantity : newSubQuantity, priceGroup: newSubPrice}
+            : item
         )
+      }
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: state.cart
+          .map(item => item.product._id === action.id ? {...item, quantity: item.quantity -1}: item)
+          .filter(item => item.quantity > 0)
+      }
+    case EMPTY_CART:
+      return {
+        ...state,
+        cart: []
       }
     default:
       return state

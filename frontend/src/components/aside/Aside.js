@@ -2,7 +2,8 @@ import React,{Component} from "react"
 import {connect} from 'react-redux'
 import {addQuantity} from "../../redux/actions/asideAction"
 import {subQuantity} from '../../redux/actions/asideAction'
-
+import {removeFromCart} from '../../redux/actions/asideAction'
+import {emptyCart} from '../../redux/actions/asideAction'
 class Aside extends Component{
 
 
@@ -13,19 +14,27 @@ class Aside extends Component{
         <div className="aside-control">
           <div className="aside-title"><span>Мой заказ</span>
           </div>
-          <a href="http://delivery.bamboobar.su?clear-cart" className="aside-close">
+          <div className="aside-close" onClick={() => this.props.emptyCart()}>
             <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/close.svg"
                  alt="Close" />
-          </a>
+          </div>
         </div>
         <div className="aside-items">
           {this.props.cart.map((item, key) => (
             <div className="aside-item" data-id={item.product._id} key={key}>
               <div className="aside-item__name"><span>{item.product.name}</span></div>
               <div className="aside-item__change">
-                <div className="aside-plus" onClick={() => this.props.addQuantity(item.product._id)}></div>
+                <div className="aside-plus" onClick={() => this.props.addQuantity(item.product._id, item.quantity, item.product.price)}></div>
                 <input type="number" className="item-quantity" defaultValue={item.quantity}/>
-                <div className={"aside-minus "  + (item.quantity > 1 ? '' : 'remove')} onClick={() => this.props.subQuantity(item.product._id)}></div>
+                <div
+                  className={"aside-minus "  + (item.quantity > 1 ? '' : 'remove')}
+                  onClick={() =>{
+                    item.quantity > 1 ? this.props.subQuantity(item.product._id, item.quantity, item.product.price)
+                    : this.props.removeFromCart(item.product._id)
+                    }
+                  }>
+
+                </div>
               </div>
               <div className="aside-item__right">
                 <span><span className="woocommerce-Price-amount amount"><bdi>{item.product.price}₽</bdi></span></span><span>{item.product.weight} г</span>
@@ -40,7 +49,7 @@ class Aside extends Component{
           <div className="aside-delivery__name" ><span>Закажите ещё на <span
             id="remaind"></span> ₽ для бесплатной доставки</span>
           </div>
-          <div className="aside-delivery__count"><span>0 ₽ </span><span>5000 ₽</span>
+          <div className="aside-delivery__count"><span>{this.props.totalPrice} ₽ </span><span>5000 ₽</span>
           </div>
           <div className="aside-delivery__line">
 
@@ -53,7 +62,7 @@ class Aside extends Component{
           <div className="aside-info__item"><span>Время доставки</span><span>~60 мин</span>
           </div>
 
-          <div className="aside-info__item"><span>Итого</span><span id="total-amount"> ₽</span>
+          <div className="aside-info__item"><span>Итого</span><span id="total-amount">{this.props.totalPrice} ₽</span>
           </div>
         </div>
         <div className="aside-delivery__button">
@@ -70,14 +79,17 @@ class Aside extends Component{
 
 const mapStateToProps = (state) => {
   return{
-    cart: state.asideReducer.cart
+    cart: state.asideReducer.cart,
+    totalPrice: state.asideReducer.totalPrice
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    addQuantity: (id) => dispatch(addQuantity(id)),
-    subQuantity: (id) => dispatch(subQuantity(id))
+    addQuantity: (id, quantity, price) => dispatch(addQuantity(id, quantity, price)),
+    subQuantity: (id, quantity, price) => dispatch(subQuantity(id, quantity, price)),
+    removeFromCart: (id) => dispatch(removeFromCart(id)),
+    emptyCart: () => dispatch(emptyCart())
   }
 }
 
