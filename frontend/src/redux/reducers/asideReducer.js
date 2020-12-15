@@ -1,4 +1,4 @@
-import {ADD_TO_CART, UPDATE_CART_QUANTITY, REMOVE_FROM_CART} from '../actions/actions-types/aside-actions'
+import {ADD_TO_CART, ADD_QUANTITY, SUB_QUANTITY} from '../actions/actions-types/aside-actions'
 const initialState = {
   cart: []
 }
@@ -25,6 +25,24 @@ export default function asideReducer(state = initialState, action) {
           ...state,
           cart: [...state.cart, action.payload]
         }
+      }
+    case ADD_QUANTITY:
+      return {
+        ...state,
+        cart: state.cart.map(product =>
+          product._id === action._id
+          ? {...product, quantity : product.quantity + 1}
+          : product
+        )
+      }
+    case SUB_QUANTITY:
+      return {
+        ...state,
+        cart: state.cart.map(product =>
+          product._id === action._id
+          ? {...product, quantity: product.quantity - 1}
+          : product
+        )
       }
     default:
       return state

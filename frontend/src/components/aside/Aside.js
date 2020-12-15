@@ -1,7 +1,12 @@
 import React,{Component} from "react"
 import {connect} from 'react-redux'
+import {addQuantity} from "../../redux/actions/asideAction"
+import {subQuantity} from '../../redux/actions/asideAction'
 
 class Aside extends Component{
+
+
+
   render() {
     return(
       <aside className="aside aside-ready" data-delivery="5000">
@@ -14,14 +19,13 @@ class Aside extends Component{
           </a>
         </div>
         <div className="aside-items">
-          {console.log(this.props.cart)}
           {this.props.cart.map((item, key) => (
             <div className="aside-item" data-id={item.product._id} key={key}>
               <div className="aside-item__name"><span>{item.product.name}</span></div>
               <div className="aside-item__change">
-                <div className="aside-plus"></div>
+                <div className="aside-plus" onClick={() => this.props.addQuantity(item.product._id)}></div>
                 <input type="number" className="item-quantity" defaultValue={item.quantity}/>
-                <div className="aside-minus remove"></div>
+                <div className={"aside-minus "  + (item.quantity > 1 ? '' : 'remove')} onClick={() => this.props.subQuantity(item.product._id)}></div>
               </div>
               <div className="aside-item__right">
                 <span><span className="woocommerce-Price-amount amount"><bdi>{item.product.price}₽</bdi></span></span><span>{item.product.weight} г</span>
@@ -70,4 +74,14 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Aside)
+const mapDispatchToProps = (dispatch) => {
+  return{
+    addQuantity: (id) => dispatch(addQuantity(id)),
+    subQuantity: (id) => dispatch(subQuantity(id))
+  }
+}
+
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Aside)

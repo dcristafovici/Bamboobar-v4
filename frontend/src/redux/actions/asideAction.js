@@ -1,4 +1,4 @@
-import {ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_QUANTITY} from './actions-types/aside-actions'
+import {ADD_TO_CART, ADD_QUANTITY, SUB_QUANTITY} from './actions-types/aside-actions'
 
 export function addToCart(product) {
   return{
@@ -9,13 +9,16 @@ export function addToCart(product) {
     }
   }
 }
-
-export const updateCartQuantity = (productId, quantity) => {
+export function addQuantity(id) {
   return{
-    type: UPDATE_CART_QUANTITY,
-    payload: {
-      productId,
-      quantity
-    }
+    type: ADD_QUANTITY,
+    id,
+  }
+}
+
+export function subQuantity(id) {
+  return{
+    type : SUB_QUANTITY,
+    id
   }
 }
