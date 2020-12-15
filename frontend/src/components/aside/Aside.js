@@ -4,9 +4,18 @@ import {addQuantity} from "../../redux/actions/asideAction"
 import {subQuantity} from '../../redux/actions/asideAction'
 import {removeFromCart} from '../../redux/actions/asideAction'
 import {emptyCart} from '../../redux/actions/asideAction'
+import {updatePrice} from '../../redux/actions/asideAction'
+
 class Aside extends Component{
 
-
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const products = this.props.cart
+    let totalPrice = 0
+    products.map(item =>{
+      totalPrice += item.priceGroup
+    })
+    this.props.updatePrice(totalPrice)
+  }
 
   render() {
     return(
@@ -37,7 +46,7 @@ class Aside extends Component{
                 </div>
               </div>
               <div className="aside-item__right">
-                <span><span className="woocommerce-Price-amount amount"><bdi>{item.product.price}₽</bdi></span></span><span>{item.product.weight} г</span>
+                <span><span className="woocommerce-Price-amount amount"><bdi>{item.priceGroup}₽</bdi></span></span><span>{item.product.weight} г</span>
               </div>
             </div>
           ))}
@@ -89,7 +98,8 @@ const mapDispatchToProps = (dispatch) => {
     addQuantity: (id, quantity, price) => dispatch(addQuantity(id, quantity, price)),
     subQuantity: (id, quantity, price) => dispatch(subQuantity(id, quantity, price)),
     removeFromCart: (id) => dispatch(removeFromCart(id)),
-    emptyCart: () => dispatch(emptyCart())
+    emptyCart: () => dispatch(emptyCart()),
+    updatePrice: (totalPrice) => dispatch(updatePrice(totalPrice))
   }
 }
 

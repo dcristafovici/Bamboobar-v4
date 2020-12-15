@@ -1,4 +1,11 @@
-import {ADD_TO_CART, ADD_QUANTITY, SUB_QUANTITY, REMOVE_FROM_CART, EMPTY_CART} from './actions-types/aside-actions'
+import {
+  ADD_TO_CART,
+  ADD_QUANTITY,
+  SUB_QUANTITY,
+  REMOVE_FROM_CART,
+  EMPTY_CART,
+  UPDATE_PRICE
+} from './actions-types/aside-actions'
 
 export function addToCart(product) {
   return{
@@ -44,3 +51,11 @@ export function emptyCart() {
     type: EMPTY_CART
   }
 }
+
+export function updatePrice(totalPrice){
+  return{
+    type: UPDATE_PRICE,
+    totalPrice
+  }
+}
+

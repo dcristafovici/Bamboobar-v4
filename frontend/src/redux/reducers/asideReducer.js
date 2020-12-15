@@ -3,7 +3,8 @@ import {
   ADD_QUANTITY,
   SUB_QUANTITY,
   REMOVE_FROM_CART,
-  EMPTY_CART
+  EMPTY_CART,
+  UPDATE_PRICE
 } from '../actions/actions-types/aside-actions'
 const initialState = {
   cart: [],
@@ -17,17 +18,16 @@ export default function asideReducer(state = initialState, action) {
       let itemInCart = cart.find(item => item.product._id == action.payload.product._id)
       if(itemInCart)
       {
-        let newQuantity = itemInCart.quantity;
-        newQuantity++;
-        let newPriceGroup = newQuantity * itemInCart.product.price
         return {
           ...state,
           cart: state.cart.map(item => {
             return item !== itemInCart
               ? item
-              : { ...itemInCart, quantity: newQuantity, priceGroup: newPriceGroup }
+              : { ...itemInCart,
+                  quantity: itemInCart.quantity + 1,
+                  priceGroup: (itemInCart.quantity + 1) * itemInCart.product.price
+                }
           }),
-
         }
       } else{
         return {
@@ -36,28 +36,28 @@ export default function asideReducer(state = initialState, action) {
         }
       }
     case ADD_QUANTITY:
-      let newQuantity = action.payload.quantity
-      newQuantity++
-      let newPrice = newQuantity * action.payload.price
       return {
         ...state,
         cart: state.cart.map(item =>
           item.product._id === action.payload.id
-          ? {...item, quantity : newQuantity, priceGroup: newPrice}
+          ? {...item,
+              quantity : action.payload.quantity + 1,
+              priceGroup: (action.payload.quantity + 1) * action.payload.price
+            }
           : item
         ),
       }
     case SUB_QUANTITY:
-      let newSubQuantity = action.payload.quantity
-      newSubQuantity--
-      let newSubPrice = newSubQuantity * action.payload.price
       return {
         ...state,
         cart: state.cart.map(item =>
           item.product._id === action.payload.id
-            ? {...item, quantity : newSubQuantity, priceGroup: newSubPrice}
+            ? {...item,
+              quantity : action.payload.quantity - 1 ,
+              priceGroup: (action.payload.quantity - 1) * action.payload.price
+            }
             : item
-        )
+        ),
       }
     case REMOVE_FROM_CART:
       return {
@@ -71,6 +71,12 @@ export default function asideReducer(state = initialState, action) {
         ...state,
         cart: []
       }
+    case UPDATE_PRICE:
+      return {
+        ...state,
+        totalPrice: action.totalPrice
+      }
+
     default:
       return state
   }
