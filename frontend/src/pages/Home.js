@@ -1,23 +1,9 @@
-import React, {useEffect, useState, useContext} from "react"
-import axios from "axios";
+import React from "react"
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import Catalog from "../components/catalog/Catalog";
 
 const Home = () =>{
-
-  const [categories, setCategories] = useState([])
-
-  let loadingCategories = false
-  useEffect(()=>{
-    axios
-      .get('/api/category/categories')
-      .then(result => setCategories(result.data.data))
-    loadingCategories = true
-  }, [])
-
-
-
   return(
     <main className="bamboobar-main">
       <Header/>

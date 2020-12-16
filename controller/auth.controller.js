@@ -109,12 +109,25 @@ const tokenIsValid = async(req, res) => {
   }
 }
 
+const getUser = async(req, res) => {
+  try{
+    const user = await User.findById(req.user)
+    res.json({
+      displayName: user.displayName,
+      id: user._id
+    })
+  } catch (error) {
+    res.json({msg: error.message})
+  }
+}
+
 
 module.exports = {
   registerController,
   authController,
   deleteController,
-  tokenIsValid
+  tokenIsValid,
+  getUser
 }
 
 
