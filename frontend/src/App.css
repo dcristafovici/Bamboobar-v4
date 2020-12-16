@@ -3029,6 +3029,9 @@ nav.menu-nav li.item-more.active > a::after{
   cursor: pointer;
 }
 
+.register-page{
+  margin-top: 30px;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

@@ -1,8 +1,50 @@
-import React from "react"
-
+import React, {useState, useContext} from "react"
+import axios from "axios"
+import UserContext from "../../context/UserContext"
 const Login = () => {
+
+  const {setUserData} = useContext(UserContext)
+
+  const [data, setData] = useState({
+    email: "",
+    password: ""
+  })
+
+  const onChangeHandler = event => {
+    setData({...data, [event.target.name]: event.target.value})
+  }
+  const onClickHandler = async(event) => {
+    event.preventDefault()
+    try{
+      const loginRes = await axios.post('/api/auth/login', data)
+      setUserData({
+        token: loginRes.data.token,
+        user: loginRes.data.user
+      })
+      localStorage.setItem("auth-token", loginRes.data.token)
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
   return(
-    <h1>login</h1>
+    <div className="login-page">
+      <h2>Login</h2>
+      <form className="login-form">
+        <div className="form-group">
+          <input type="text" name="email" onChange={onChangeHandler} placeholder="Email"/>
+        </div>
+        <div className="form-group">
+          <input type="password" name="password" onChange={onChangeHandler} placeholder="Пароль"/>
+        </div>
+        <div className="form-group">
+          <button className="button" onClick={onClickHandler}>
+            <span>Авторизация</span>
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }
 

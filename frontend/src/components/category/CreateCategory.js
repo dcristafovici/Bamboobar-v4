@@ -7,7 +7,6 @@ const CreateCategory = () =>{
   })
   const onChangeHandler = event => {
     setCategory({...category, [event.target.name]: event.target.value})
-    console.log(category)
   }
   const onSubmitHandler = async(event) =>{
     console.log('click')

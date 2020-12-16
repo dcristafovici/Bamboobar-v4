@@ -41,7 +41,15 @@ const App = () => {
     checkLoggedIn()
 
   }, [])
-  console.log(userData)
+
+  const logOut = (event) => {
+    event.preventDefault()
+    setUserData({
+      token: undefined,
+      user: undefined,
+    })
+    localStorage.setItem('auth-token', '')
+  }
   return(
     <Router>
       <UserContext.Provider value={{userData, setUserData}}>
@@ -57,12 +65,20 @@ const App = () => {
               <li>
                 <Link to='/category/create'>Create Category</Link>
               </li>
-              <li>
-                <Link to="/auth/login">Login</Link>
-              </li>
-              <li>
-                <Link to="Register">Register</Link>
-              </li>
+              {userData.user ? (
+                <li>
+                  <a href="#" onClick={logOut}>Log out</a>
+                </li>
+              ) : (
+                <>
+                <li>
+                  <Link to="/auth/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="Register">Register</Link>
+                </li>
+              </>
+                )}
             </ul>
           </nav>
 
