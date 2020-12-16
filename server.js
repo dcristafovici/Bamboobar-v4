@@ -21,6 +21,7 @@ app.use("/", express.static(__dirname));
 // api/NameController
 app.use('/api/product', require('./routes/product'))
 app.use('/api/category', require('./routes/category'))
+app.use('/api/auth', require('./routes/auth.routes'))
 
 
 const PORT = config.get('port') || 5000
