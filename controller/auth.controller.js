@@ -1,5 +1,7 @@
 const User = require('../models/auth.models')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const config = require('config')
 const registerController = async (req, res) => {
   try{
     let {email, password, passwordCheck, displayName} = req.body
@@ -36,15 +38,53 @@ const registerController = async (req, res) => {
     })
     const savedUser = await newUser.save()
     res.json(savedUser)
-
   } catch (err) {
     res.status(500).json({error: err.message})
   }
 
 }
+const authController = async(req, res) => {
+  try{
+    const {email, password} = req.body
+
+    // Validate
+    if(!email || !password)
+      return res
+        .status(400)
+        .json({msg: 'Не все поля заполнены.'})
+
+    const user = await User.findOne({email: email})
+    if(!user)
+      return res
+        .status(400)
+        .json({msg: "Пользователь не найден"})
+
+    const isMatch = await bcrypt.compare(password, user.password)
+    if(!isMatch)
+      return res
+        .status(400)
+        .json({msg: "Неправильные данные для входа"})
+
+    const token = jwt.sign({id: user._id}, config.get('JWT_SECRET'))
+    res.json({
+      token: token,
+      user: {
+        id: user._id,
+        displayName: user.displayName,
+        email : user.email
+      }
+    })
+
+
+
+  } catch (err) {
+    res.status(500).json({error: err.message})
+  }
+}
 
 module.exports = {
-  registerController
+  registerController,
+  authController
 }
 
 
