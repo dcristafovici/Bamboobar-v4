@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import axios from 'axios'
+import ErrorNotice from "../../misc/ErrorNotice";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -8,6 +9,7 @@ const Register = () => {
     passwordCheck: "",
     displayName: ""
   })
+  const [error, setError]  = useState("")
   const onChangeHandler = (event) => {
     setData({...data, [event.target.name]: event.target.value})
   }
@@ -22,14 +24,15 @@ const Register = () => {
         passwordCheck: "",
         displayName: ""
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      err.response.data.msg && setError(err.response.data.msg)
     }
   }
 
   return(
     <div className="register-page">
       <h2>Register</h2>
+      {error && <ErrorNotice message={error} clearError={()=> setError(undefined)}/>}
       <form className="form register-form">
         <div className="form-group">
           <input type="text" name="email" defaultValue={data.email} onChange={onChangeHandler} placeholder="Е-майл"/>
