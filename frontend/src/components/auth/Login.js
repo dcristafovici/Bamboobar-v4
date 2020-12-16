@@ -1,10 +1,12 @@
-import React, {useState, useContext} from "react"
+import React, {useState} from "react"
 import axios from "axios"
-import UserContext from "../../context/UserContext"
+import {connect} from "react-redux"
 import ErrorNotice from "../../misc/ErrorNotice";
-const Login = () => {
+import {clearUserData, setUserData} from '../../redux/actions/authAction'
 
-  const {setUserData} = useContext(UserContext)
+
+const Login = ({setUserData}) => {
+
   const [error, setError] = useState("")
   const [data, setData] = useState({
     email: "",
@@ -16,17 +18,16 @@ const Login = () => {
   }
   const onClickHandler = async(event) => {
     event.preventDefault()
-    try{
-      const loginRes = await axios.post('/api/auth/login', data)
-      setUserData({
-        token: loginRes.data.token,
-        user: loginRes.data.user
-      })
-      localStorage.setItem("auth-token", loginRes.data.token)
-
-    } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg)
-    }
+      try {
+        const loginRes = await axios.post('/api/auth/login', data)
+        setUserData({
+          token: loginRes.data.token,
+          user: loginRes.data.user.user
+        })
+        localStorage.setItem("auth-token", loginRes.data.token)
+      } catch (err) {
+        err.response.data.msg && setError(err.response.data.msg)
+      }
 
   }
   return(
@@ -50,4 +51,16 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = (state) =>{
+  return{
+    auth: state.authReducer
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    setUserData: (token, user) => dispatch(setUserData(token, user)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

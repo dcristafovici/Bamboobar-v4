@@ -5,15 +5,15 @@ import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import UserContext from "./context/UserContext";
 import axios from "axios"
+import {connect} from "react-redux"
+import {setUserData} from "./redux/actions/authAction";
+import {clearUserData} from "./redux/actions/authAction";
 import './App.css';
 
-const App = () => {
-  const [userData, setUserData] = useState({
-    token: undefined,
-    user: undefined
-  })
+
+const App = ({setUserData, auth, clearUserData}) => {
+
   useEffect(()=> {
     const checkLoggedIn = async() => {
       let token = localStorage.getItem('auth-token')
@@ -31,10 +31,7 @@ const App = () => {
           '/api/auth/',
           {headers : {'x-auth-token' : token}}
         )
-        setUserData({
-          token,
-          user: userRes.data
-        })
+        setUserData(token, userRes.data)
       }
     };
 
@@ -44,15 +41,11 @@ const App = () => {
 
   const logOut = (event) => {
     event.preventDefault()
-    setUserData({
-      token: undefined,
-      user: undefined,
-    })
-    localStorage.setItem('auth-token', '')
+    clearUserData()
+    // localStorage.setItem('auth-token', '')
   }
   return(
     <Router>
-      <UserContext.Provider value={{userData, setUserData}}>
         <div>
           <nav>
             <ul>
@@ -65,20 +58,21 @@ const App = () => {
               <li>
                 <Link to='/category/create'>Create Category</Link>
               </li>
-              {userData.user ? (
+              {console.log(auth)}
+              {auth.user ? (
                 <li>
                   <a href="#" onClick={logOut}>Log out</a>
                 </li>
               ) : (
                 <>
-                <li>
-                  <Link to="/auth/login">Login</Link>
-                </li>
-                <li>
-                  <Link to="Register">Register</Link>
-                </li>
-              </>
-                )}
+                  <li>
+                    <Link to="/auth/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="Register">Register</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </nav>
 
@@ -101,13 +95,24 @@ const App = () => {
 
           </Switch>
         </div>
-      </UserContext.Provider>
     </Router>
   )
 }
 
 
+const mapStateToProps = (state) =>{
+  return{
+    auth: state.authReducer
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    setUserData: (token, user) => dispatch(setUserData(token, user)),
+    clearUserData: () => dispatch(clearUserData)
+  }
+}
 
 
 
-export default App
+export default connect(mapStateToProps, mapDispatchToProps)(App)
