@@ -2,6 +2,7 @@ const User = require('../models/auth.models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+
 const registerController = async (req, res) => {
   try{
     let {email, password, passwordCheck, displayName} = req.body
@@ -74,17 +75,46 @@ const authController = async(req, res) => {
         email : user.email
       }
     })
-
-
-
   } catch (err) {
     res.status(500).json({error: err.message})
   }
 }
 
+
+const deleteController = async(req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.user)
+    res.json(deletedUser)
+  } catch (err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+
+const tokenIsValid = async(req, res) => {
+  try {
+    const token = req.header('x-auth-token')
+    if(!token)
+        return res.json(false)
+    const verified = jwt.verify(token, config.get('JWT_SECRET'))
+    if(!verified) return res.json(false)
+
+    const user = await User.findById(verified.id)
+    if(!user) return res.json(false)
+
+    return res.json(true)
+
+  } catch (err) {
+    res.status(500).json({error : err.message})
+  }
+}
+
+
 module.exports = {
   registerController,
-  authController
+  authController,
+  deleteController,
+  tokenIsValid
 }
 
 
