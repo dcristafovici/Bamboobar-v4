@@ -1,36 +1,47 @@
 const mongoose  = require('mongoose')
-const { ObjectId } = mongoose.Schema
 
-const CartItemSchema = new mongoose.Schema(
-  {
-    product: { type: ObjectId, ref: "Product" },
-    name: String,
-    price: Number,
-    count: Number,
+const CartItemSchema = new mongoose.Schema({
+  product: {type: mongoose.Schema.ObjectId, ref: 'Product'},
+  quantity: Number,
+  price: Number,
+  totalPrice: Number
+})
+
+const CartItem = mongoose.model('CartItem', CartItemSchema)
+
+const orderSchema = new mongoose.Schema({
+  products: [CartItemSchema],
+  customer_name: {
+    type: String,
+    trim: true,
   },
-  {timestamps: true}
-)
-
-const CartItem = mongoose.model("CartItem", CartItemSchema)
-
-const OrderSchema = new mongoose.Schema(
-  {
-    products: [CartItemSchema],
-    transaction_id: {},
-    amount: { type: Number },
-    address: String,
-    status: {
-      type: String,
-      default: "Not processed",
-      enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"]
-    },
-    updated: Date,
-    user: {type: ObjectId, ref: "user"}
+  customer_phone: {
+    type: String,
+    required: true
   },
-  {timestamps: true}
-)
+  customer_email: {
+    type: String,
+    trim: true,
+    match: [/.+\@.+\..+/, 'Please fill a valid email address'],
+  },
+  address: {type: String},
+  street: {type: String},
+  payment_id: {},
+  updated: Date,
+  price: String,
+  deliveryDate: String,
+  additional: String,
+  deliveryTime: String,
+  create: {
+    type: Date,
+    default: Date.now
+  },
+  user: {type: mongoose.Schema.ObjectId, ref: "user"}
+})
 
-const Order = mongoose.model("Order", OrderSchema)
+
+const Order = mongoose.model('Order', orderSchema)
+
 
 module.exports = {
   Order,

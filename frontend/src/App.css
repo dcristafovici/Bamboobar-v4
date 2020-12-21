@@ -3032,6 +3032,9 @@ nav.menu-nav li.item-more.active > a::after{
 .register-page{
   margin-top: 30px;
 }
+form.checkout{
+  width: 100%;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

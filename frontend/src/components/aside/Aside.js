@@ -1,5 +1,6 @@
 import React,{Component} from "react"
 import {connect} from 'react-redux'
+import Modal from "../modal/Modal"
 import {addQuantity} from "../../redux/actions/asideAction"
 import {subQuantity} from '../../redux/actions/asideAction'
 import {removeFromCart} from '../../redux/actions/asideAction'
@@ -75,8 +76,7 @@ class Aside extends Component{
           </div>
         </div>
         <div className="aside-delivery__button">
-          <a href="#"   data-text="Оформить заказ"
-             className="button button-checkout"><span>Оформить заказ </span></a>
+          <Modal cart={this.props.cart}/>
           <a href="#banner" className="aside-delivery__address button button-checkout">
             <span>Указать адресс</span>
           </a>
