@@ -52,10 +52,3 @@ export function emptyCart() {
   }
 }
 
-export function updatePrice(totalPrice){
-  return{
-    type: UPDATE_PRICE,
-    totalPrice
-  }
-}
-

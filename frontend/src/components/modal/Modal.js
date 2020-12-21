@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import axios from "axios"
 import {connect} from "react-redux"
 
-const Modal = ({cart, totalPrice, user}) => {
+const Modal = ({cart, user}) => {
   const [order, setOrder] = useState({
     products: []
   })
@@ -14,7 +14,7 @@ const Modal = ({cart, totalPrice, user}) => {
   }
 
   const onChangeHandler = (event) =>{
-    setOrder({...order, products: cart, price: totalPrice, user: userId, [event.target.name] : event.target.value})
+    setOrder({...order, products: cart, price: 0, user: userId, [event.target.name] : event.target.value})
   }
   const onClickHandler = async(event) => {
     event.preventDefault()
@@ -120,7 +120,6 @@ const Modal = ({cart, totalPrice, user}) => {
 const mapStateToProps = (state) => {
   return{
     cart: state.asideReducer.cart,
-    totalPrice: state.asideReducer.totalPrice,
     user: state.authReducer.user
   }
 }

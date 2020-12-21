@@ -13,6 +13,8 @@ const initialState = {
 
 export default function asideReducer(state = initialState, action) {
   let cart = state.cart
+  let cartStringify = JSON.stringify(cart)
+  console.log(state)
   switch (action.type) {
     case ADD_TO_CART:
       let itemInCart = cart.find(item => item.product._id == action.payload.product._id)
@@ -71,12 +73,6 @@ export default function asideReducer(state = initialState, action) {
         ...state,
         cart: []
       }
-    case UPDATE_PRICE:
-      return {
-        ...state,
-        totalPrice: action.totalPrice
-      }
-
     default:
       return state
   }
