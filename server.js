@@ -22,6 +22,7 @@ app.use("/", express.static(__dirname));
 app.use('/api/product', require('./routes/product'))
 app.use('/api/category', require('./routes/category'))
 app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/api/order', require('./routes/order.routes'))
 
 
 const PORT = config.get('port') || 5000
