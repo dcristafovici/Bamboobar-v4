@@ -3040,6 +3040,9 @@ nav.menu-nav li.item-more.active > a::after{
 form.checkout{
   width: 100%;
 }
+main.bamboobar-main{
+  overflow: hidden;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

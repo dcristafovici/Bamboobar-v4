@@ -9,7 +9,9 @@ import axios from "axios"
 import {connect} from "react-redux"
 import {setUserData} from "./redux/actions/authAction";
 import {clearUserData} from "./redux/actions/authAction";
+import Account from "./components/auth/Account";
 import './App.css';
+
 
 
 const App = ({setUserData, auth, clearUserData}) => {
@@ -53,6 +55,9 @@ const App = ({setUserData, auth, clearUserData}) => {
                 <Link to='/'>Home</Link>
               </li>
               <li>
+                <Link to='/account/'>Account</Link>
+              </li>
+              <li>
                 <Link to='/product/create'>Create Product</Link>
               </li>
               <li>
@@ -76,6 +81,9 @@ const App = ({setUserData, auth, clearUserData}) => {
           </nav>
 
           <Switch>
+            <Route path="/account/">
+              <Account />
+            </Route>
             <Route path="/product/create">
               <CreateProduct />
             </Route>
