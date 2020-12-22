@@ -1,30 +1,30 @@
 import React, {useState} from "react"
 import axios from 'axios'
+import { YMaps, Map } from "react-yandex-maps";
 const Find = () => {
   const [address,setAddress] = useState({
     address: ''
   })
 
+  const loadSuggest = ymaps => {
+    const suggestView = new ymaps.SuggestView("suggest");
+    console.log(suggestView)
+  };
 
-  const onChangeHandler = event => {
-    setAddress({address: event.target.value})
-  }
-  const onClickHandler = async(event) => {
-    event.preventDefault()
-    console.log(address)
-    try{
-      const response = await axios.post('/api/address/find', address)
-      console.log(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+
   return(
     <div className="banner-find">
       <h1>Быстрая Доставка из лучшего ресторана<br/>в москва-СИТИ bamboo.bar</h1>
+      {/*<YMaps>*/}
+      {/*  <Map*/}
+      {/*    onLoad={ymaps => loadSuggest(ymaps)}*/}
+      {/*    defaultState={{ center: [55.751574, 37.573856],  zoom: 9 }}*/}
+      {/*    modules={["SuggestView"]}*/}
+      {/*  />*/}
+      {/*  <input type="text" id='suggest' onChange={ymaps => console.log(ymaps)}  />*/}
+      {/*</YMaps>*/}
+
       <div className="form-group ">
-        <input id="suggest" onChange={onChangeHandler} placeholder="Укажите адрес доставки..." autoComplete="off"/>
-        <button onClick={onClickHandler}>click</button>
         <div className="form-group__clear">
           <span>Изменить</span>
           <img
