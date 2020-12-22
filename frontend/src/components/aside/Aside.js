@@ -23,9 +23,9 @@ class Aside extends Component{
           {this.props.cart.map((item, key) => (
             <div className="aside-item" data-id={item.product._id} key={key}>
               <div className="aside-item__name"><span>{item.product.name}</span></div>
-              <div className="aside-item__change">
+              <div className="aside-item__change" key={item.quantity}>
                 <div className="aside-plus" onClick={() => this.props.addQuantity(item.product._id, item.quantity, item.product.price)}></div>
-                <input type="number" className="item-quantity" defaultValue={item.quantity}/>
+                <input type="number" className="item-quantity" defaultValue={item.quantity || 1}/>
                 <div
                   className={"aside-minus "  + (item.quantity > 1 ? '' : 'remove')}
                   onClick={() =>{

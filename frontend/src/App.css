@@ -1134,6 +1134,11 @@ h4 {
   color: #666;
   text-align: center;
   padding: 0;
+  outline: none;
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
   width: 100%;
   height: calc(100% - 40px);
 }

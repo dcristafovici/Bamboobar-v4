@@ -6,18 +6,16 @@ import {
   EMPTY_CART,
   UPDATE_PRICE
 } from '../actions/actions-types/aside-actions'
-let cartInStorage = localStorage.getItem('cart')
-let cartInStorageObject = JSON.parse(cartInStorage)
+import {loadState} from '../../localStorage'
+const cart = loadState()
+const totalPrice = loadState()
 const initialState = {
-  cart: cartInStorageObject ||  [],
-  totalPrice: 0
+  cart: cart.cart || [],
+  totalPrice: totalPrice.totalPrice || 0
 }
 
 export default function asideReducer(state = initialState, action) {
   let cart = state.cart
-  let cartStringify = JSON.stringify(cart)
-  localStorage.setItem('cart', cartStringify)
-
   switch (action.type) {
     case ADD_TO_CART:
       let itemInCart = cart.find(item => item.product._id == action.payload.product._id)

@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import thunk from "redux-thunk";
+import rootReducer from "./redux/reducers/rootReducer";
 import {applyMiddleware, createStore, compose} from "redux";
 import {Provider} from "react-redux";
-import rootReducer from "./redux/reducers/rootReducer";
-import thunk from "redux-thunk";
+import {loadState, saveState} from './localStorage'
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -15,6 +16,11 @@ const store = createStore(rootReducer,
     applyMiddleware(thunk)
   )
 )
+store.subscribe(() => {
+  saveState({
+    cart: store.getState().asideReducer.cart,
+  })
+})
 
 
 ReactDOM.render(
