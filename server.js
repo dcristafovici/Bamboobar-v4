@@ -23,7 +23,7 @@ app.use('/api/product', require('./routes/product'))
 app.use('/api/category', require('./routes/category'))
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/order', require('./routes/order.routes'))
-
+app.use('/api/address', require('./routes/data.routes'))
 
 const PORT = config.get('port') || 5000
 const start = async () =>{

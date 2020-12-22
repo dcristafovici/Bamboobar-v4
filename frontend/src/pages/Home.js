@@ -1,6 +1,7 @@
 import React from "react"
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
+import Find from "../components/find/Find";
 import Catalog from "../components/catalog/Catalog";
 
 const Home = () =>{
@@ -235,18 +236,7 @@ const Home = () =>{
                   <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/banner/logo.svg"
                        alt="Logo"/>
                 </div>
-                <div className="banner-find">
-                  <h1>Быстрая Доставка из лучшего ресторана<br/>в москва-СИТИ bamboo.bar</h1>
-                  <div className="form-group ">
-                    <input id="suggest" placeholder="Укажите адрес доставки..." autoComplete="off"/>
-                      <div className="form-group__clear">
-                        <span>Изменить</span>
-                        <img
-                          src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/banner/pencil.svg"
-                          alt="" />
-                      </div>
-                  </div>
-                </div>
+                <Find/>
               </div>
             </div>
           </div>
