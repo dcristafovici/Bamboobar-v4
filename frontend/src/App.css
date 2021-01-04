@@ -3043,6 +3043,10 @@ form.checkout{
 main.bamboobar-main{
   overflow: hidden;
 }
+.banner-find > .form-group > div:first-child{
+  display: none !important;
+}
+
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

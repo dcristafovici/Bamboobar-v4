@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "kladrapi-for-node": "0.0.2",
     "mongoose": "^5.10.12",
     "node-fetch": "^2.6.1",
     "react-modal": "^3.11.2"
