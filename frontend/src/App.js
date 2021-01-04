@@ -54,12 +54,6 @@ const App = ({setUserData, auth, clearUserData}) => {
               <li>
                 <Link to='/'>Home</Link>
               </li>
-              <li>
-                <Link to='/product/create'>Create Product</Link>
-              </li>
-              <li>
-                <Link to='/category/create'>Create Category</Link>
-              </li>
               {auth.user ? (
                 <li>
                   <a href="#" onClick={logOut}>Log out</a>

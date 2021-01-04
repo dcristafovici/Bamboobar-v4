@@ -44,12 +44,12 @@ class Aside extends Component{
         </div>
         <div className="aside-delivery">
           <div className="aside-delivery__min">заказ по данному адресу возможен от <span
-            id="min_delivery">5000</span> ₽
+            id="min_delivery">{this.props.minPrice}</span> ₽
           </div>
           <div className="aside-delivery__name" ><span>Закажите ещё на <span
             id="remaind"></span> ₽ для бесплатной доставки</span>
           </div>
-          <div className="aside-delivery__count"><span>{this.props.totalPrice} ₽ </span><span>5000 ₽</span>
+          <div className="aside-delivery__count"><span>{this.props.totalPrice} ₽ </span><span>{this.props.minPrice} ₽</span>
           </div>
           <div className="aside-delivery__line">
 
@@ -79,6 +79,7 @@ class Aside extends Component{
 const mapStateToProps = (state) => {
   return{
     cart: state.asideReducer.cart,
+    minPrice: state.addressReducer.minPrice,
   }
 }
 

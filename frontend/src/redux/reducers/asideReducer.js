@@ -8,10 +8,8 @@ import {
 } from '../actions/actions-types/aside-actions'
 import {loadState} from '../../localStorage'
 const cart = loadState()
-const totalPrice = loadState()
 const initialState = {
   cart: cart.cart || [],
-  totalPrice: totalPrice.totalPrice || 0
 }
 
 export default function asideReducer(state = initialState, action) {
