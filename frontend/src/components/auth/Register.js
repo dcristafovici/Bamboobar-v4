@@ -7,7 +7,8 @@ const Register = () => {
     email: "",
     password: "",
     passwordCheck: "",
-    displayName: ""
+    displayName: "",
+    phone: ""
   })
   const [error, setError]  = useState("")
   const onChangeHandler = (event) => {
@@ -15,6 +16,7 @@ const Register = () => {
   }
   const onSubmitHandler = async(event) => {
     event.preventDefault()
+    console.log(data)
     try {
       const register = await axios.post('/api/auth/register', data)
       const response = register.data
@@ -22,7 +24,8 @@ const Register = () => {
         email: "",
         password: "",
         passwordCheck: "",
-        displayName: ""
+        displayName: "",
+        phone: ""
       })
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg)
@@ -35,7 +38,7 @@ const Register = () => {
       {error && <ErrorNotice message={error} clearError={()=> setError(undefined)}/>}
       <form className="form register-form">
         <div className="form-group">
-          <input type="text" name="email" defaultValue={data.email} onChange={onChangeHandler} placeholder="Е-майл"/>
+          <input type="text" name="email"   defaultValue={data.email || ""} onChange={onChangeHandler} placeholder="Е-майл"/>
         </div>
         <div className="form-group">
           <input type="password" name="password" defaultValue={data.password} onChange={onChangeHandler} placeholder="Пароль"/>
@@ -45,6 +48,9 @@ const Register = () => {
         </div>
         <div className="form-group">
           <input type="text" name="displayName" defaultValue={data.displayName} onChange={onChangeHandler} placeholder="ФИО"/>
+        </div>
+        <div className="form-group">
+          <input type="tel" name="phone" defaultValue={data.phone} onChange={onChangeHandler} placeholder="Телефон"/>
         </div>
         <div className="form-group">
           <button className="button" onClick={onSubmitHandler}>

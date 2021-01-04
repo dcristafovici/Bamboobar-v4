@@ -9,7 +9,7 @@ import axios from "axios"
 import {connect} from "react-redux"
 import {setUserData} from "./redux/actions/authAction";
 import {clearUserData} from "./redux/actions/authAction";
-import Account from "./components/auth/Account";
+import Account from "./pages/Account";
 import './App.css';
 
 
@@ -44,7 +44,7 @@ const App = ({setUserData, auth, clearUserData}) => {
   const logOut = (event) => {
     event.preventDefault()
     clearUserData()
-    // localStorage.setItem('auth-token', '')
+    localStorage.setItem('auth-token', '')
   }
   return(
     <Router>
@@ -53,9 +53,6 @@ const App = ({setUserData, auth, clearUserData}) => {
             <ul>
               <li>
                 <Link to='/'>Home</Link>
-              </li>
-              <li>
-                <Link to='/account/'>Account</Link>
               </li>
               <li>
                 <Link to='/product/create'>Create Product</Link>
@@ -73,7 +70,7 @@ const App = ({setUserData, auth, clearUserData}) => {
                     <Link to="/auth/login">Login</Link>
                   </li>
                   <li>
-                    <Link to="Register">Register</Link>
+                    <Link to="auth/register">Register</Link>
                   </li>
                 </>
               )}
@@ -96,6 +93,9 @@ const App = ({setUserData, auth, clearUserData}) => {
             <Route path="/auth/register">
               <Register/>
             </Route>
+            <Route path="/auth/account">
+              <Account/>
+            </Route>
             <Route path="/">
               <Home />
             </Route>
@@ -116,7 +116,7 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
   return{
     setUserData: (token, user) => dispatch(setUserData(token, user)),
-    clearUserData: () => dispatch(clearUserData)
+    clearUserData: () => dispatch(clearUserData())
   }
 }
 

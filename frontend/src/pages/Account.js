@@ -1,11 +1,12 @@
 import React from "react"
-import Footer from "../footer/Footer";
-import Header from "../header/Header";
+import {connect} from "react-redux"
+import Footer from "../components/footer/Footer";
+import Header from "../components/header/Header";
 
-const Account = () => {
+const Account = ({authReducer}) => {
   return(
     <main className="bamboobar-main">
-    <Header/>
+      <Header/>
       <section className="account">
         <div className="content">
           <div className="title">
@@ -17,16 +18,13 @@ const Account = () => {
                 <div className="account-item__name">Личные данные</div>
                 <div className="account-item__info">
                   <ul>
-                    <li><span>Имя:</span><span>Антонов Антон</span>
+                    <li><span>Имя:</span><span>{authReducer != undefined ? authReducer.displayName : "Не указан"}</span>
                     </li>
-                    <li><span>Email:</span><span>Не указан</span>
+                    <li><span>Email:</span><span>{authReducer != undefined ? authReducer.email : "Не указан"}</span>
                     </li>
-                    <li><span>Телефон:</span><span>Не указан</span>
+                    <li><span>Телефон:</span><span>{authReducer != undefined ? authReducer.phone : "Не указан"}</span>
                     </li>
-                    <li><span>Пол</span><span>Не указан</span>
-                    </li>
-                    <li><span>Дата рождения:</span><span>Не указан</span>
-                    </li>
+
                   </ul>
                 </div>
                 <div className="account-item__button">
@@ -43,28 +41,7 @@ const Account = () => {
                   <div className="account-address__right">
                     <p>* Улица</p>
                     <input type="text" defaultValue="ул. Тверская, д.11, корп.2 , кв.33" />
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>Дом</label>
-                          <input type="text" />
-                        </div>
-                        <div className="form-group">
-                          <label>Квартира</label>
-                          <input type="text" />
-                        </div>
-                        <div className="form-group">
-                          <label>Подъезд</label>
-                          <input type="text" />
-                        </div>
-                        <div className="form-group">
-                          <label>Домофон</label>
-                          <input type="text" />
-                        </div>
-                        <div className="form-group">
-                          <label>Этаж</label>
-                          <input type="text" />
-                        </div>
-                      </div>
+
                   </div>
                 </div>
                 <div className="account-address__bottom"><span>Комментарии</span>
@@ -199,8 +176,16 @@ const Account = () => {
           </div>
         </div>
       </section>
-    <Footer/>
+      <Footer/>
     </main>
   )
 }
-export default Account
+
+const mapStateToProps = (state) => {
+  console.log(state.authReducer.user)
+  return{
+    authReducer: state.authReducer.user
+  }
+}
+
+export default connect(mapStateToProps)(Account)

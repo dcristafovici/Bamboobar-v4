@@ -1,9 +1,11 @@
 import React, {useState} from "react"
 import { YMaps, Map } from "react-yandex-maps";
-const axios = require('axios')
+import {connect} from 'react-redux'
+import {clearUserAddress, setUserAddress} from "../../redux/actions/addressReducer"
 
 
-const Find = () => {
+const Find = ({setUserAddress , addressState, clearUserAddress}) => {
+
   const loadSuggest = ymaps => {
     const suggestView = new ymaps.SuggestView("suggest");
     const bambooCords = [55.747159, 37.539070]
@@ -16,7 +18,7 @@ const Find = () => {
           let distance = ymaps.coordSystem.geo.getDistance(bambooCords, coords);
           distance = parseInt(distance);
           distance = distance / 1000;
-          console.log(distance)
+          setUserAddress(displayName, distance)
         }
       )
     });
@@ -25,8 +27,7 @@ const Find = () => {
     <div className="banner-find">
       <h1>Быстрая Доставка из лучшего ресторана<br/>в москва-СИТИ bamboo.bar</h1>
 
-
-      <div className="form-group">
+      <div className={"form-group " + (addressState.distance ? 'form-group__selected' : '')}>
         <YMaps
           enterprise
           query={{
@@ -38,9 +39,9 @@ const Find = () => {
             defaultState={{ center: [55.751574, 37.573856],  zoom: 9 }}
             modules={["SuggestView", "geocode", "coordSystem.geo"]}
           />
-          <input type="text" id='suggest'   />
+          <input type="text" id='suggest' defaultValue={addressState.address || ''}  />
         </YMaps>
-        <div className="form-group__clear">
+        <div className="form-group__clear" onClick={() => clearUserAddress()}>
           <span>Изменить</span>
           <img
             src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/banner/pencil.svg"
@@ -51,4 +52,17 @@ const Find = () => {
   )
 }
 
-export default Find
+const mapStateToProps = (state) => {
+  return {
+    addressState: state.addressReducer
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    setUserAddress: (address, distance) => dispatch(setUserAddress(address,distance)),
+    clearUserAddress: () =>dispatch(clearUserAddress())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Find)

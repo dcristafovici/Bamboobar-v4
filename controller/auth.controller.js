@@ -5,7 +5,7 @@ const config = require('config')
 
 const registerController = async (req, res) => {
   try{
-    let {email, password, passwordCheck, displayName} = req.body
+    let {email, password, passwordCheck, displayName, phone} = req.body
 
     //  Validate
     if(!email || !password || !passwordCheck)
@@ -35,7 +35,8 @@ const registerController = async (req, res) => {
     const newUser = new User({
       email,
       password: passwordHash,
-      displayName
+      displayName,
+      phone
     })
     const savedUser = await newUser.save()
     res.json(savedUser)
@@ -114,7 +115,9 @@ const getUser = async(req, res) => {
     const user = await User.findById(req.user)
     res.json({
       displayName: user.displayName,
-      id: user._id
+      id: user._id,
+      email: user.email,
+      phone: user.phone
     })
   } catch (error) {
     res.json({msg: error.message})

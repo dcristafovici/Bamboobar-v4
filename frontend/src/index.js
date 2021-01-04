@@ -19,6 +19,7 @@ const store = createStore(rootReducer,
 store.subscribe(() => {
   saveState({
     cart: store.getState().asideReducer.cart,
+    address: store.getState().addressReducer,
   })
 })
 

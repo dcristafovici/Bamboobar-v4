@@ -1,6 +1,9 @@
 import React from "react"
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
+
 const Header = () => {
   return(
+    <Router>
     <header className="header">
       <div className="content">
         <div className="header-wrapper">
@@ -22,11 +25,11 @@ const Header = () => {
           <div className="header-phone"><a href="tel:7 (985) 766-49-62">7 (985) 766-49-62</a>
           </div>
           <div className="header-account">
-              <a className="header-account__top" to='/auth/account'>
+              <Link className="header-account__top" to='/auth/account'>
                 <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png"
                      alt=""/>
                 <span>Личный кабинет</span>
-              </a>
+              </Link>
 
           </div>
           <div className="header-languages">
@@ -43,6 +46,7 @@ const Header = () => {
         </div>
       </div>
     </header>
+    </Router>
   )
 }
 

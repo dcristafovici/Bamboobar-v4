@@ -1,5 +1,4 @@
 import {SET_USER_DATA, CLEAR_USER_DATA} from "../actions/actions-types/auth-actions"
-
 const initialState = {
   token: undefined,
   user: undefined
@@ -14,7 +13,6 @@ export default function authReducer(state = initialState, action) {
         user: action.payload.user
       }
     case CLEAR_USER_DATA:
-      console.log('work')
       return {
         ...state,
         token: undefined,

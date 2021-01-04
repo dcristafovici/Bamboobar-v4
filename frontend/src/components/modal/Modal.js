@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import axios from "axios"
 import {connect} from "react-redux"
 
-const Modal = ({cart, user}) => {
+const Modal = ({cart, user, address}) => {
   const [order, setOrder] = useState({
     products: []
   })
@@ -39,22 +39,22 @@ const Modal = ({cart, user}) => {
                 <div className="woocommerce-billing-fields__field-wrapper">
                   <p className="form-row form-row-first" id="billing_first_name_field" data-priority="10">
                     <label htmlFor="billing_first_name">Имя</label>
-                    <input type="text" className="input-text" onChange={onChangeHandler} name="customer_name" id="billing_first_name"/>
+                    <input type="text" className="input-text" onChange={onChangeHandler} name="customer_name" defaultValue={user != undefined ? user.displayName : "Не указан"} id="billing_first_name"/>
                   </p>
                   <p
                     className="form-row"
                     id="billing_email_field">
                     <label htmlFor="billing_email">Email</label>
-                    <input type="email" className="input-text" onChange={onChangeHandler} name="customer_email" id="billing_email"/>
+                    <input type="email" className="input-text" onChange={onChangeHandler} name="customer_email" defaultValue={user != undefined ? user.email : "Не указан"} id="billing_email"/>
                   </p>
                   <p className="form-row "
                      id="billing_phone_field">
                     <label htmlFor="billing_phone">Телефон</label>
-                    <input type="tel" className="input-text" onChange={onChangeHandler} name="customer_phone" id="billing_phone" />
+                    <input type="tel" className="input-text" onChange={onChangeHandler} name="customer_phone" defaultValue={user != undefined ? user.phone : "Не указан"} id="billing_phone" />
                   </p>
                   <p className="form-row " id="billing_address_1_field">
                     <label htmlFor="billing_address_1">Адрес</label>
-                    <input type="text" className="input-text" onChange={onChangeHandler} name="address" id="billing_address_1"/>
+                    <input type="text" className="input-text" onChange={onChangeHandler} defaultValue={address} name="address" id="billing_address_1"/>
                   </p>
                   <p className="form-row" id="billing_addresstwo_field">
                     <label htmlFor="billing_addresstwo">Подъезд/ квартира/</label>
@@ -120,7 +120,8 @@ const Modal = ({cart, user}) => {
 const mapStateToProps = (state) => {
   return{
     cart: state.asideReducer.cart,
-    user: state.authReducer.user
+    user: state.authReducer.user,
+    address: state.addressReducer.address,
   }
 }
 export default connect(mapStateToProps)(Modal)

@@ -102,7 +102,7 @@ const Footer = () => {
             </nav>
           </div>
         </div>
-        <div className="coph">© 2010–2020, официальный сайт ДОСТАВКИ ИЗ РЕСТОРАНА BAMBOOBAR</div>
+        <div className="coph">© 2010–2021, официальный сайт ДОСТАВКИ ИЗ РЕСТОРАНА BAMBOOBAR</div>
       </div>
     </section>
 
