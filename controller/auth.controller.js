@@ -2,24 +2,20 @@ const User = require('../models/auth.models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
-const validator = require('validator')
+const validateRegisterInput = require('../validation/register')
+
 const registerController = async(req, res) => {
   try{
     let {email, password, passwordCheck,  phone, username, address} = req.body
-
-    // Check Email
-    if(!validator.isEmail(email)){
-      return res
-        .status(404)
-        .json({msg: "Укажите правильный адрес электронный почты"})
+    const {errors, isValid} = validateRegisterInput(req.body)
+    if(!isValid){
+     return res.status(404).json(errors)
     }
 
-    if(passwordCheck !== password){
-      return res
-        .status(404)
-        .json({msg: "Пароли не совпадают"})
+    const userExist = await User.findOne({email: email})
+    if(userExist){
+      return res.status(404).json({msg: "Такой пользователь уже существует"})
     }
-    if(!username) username = email
     const salt = await bcrypt.genSalt()
     const passwordHash = await bcrypt.hash(password, salt)
 
@@ -33,7 +29,7 @@ const registerController = async(req, res) => {
     const savedUser = await newUser.save()
     res.json(savedUser)
   } catch (err) {
-    res.status(500).json({error: err})
+    res.status(500).json({error: err.message})
   }
 }
 
