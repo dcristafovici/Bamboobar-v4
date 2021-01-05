@@ -23,6 +23,13 @@ export default function addressReducer(state = initialState, action) {
         minPrice= 10000
       } else{
         notDelivery = true
+        return {
+          ...state,
+          address: '',
+          distance: null,
+          moscowCity: false,
+          minPrice: null
+        }
       }
        return {
         ...state,

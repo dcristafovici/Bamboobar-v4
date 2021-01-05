@@ -3046,6 +3046,14 @@ main.bamboobar-main{
 .banner-find > .form-group > div:first-child{
   display: none !important;
 }
+.popup-overlay{
+  background: rgba(16,33,49,.5);
+}
+.notdelivery-wrapper{
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+}
 
 @media screen and (max-width: 1200px) {
   .content {

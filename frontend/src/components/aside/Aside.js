@@ -7,8 +7,13 @@ import {removeFromCart} from '../../redux/actions/asideAction'
 import {emptyCart} from '../../redux/actions/asideAction'
 
 class Aside extends Component{
-
   render() {
+    let totalPrice = 0;
+    this.props.cart.forEach(cart => {
+      totalPrice += cart.priceGroup;
+    })
+    let differencePrice =  this.props.minPrice - totalPrice;
+    let percentPrice = totalPrice/this.props.minPrice * 100
     return(
       <aside className="aside aside-ready" data-delivery="5000">
         <div className="aside-control">
@@ -33,7 +38,6 @@ class Aside extends Component{
                     : this.props.removeFromCart(item.product._id)
                     }
                   }>
-
                 </div>
               </div>
               <div className="aside-item__right">
@@ -46,15 +50,18 @@ class Aside extends Component{
           <div className="aside-delivery__min">заказ по данному адресу возможен от <span
             id="min_delivery">{this.props.minPrice}</span> ₽
           </div>
-          <div className="aside-delivery__name" ><span>Закажите ещё на <span
-            id="remaind"></span> ₽ для бесплатной доставки</span>
+          {differencePrice > 0 ? (
+          <div className="aside-delivery__name">
+            <span>Закажите ещё на
+              <span id="remaind"> {differencePrice}</span> ₽ для бесплатной доставки
+            </span>
           </div>
-          <div className="aside-delivery__count"><span>{this.props.totalPrice} ₽ </span><span>{this.props.minPrice} ₽</span>
+            ): ""}
+          <div className="aside-delivery__count"><span>{totalPrice} ₽ </span><span>{this.props.minPrice} ₽</span>
           </div>
           <div className="aside-delivery__line">
-
-            <div className="aside-delivery__fill" >
-              <span >5650  ₽</span></div>
+            <div className="aside-delivery__fill" style={{width: percentPrice + '%'}} >
+              <span> {totalPrice}  ₽</span></div>
           </div>
         </div>
 
@@ -62,7 +69,7 @@ class Aside extends Component{
           <div className="aside-info__item"><span>Время доставки</span><span>~60 мин</span>
           </div>
 
-          <div className="aside-info__item"><span>Итого</span><span id="total-amount">{this.props.totalPrice} ₽</span>
+          <div className="aside-info__item"><span>Итого</span><span id="total-amount">{totalPrice} ₽</span>
           </div>
         </div>
         <div className="aside-delivery__button">
