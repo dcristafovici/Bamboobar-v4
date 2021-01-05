@@ -2,29 +2,22 @@ const User = require('../models/auth.models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const validator = require('validator')
 const registerController = async(req, res) => {
   try{
     let {email, password, passwordCheck,  phone, username, address} = req.body
-    if(!email || !password || !passwordCheck || !phone){
+
+    // Check Email
+    if(!validator.isEmail(email)){
       return res
         .status(404)
-        .json({msg: "Заполните пожалуйста обязательные поля"})
+        .json({msg: "Укажите правильный адрес электронный почты"})
     }
-    if(password.length < 5){
-      return res
-        .status(404)
-        .json({msg: "Пароль должен иметь больше 5 символов"})
-    }
+
     if(passwordCheck !== password){
       return res
         .status(404)
         .json({msg: "Пароли не совпадают"})
-    }
-    const existingUser = await User.findOne({email: email})
-    if(existingUser){
-      return res
-        .status(404)
-        .json({msg: "Такой пользователь уже существует"})
     }
     if(!username) username = email
     const salt = await bcrypt.genSalt()
@@ -40,7 +33,7 @@ const registerController = async(req, res) => {
     const savedUser = await newUser.save()
     res.json(savedUser)
   } catch (err) {
-    res.status(500).json({error: err.message})
+    res.status(500).json({error: err})
   }
 }
 
