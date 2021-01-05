@@ -1,4 +1,5 @@
 import React from "react"
+import Register from "../modal/Register";
 
 const Header = () => {
   return(
@@ -23,11 +24,8 @@ const Header = () => {
             <div className="header-phone"><a href="tel:7 (985) 766-49-62">7 (985) 766-49-62</a>
             </div>
             <div className="header-account">
-                <a href='/auth/account' className="header-account__top">
-                  <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png"
-                       alt=""/>
-                  <span>Личный кабинет</span>
-                </a>
+              <Register/>
+
             </div>
           </div>
         </div>
