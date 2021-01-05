@@ -1,21 +1,20 @@
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
-const auth = async(req,res,next) => {
+const auth = async(req, res, next) => {
   try{
     const token = req.header('x-auth-token')
-    if(!token)
+    if(!token){
       return res
-        .status(401)
+        .status(404)
         .json({msg: "Доступ запрещен, отсуствует токен"})
-
-
-    const verified = jwt.verify(token, config.get('JWT_SECRET'))
-    if(!verified)
+    }
+    const verified = jwt.verify(token, config.get("JWT_SECRET"))
+    if(!verified){
       return res
-        .status(401)
+        .status(404)
         .json({msg: "Невалидный токен, доступ запрещен"})
-
+    }
     req.user = verified.id
     next()
   } catch (err) {
@@ -24,6 +23,5 @@ const auth = async(req,res,next) => {
       .json({error: err.message})
   }
 }
-
 
 module.exports = auth

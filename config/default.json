@@ -1,8 +1,5 @@
 {
   "mongoURI": "mongodb+srv://admin:adminpass@cluster0.jorhd.mongodb.net/Bamboobar",
   "port" : "5000",
-  "JWT_SECRET" : "]x_w%n.^kGC(/]M5A6:+xyV{v^jy?vq?%?sHQ{$(>uQ7,E5B",
-  "data_url": "https://cleaner.dadata.ru/api/v1/clean/address",
-  "data_token": "4dd4323957a199160f7016811d6af24ce946a112",
-  "data_secret": "9d79013b472e2238d871964d1afaa58512ab148b"
+  "JWT_SECRET" : "]x_w%n.^kGC(/]M5A6:+xyV{v^jy?vq?%?sHQ{$(>uQ7,E5B"
 }

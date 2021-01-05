@@ -28,18 +28,6 @@ const Header = () => {
                        alt=""/>
                   <span>Личный кабинет</span>
                 </a>
-
-            </div>
-            <div className="header-languages">
-              <ul>
-                <li className="active"><a href="#">RU</a>
-                </li>
-              </ul>
-            </div>
-            <div id="header-burger" className="header-burger">
-              <button className="hamburger hamburger--collapse"><span className="hamburger-box"><span
-                className="hamburger-inner"></span></span>
-              </button>
             </div>
           </div>
         </div>

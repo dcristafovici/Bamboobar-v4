@@ -1,18 +1,11 @@
-const {
-  registerController,
-  authController,
-  deleteController,
-  tokenIsValid,
-  getUser
-} = require('../controller/auth.controller')
-const { Router } = require('express')
+const {registerController, loginController, checkToken, getUser} = require('../controller/auth.controller')
 const auth = require('../middleware/auth')
+const { Router } = require('express')
 const router = Router()
 
 
-router.post('/register', registerController)
-router.post('/login', authController)
-router.delete('/delete', auth, deleteController)
-router.post('/tokenIsValid', tokenIsValid)
-router.get('/', auth, getUser)
+router.post('/register/', registerController)
+router.post('/login/', loginController)
+router.post('/check/', checkToken)
+router.get('/get/', auth, getUser)
 module.exports = router

@@ -3,49 +3,31 @@ import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
 import axios from "axios"
-import {connect} from "react-redux"
-import {setUserData} from "./redux/actions/authAction";
-import {clearUserData} from "./redux/actions/authAction";
-import Account from "./pages/Account";
 import './App.css';
 
+const App = () => {
+  useEffect(() => {
 
-
-const App = ({setUserData, auth, clearUserData}) => {
-
-  useEffect(()=> {
     const checkLoggedIn = async() => {
       let token = localStorage.getItem('auth-token')
-      if(token === null){
-        localStorage.setItem('auth-token', '')
-        token = ""
-      }
-      const tokenRes = await axios.post(
-        '/api/auth/tokenIsValid',
+      const tokenResponse = await axios.post(
+        '/api/auth/check',
         null,
         {headers: {'x-auth-token': token}}
       )
-      if(tokenRes.data){
-        const userRes = await axios.get(
-          '/api/auth/',
-          {headers : {'x-auth-token' : token}}
+      if(tokenResponse.data){
+        const user = await axios.get(
+          '/api/auth/get',
+          {headers: {'x-auth-token': token}}
         )
-        setUserData(token, userRes.data)
+        localStorage.setItem('user', JSON.stringify(user.data))
       }
-    };
+    }
 
     checkLoggedIn()
 
   }, [])
-
-  const logOut = (event) => {
-    event.preventDefault()
-    clearUserData()
-    localStorage.setItem('auth-token', '')
-  }
   return(
     <Router>
         <div>
@@ -54,46 +36,18 @@ const App = ({setUserData, auth, clearUserData}) => {
               <li>
                 <Link to='/'>Home</Link>
               </li>
-              {auth.user ? (
-                <li>
-                  <a href="#" onClick={logOut}>Log out</a>
-                </li>
-              ) : (
-                <>
-                  <li>
-                    <Link to="/auth/login">Login</Link>
-                  </li>
-                  <li>
-                    <Link to="auth/register">Register</Link>
-                  </li>
-                </>
-              )}
             </ul>
           </nav>
-
           <Switch>
-            <Route path="/account/">
-              <Account />
-            </Route>
             <Route path="/product/create">
               <CreateProduct />
             </Route>
             <Route path="/category/create">
               <CreateCategory />
             </Route>
-            <Route path="/auth/login">
-              <Login/>
-            </Route>
-            <Route path="/auth/register">
-              <Register/>
-            </Route>
-            <Route path="/auth/account">
-              <Account/>
-            </Route>
             <Route path="/">
               <Home />
             </Route>
-
           </Switch>
         </div>
     </Router>
@@ -101,19 +55,4 @@ const App = ({setUserData, auth, clearUserData}) => {
 }
 
 
-const mapStateToProps = (state) =>{
-  return{
-    auth: state.authReducer
-  }
-}
-
-const mapDispatchToProps = (dispatch) =>{
-  return{
-    setUserData: (token, user) => dispatch(setUserData(token, user)),
-    clearUserData: () => dispatch(clearUserData())
-  }
-}
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

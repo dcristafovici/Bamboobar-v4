@@ -3055,6 +3055,10 @@ main.bamboobar-main{
   border-radius: 10px;
 }
 
+.banner{
+  margin-top: 20px;
+}
+
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

@@ -2,135 +2,129 @@ const User = require('../models/auth.models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
-
-const registerController = async (req, res) => {
+const registerController = async(req, res) => {
   try{
-    let {email, password, passwordCheck, displayName, phone} = req.body
-
-    //  Validate
-    if(!email || !password || !passwordCheck)
+    let {email, password, passwordCheck,  phone, username, address} = req.body
+    if(!email || !password || !passwordCheck || !phone){
       return res
-        .status(400)
-        .json({msg: "Не все поля заполнены."})
-    if(password.length < 5)
+        .status(404)
+        .json({msg: "Заполните пожалуйста обязательные поля"})
+    }
+    if(password.length < 5){
       return res
-        .status(400)
-        .json({msg: "Пароль имеет меньше 5 символов"})
-
-    if(password !== passwordCheck)
+        .status(404)
+        .json({msg: "Пароль должен иметь больше 5 символов"})
+    }
+    if(passwordCheck !== password){
       return res
-        .status(400)
+        .status(404)
         .json({msg: "Пароли не совпадают"})
-
+    }
     const existingUser = await User.findOne({email: email})
-    if(existingUser)
+    if(existingUser){
       return res
-        .status(400)
+        .status(404)
         .json({msg: "Такой пользователь уже существует"})
-
-    if(!displayName) displayName = email
+    }
+    if(!username) username = email
     const salt = await bcrypt.genSalt()
     const passwordHash = await bcrypt.hash(password, salt)
 
     const newUser = new User({
-      email,
+      email: email,
       password: passwordHash,
-      displayName,
-      phone
+      phone,
+      username,
+      address
     })
     const savedUser = await newUser.save()
     res.json(savedUser)
   } catch (err) {
     res.status(500).json({error: err.message})
   }
-
 }
-const authController = async(req, res) => {
+
+
+const loginController = async(req, res) => {
   try{
     const {email, password} = req.body
-
-    // Validate
-    if(!email || !password)
+    if(!email || !password){
       return res
-        .status(400)
-        .json({msg: 'Не все поля заполнены.'})
-
+        .status(404)
+        .json({msg: "Заполните пожалуйста обязательные поля"})
+    }
     const user = await User.findOne({email: email})
-    if(!user)
+    if(!user){
       return res
-        .status(400)
-        .json({msg: "Пользователь не найден"})
+        .status(404)
+        .json({msg: "Такой пользователь не существует"})
+    }
 
-    const isMatch = await bcrypt.compare(password, user.password)
-    if(!isMatch)
+    const isMatch = bcrypt.compare(password, user.password)
+    if(!isMatch){
       return res
-        .status(400)
+        .status(404)
         .json({msg: "Неправильные данные для входа"})
-
+    }
     const token = jwt.sign({id: user._id}, config.get('JWT_SECRET'))
     res.json({
       token: token,
       user: {
         id: user._id,
-        displayName: user.displayName,
-        email : user.email
+        email: user.email,
+        username: user.username,
+        phone: user.phone,
+        address: user.address,
       }
     })
+
   } catch (err) {
     res.status(500).json({error: err.message})
   }
 }
 
 
-const deleteController = async(req, res) => {
-  try {
-    const deletedUser = await User.findByIdAndDelete(req.user)
-    res.json(deletedUser)
-  } catch (err) {
-    res.status(500).json({error: err.message})
-  }
-}
-
-
-const tokenIsValid = async(req, res) => {
-  try {
+const checkToken = async(req, res) => {
+  try{
     const token = req.header('x-auth-token')
-    if(!token)
-        return res.json(false)
+    if(!token){
+      return res.json(false)
+    }
     const verified = jwt.verify(token, config.get('JWT_SECRET'))
-    if(!verified) return res.json(false)
+    if(!verified){
+      return res.json(false)
+    }
 
     const user = await User.findById(verified.id)
-    if(!user) return res.json(false)
-
+    if(!user){
+      return res.json(false)
+    }
     return res.json(true)
 
-  } catch (err) {
-    res.status(500).json({error : err.message})
+  }catch (err) {
+    res.status(500).json({error: err.message})
   }
 }
+
 
 const getUser = async(req, res) => {
   try{
     const user = await User.findById(req.user)
     res.json({
-      displayName: user.displayName,
       id: user._id,
+      username: user.username,
+      phone: user.phone,
       email: user.email,
-      phone: user.phone
+      address: user.address,
     })
-  } catch (error) {
-    res.json({msg: error.message})
+  } catch (err) {
+    res.status(500).json({error: err.message})
   }
 }
 
-
 module.exports = {
   registerController,
-  authController,
-  deleteController,
-  tokenIsValid,
+  loginController,
+  checkToken,
   getUser
 }
-
-
