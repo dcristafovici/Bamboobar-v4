@@ -23,7 +23,6 @@ const Login = () => {
     let errorsLocal = {}
     setValid(true)
 
-
     // Validate Email
     if(data['email'] == ''){
       setValid(false)
@@ -36,13 +35,11 @@ const Login = () => {
         errorsLocal['email'] = "Укажите правильно адресс электронной почты"
       }
     }
-
     // Validate Password
     if(data['password'] == ''){
       setValid(false);
       errorsLocal['password'] = 'Пароль обязателен'
     }
-
     setErrors(errorsLocal)
 
 
@@ -57,8 +54,8 @@ const Login = () => {
         data
       )
       localStorage.setItem('auth-token', response.data.token)
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      setErrors(error.response.data)
     }
   }
 

@@ -37,23 +37,18 @@ const registerController = async(req, res) => {
 const loginController = async(req, res) => {
   try{
     const {email, password} = req.body
-    if(!email || !password){
-      return res
-        .status(404)
-        .json({msg: "Заполните пожалуйста обязательные поля"})
-    }
     const user = await User.findOne({email: email})
     if(!user){
       return res
-        .status(404)
-        .json({msg: "Такой пользователь не существует"})
+        .status(401)
+        .json({email: "Такой пользователь не существует"})
     }
-
-    const isMatch = bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
+    console.log(isMatch)
     if(!isMatch){
       return res
         .status(404)
-        .json({msg: "Неправильные данные для входа"})
+        .json({password: "Неправильные данные для входа"})
     }
     const token = jwt.sign({id: user._id}, config.get('JWT_SECRET'))
     res.json({
@@ -76,20 +71,18 @@ const loginController = async(req, res) => {
 const checkToken = async(req, res) => {
   try{
     const token = req.header('x-auth-token')
-    if(!token){
+    if(!token || token == 'null'){
       return res.json(false)
     }
     const verified = jwt.verify(token, config.get('JWT_SECRET'))
     if(!verified){
       return res.json(false)
     }
-
     const user = await User.findById(verified.id)
     if(!user){
       return res.json(false)
     }
     return res.json(true)
-
   }catch (err) {
     res.status(500).json({error: err.message})
   }
@@ -111,9 +104,10 @@ const getUser = async(req, res) => {
   }
 }
 
+
 module.exports = {
   registerController,
   loginController,
   checkToken,
-  getUser
+  getUser,
 }

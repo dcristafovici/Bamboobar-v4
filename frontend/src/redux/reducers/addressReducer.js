@@ -6,7 +6,7 @@ const initialState = {
   distance: addressInitial.address.distance || null,
   moscowCity: addressInitial.address.moscowCity || false,
   minPrice: addressInitial.address.minPrice || null,
-  notDelivery: addressInitial.address.notDelivery || false,
+  notDelivery: addressInitial.address.notDelivery || true,
 }
 export default function addressReducer(state = initialState, action) {
   switch (action.type) {

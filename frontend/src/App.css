@@ -2319,7 +2319,9 @@ input,select,textarea{
 }
 
 .aside{
-  height: calc(100vh - 70px)
+  height: calc(100vh);
+  position: sticky;
+  top: 0;
 }
 
 .aside-items{
@@ -3040,9 +3042,7 @@ nav.menu-nav li.item-more.active > a::after{
 form.checkout{
   width: 100%;
 }
-main.bamboobar-main{
-  overflow: hidden;
-}
+
 .banner-find > .form-group > div:first-child{
   display: none !important;
 }

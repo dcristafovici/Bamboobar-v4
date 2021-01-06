@@ -12,19 +12,20 @@ const App = ({setUserData}) => {
   useEffect(() => {
 
     const checkLoggedIn = async() => {
-      let token = localStorage.getItem('auth-token')
+      let token = '';
+      token = localStorage.getItem('auth-token')
       const tokenResponse = await axios.post(
         '/api/auth/check',
         null,
         {headers: {'x-auth-token': token}}
       )
+
       if(tokenResponse.data){
         const user = await axios.get(
           '/api/auth/get',
           {headers: {'x-auth-token': token}}
         )
         setUserData(user.data)
-
       }
     }
 
