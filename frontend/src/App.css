@@ -3090,6 +3090,20 @@ main.bamboobar-main{
 .register-form button{
   height: 45px;
 }
+.button.disabled{
+  background: #999999;
+  pointer-events: none;
+}
+.form-error{
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  top: calc(100% + 5px);
+  color: red;
+}
+.register-form .form-group{
+  margin-bottom: 30px;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

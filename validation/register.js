@@ -30,6 +30,11 @@ module.exports = function validateRegiterInput(data) {
     errors.password = 'Пароль должен иметь длину от 6 до 25 символов'
   }
 
+  //Phone
+  if(Validator.isEmpty(data.phone)){
+    errors.phone = 'Укажите номер телефона'
+  }
+
   //  passwordCheck
   if(Validator.isEmpty(data.passwordCheck)){
     errors.passwordCheck = 'Подтвердите пароль'

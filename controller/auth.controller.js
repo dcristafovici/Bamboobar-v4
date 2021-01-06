@@ -6,7 +6,7 @@ const validateRegisterInput = require('../validation/register')
 
 const registerController = async(req, res) => {
   try{
-    let {email, password, passwordCheck,  phone, username, address} = req.body
+    let {email, password,  phone, username, address} = req.body
     const {errors, isValid} = validateRegisterInput(req.body)
     if(!isValid){
      return res.status(404).json(errors)

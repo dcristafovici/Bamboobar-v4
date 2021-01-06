@@ -28,7 +28,8 @@ export default function addressReducer(state = initialState, action) {
           address: '',
           distance: null,
           moscowCity: false,
-          minPrice: null
+          minPrice: null,
+          notDelivery: true
         }
       }
        return {
