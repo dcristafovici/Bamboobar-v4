@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import { YMaps, Map } from "react-yandex-maps";
 import {connect} from 'react-redux'
-import {clearUserAddress, setUserAddress} from "../../redux/actions/addressReducer"
+import {clearUserAddress, setUserAddress} from "../../redux/actions/addressAction"
 
 
 const Find = ({setUserAddress , addressState, clearUserAddress}) => {

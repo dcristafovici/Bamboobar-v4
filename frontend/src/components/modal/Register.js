@@ -102,45 +102,45 @@ const Register = () => {
   return(
     <Popup trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Регистрация</span> </div>} modal>
       <div className="register-form">
-        <h2>Регистрация</h2>
-        <form className="form">
-          <div className="form-group">
-            <label>E-mail*</label>
-            <input type="email" onChange={onChangeHandler} defaultValue={data.email} name="email"/>
-            <div className="form-error">{errors.email}</div>
-          </div>
-          <div className="form-group">
-            <label>Пароль*</label>
-            <input type="password" onChange={onChangeHandler}  defaultValue={data.password} name="password"/>
-            <div className="form-error">{errors.password}</div>
-          </div>
-          <div className="form-group">
-            <label>Повторите пароль*</label>
-            <input type="password" onChange={onChangeHandler}  defaultValue={data.passwordCheck} name="passwordCheck"/>
-            <div className="form-error">{errors.passwordCheck}</div>
-          </div>
-          <div className="form-group">
-            <label>Телефон</label>
-            <input type="tel" onChange={onChangeHandler}  defaultValue={data.phone} name="phone"/>
-            <div className="form-error">{errors.phone}</div>
-          </div>
-          <div className="form-group">
-            <label>Имя</label>
-            <input type="text" onChange={onChangeHandler} defaultValue={data.username} name="username"/>
+      <h2>Регистрация</h2>
+      <form className="form">
+        <div className="form-group">
+          <label>E-mail*</label>
+          <input type="email" onChange={onChangeHandler} defaultValue={data.email} name="email"/>
+          <div className="form-error">{errors.email}</div>
+        </div>
+        <div className="form-group">
+          <label>Пароль*</label>
+          <input type="password" onChange={onChangeHandler}  defaultValue={data.password} name="password"/>
+          <div className="form-error">{errors.password}</div>
+        </div>
+        <div className="form-group">
+          <label>Повторите пароль*</label>
+          <input type="password" onChange={onChangeHandler}  defaultValue={data.passwordCheck} name="passwordCheck"/>
+          <div className="form-error">{errors.passwordCheck}</div>
+        </div>
+        <div className="form-group">
+          <label>Телефон</label>
+          <input type="tel" onChange={onChangeHandler}  defaultValue={data.phone} name="phone"/>
+          <div className="form-error">{errors.phone}</div>
+        </div>
+        <div className="form-group">
+          <label>Имя</label>
+          <input type="text" onChange={onChangeHandler} defaultValue={data.username} name="username"/>
 
-          </div>
-          <div className="form-group">
-            <label>Адрес</label>
-            <input type="text" onChange={onChangeHandler}  defaultValue={data.address} name="address"/>
+        </div>
+        <div className="form-group">
+          <label>Адрес</label>
+          <input type="text" onChange={onChangeHandler}  defaultValue={data.address} name="address"/>
 
-          </div>
-          <div className="form-group">
-            <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
-              <span>Регистрация</span>
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div className="form-group">
+          <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
+            <span>Регистрация</span>
+          </button>
+        </div>
+      </form>
+    </div>
     </Popup>
   )
 }

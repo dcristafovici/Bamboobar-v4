@@ -1,7 +1,10 @@
 import React from "react"
 import Register from "../modal/Register";
+import Login from "../modal/Login";
+import {connect} from "react-redux";
+import {clearUserData} from "../../redux/actions/authAction";
 
-const Header = () => {
+const Header = ({user, clearUserData}) => {
   return(
       <header className="header">
         <div className="content">
@@ -24,8 +27,17 @@ const Header = () => {
             <div className="header-phone"><a href="tel:7 (985) 766-49-62">7 (985) 766-49-62</a>
             </div>
             <div className="header-account">
-              <Register/>
-
+              {user ? (
+                <React.Fragment>
+                <span>Личный кабинет</span>
+                <span onClick={() => clearUserData()}>Выйти</span>
+                </React.Fragment>
+                ) : (
+                <React.Fragment>
+                  <Register/>
+                  <Login/>
+                </React.Fragment>
+                )}
             </div>
           </div>
         </div>
@@ -33,4 +45,17 @@ const Header = () => {
   )
 }
 
-export default Header
+const mapStateToProps = (state) => {
+  return{
+    user: state.authReducer.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    clearUserData : () => dispatch(clearUserData())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

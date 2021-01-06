@@ -3,10 +3,12 @@ import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
+import {setUserData} from "./redux/actions/authAction";
 import axios from "axios"
+import {connect} from "react-redux";
 import './App.css';
 
-const App = () => {
+const App = ({setUserData}) => {
   useEffect(() => {
 
     const checkLoggedIn = async() => {
@@ -21,7 +23,8 @@ const App = () => {
           '/api/auth/get',
           {headers: {'x-auth-token': token}}
         )
-        localStorage.setItem('user', JSON.stringify(user.data))
+        setUserData(user.data)
+
       }
     }
 
@@ -54,5 +57,15 @@ const App = () => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return{
 
-export default App
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return{
+    setUserData: (user) => dispatch(setUserData(user))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

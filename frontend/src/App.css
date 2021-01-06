@@ -3104,6 +3104,9 @@ main.bamboobar-main{
 .register-form .form-group{
   margin-bottom: 30px;
 }
+.register-form .form-group:last-child{
+  margin-bottom: 0;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

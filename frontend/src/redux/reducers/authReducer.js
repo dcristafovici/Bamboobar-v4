@@ -1,7 +1,6 @@
 import {SET_USER_DATA, CLEAR_USER_DATA} from "../actions/actions-types/auth-actions"
 const initialState = {
-  token: undefined,
-  user: undefined
+  user: null
 }
 
 export default function authReducer(state = initialState, action) {
@@ -9,14 +8,13 @@ export default function authReducer(state = initialState, action) {
     case SET_USER_DATA:
       return{
         ...state,
-        token: action.payload.token,
         user: action.payload.user
       }
     case CLEAR_USER_DATA:
+      localStorage.removeItem('auth-token')
       return {
         ...state,
-        token: undefined,
-        user: undefined
+        user: null
       }
     default:
       return state
