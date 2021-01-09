@@ -39,7 +39,7 @@ const Find = ({setUserAddress , addressState, clearUserAddress}) => {
             defaultState={{ center: [55.751574, 37.573856],  zoom: 9 }}
             modules={["SuggestView", "geocode", "coordSystem.geo"]}
           />
-          <input type="text" id='suggest' defaultValue={addressState.address || ''}  />
+          <input type="text" id='suggest' placeholder='Указать адрес' defaultValue={addressState.address || ''}  />
         </YMaps>
         <div className="form-group__clear" onClick={() => clearUserAddress()}>
           <span>Изменить</span>

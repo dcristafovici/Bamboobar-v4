@@ -2498,9 +2498,7 @@ nav.menu-nav li.item-more.active > a::after{
   flex-direction: column;
   justify-content: space-between;
 }
-.aside .aside-delivery__address{
-  display: none;
-}
+
 .aside.aside-address .aside-delivery__address{
   display: none;
 }

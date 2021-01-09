@@ -26,10 +26,11 @@ const CatalogItem = ({categoryId, addToCart, address}) => {
         <div
               className="catalog-item"
              onClick={() => {
-              if(address.notDelivery){
-                console.log('Not delivery')
+              if(address.delivery){
+                addToCart(product)
               } else{
-                addToCart(product)}
+                console.log('Not delivery')
+              }
               }
              }
              key={index}

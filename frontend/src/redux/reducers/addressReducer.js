@@ -6,14 +6,14 @@ const initialState = {
   distance: addressInitial.address.distance || null,
   moscowCity: addressInitial.address.moscowCity || false,
   minPrice: addressInitial.address.minPrice || null,
-  notDelivery: addressInitial.address.notDelivery || true,
+  delivery: addressInitial.address.delivery || false,
 }
 export default function addressReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER_ADDRESS:
       let minPrice = 0;
       let moscowCity=  false
-      let notDelivery = false
+      let delivery = true
       if(action.payload.distance < 0.6){
         minPrice = 1500
         moscowCity = true
@@ -22,30 +22,31 @@ export default function addressReducer(state = initialState, action) {
       } else if(action.payload.distance < 30){
         minPrice= 10000
       } else{
-        notDelivery = true
+        delivery = false
         return {
           ...state,
           address: '',
           distance: null,
           moscowCity: false,
           minPrice: null,
-          notDelivery: true
+          delivery
         }
       }
-       return {
+
+      return {
         ...state,
         address: action.payload.address,
         distance: action.payload.distance,
         minPrice,
         moscowCity,
-        notDelivery,
+        delivery
       }
     case CLEAR_USER_ADDRESS :
       return{
         ...state,
         address: '',
         distance: null,
-        notDelivery: true,
+        delivery: false,
         moscowCity: false,
         minPrice: null
       }
