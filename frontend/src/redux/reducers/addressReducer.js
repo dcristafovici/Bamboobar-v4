@@ -1,4 +1,4 @@
-import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS} from "../actions/actions-types/address-reducer"
+import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "../actions/actions-types/address-reducer"
 import {loadState} from '../../localStorage'
 const addressInitial = loadState()
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
   moscowCity: addressInitial.address.moscowCity || false,
   minPrice: addressInitial.address.minPrice || null,
   delivery: addressInitial.address.delivery || false,
+  popup: false
 }
 export default function addressReducer(state = initialState, action) {
   switch (action.type) {
@@ -29,7 +30,8 @@ export default function addressReducer(state = initialState, action) {
           distance: null,
           moscowCity: false,
           minPrice: null,
-          delivery
+          delivery,
+          popup: true
         }
       }
 
@@ -50,6 +52,12 @@ export default function addressReducer(state = initialState, action) {
         moscowCity: false,
         minPrice: null
       }
+    case TOGGLE_POPUP:
+      return {
+        ...state,
+        popup: !state.popup
+      }
+
     default:
       return state
   }

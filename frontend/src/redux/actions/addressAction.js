@@ -1,4 +1,4 @@
-import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS} from "./actions-types/address-reducer"
+import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "./actions-types/address-reducer"
 export function setUserAddress(address, distance) {
   return{
     type: SET_USER_ADDRESS,
@@ -18,3 +18,11 @@ export function clearUserAddress() {
     }
   }
 }
+
+export function togglePopup() {
+  return{
+    type: TOGGLE_POPUP,
+  }
+}
+
+

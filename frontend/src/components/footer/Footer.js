@@ -1,7 +1,9 @@
 import React from "react"
+import NotDelivery from "../modal/NotDelivery";
 const Footer = () => {
   return(
     <React.Fragment>
+    <NotDelivery/>
     <section className="footer">
       <div className="content">
         <div className="footer-wrapper">
@@ -127,15 +129,6 @@ const Footer = () => {
       </div>
 
 
-      <div className="bamboo-error" id="bamboo-error">
-        <h2>Укажите ваш адрес</h2>
-        <p>Укажите адрес доставки, в приделах МКАД</p>
-        <div className="button"><span>Указать адрес</span></div>
-      </div>
-
-      <div className="bamboo-error" id="toofar">
-        <h2>Укажите адрес доставки, в приделах МКАД</h2>
-      </div>
     </React.Fragment>
   )
 }

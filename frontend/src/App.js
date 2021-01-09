@@ -4,9 +4,12 @@ import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
 import Account from "./pages/Account";
+
 import {setUserData} from "./redux/actions/authAction";
+
 import axios from "axios"
 import {connect} from "react-redux";
+
 import './App.css';
 
 const App = ({setUserData}) => {
@@ -33,34 +36,39 @@ const App = ({setUserData}) => {
     checkLoggedIn()
 
   }, [])
+
+
+
+
+
   return(
-    <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to='/'>Home</Link>
-              </li>
+      <Router>
+          <div>
+            <nav>
+              <ul>
+                <li>
+                  <Link to='/'>Home</Link>
+                </li>
 
-            </ul>
-          </nav>
-          <Switch>
-            <Route path="/product/create">
-              <CreateProduct />
-            </Route>
-            <Route path="/category/create">
-              <CreateCategory />
-            </Route>
-            <Route path='/account'>
-              <Account/>
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
+              </ul>
+            </nav>
+            <Switch>
+              <Route path="/product/create">
+                <CreateProduct />
+              </Route>
+              <Route path="/category/create">
+                <CreateCategory />
+              </Route>
+              <Route path='/account'>
+                <Account/>
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
 
-          </Switch>
-        </div>
-    </Router>
+            </Switch>
+          </div>
+      </Router>
   )
 }
 

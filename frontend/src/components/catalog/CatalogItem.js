@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useContext} from "react"
 import {connect} from "react-redux"
 import axios from "axios";
 import {addToCart} from "../../redux/actions/asideAction";
+import {togglePopup} from "../../redux/actions/addressAction";
 
 
-const CatalogItem = ({categoryId, addToCart, address}) => {
+const CatalogItem = ({categoryId, addToCart, address, togglePopup}) => {
   const [data, updateData] = useState([]);
-
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get('/api/product/findById/' + categoryId)
@@ -29,7 +29,7 @@ const CatalogItem = ({categoryId, addToCart, address}) => {
               if(address.delivery){
                 addToCart(product)
               } else{
-                console.log('Not delivery')
+                togglePopup()
               }
               }
              }
@@ -69,7 +69,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    addToCart: (product) => dispatch(addToCart(product))
+    addToCart: (product) => dispatch(addToCart(product)),
+    togglePopup: () => dispatch(togglePopup())
   }
 }
 
