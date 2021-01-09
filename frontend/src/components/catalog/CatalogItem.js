@@ -4,8 +4,9 @@ import axios from "axios";
 import {addToCart} from "../../redux/actions/asideAction";
 
 
-const CatalogItem = ({categoryId, addToCart}) => {
+const CatalogItem = ({categoryId, addToCart, address}) => {
   const [data, updateData] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get('/api/product/findById/' + categoryId)
@@ -15,13 +16,24 @@ const CatalogItem = ({categoryId, addToCart}) => {
     getData()
   }, [])
 
+
   return(
     <React.Fragment>
     {data.map((product, index) => {
       let productImage = product.productImage
       productImage = "http://localhost:5000/" + productImage
       return(
-        <div className="catalog-item" onClick={() => addToCart(product)}  key={index} data-id={product._id}>
+        <div
+              className="catalog-item"
+             onClick={() => {
+              if(address.notDelivery){
+                console.log('Not delivery')
+              } else{
+                addToCart(product)}
+              }
+             }
+             key={index}
+             data-id={product._id}>
           <div className="catalog-item__top">
             <h4>{product.name}</h4>
             <span><span className="woocommerce-Price-amount amount"><bdi>{product.price}<span
@@ -49,7 +61,8 @@ const CatalogItem = ({categoryId, addToCart}) => {
 
 const mapStateToProps = (state) => {
   return{
-    products: state.asideReducer.products
+    products: state.asideReducer.products,
+    address: state.addressReducer
   }
 }
 

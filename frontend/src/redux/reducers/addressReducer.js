@@ -44,7 +44,10 @@ export default function addressReducer(state = initialState, action) {
       return{
         ...state,
         address: '',
-        distance: null
+        distance: null,
+        notDelivery: true,
+        moscowCity: false,
+        minPrice: null
       }
     default:
       return state

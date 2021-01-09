@@ -41,7 +41,7 @@ class Aside extends Component{
                 </div>
               </div>
               <div className="aside-item__right">
-                <span><span className="woocommerce-Price-amount amount"><bdi>{item.priceGroup}₽</bdi></span></span><span>{item.product.weight} г</span>
+                <span><span className="amount"><bdi>{item.priceGroup}₽</bdi></span></span><span>{item.product.weight} г</span>
               </div>
             </div>
           ))}
@@ -73,7 +73,7 @@ class Aside extends Component{
           </div>
         </div>
         <div className="aside-delivery__button">
-          <Modal cart={this.props.cart}/>
+          <Modal cart={this.props.cart} totalPrice={totalPrice} />
           <a href="#banner" className="aside-delivery__address button button-checkout">
             <span>Указать адресс</span>
           </a>
@@ -87,6 +87,7 @@ const mapStateToProps = (state) => {
   return{
     cart: state.asideReducer.cart,
     minPrice: state.addressReducer.minPrice,
+    address: state.addressReducer
   }
 }
 

@@ -2,6 +2,7 @@ import React from "react"
 import Register from "../modal/Register";
 import Login from "../modal/Login";
 import {connect} from "react-redux";
+import { Link } from 'react-router-dom'
 import {clearUserData} from "../../redux/actions/authAction";
 
 const Header = ({user, clearUserData}) => {
@@ -29,7 +30,7 @@ const Header = ({user, clearUserData}) => {
             <div className="header-account">
               {user ? (
                 <React.Fragment>
-                <span>Личный кабинет</span>
+                <Link to="/account">Личный кабинет</Link>
                 <span onClick={() => clearUserData()}>Выйти</span>
                 </React.Fragment>
                 ) : (

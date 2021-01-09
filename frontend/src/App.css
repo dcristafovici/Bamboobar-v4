@@ -1184,6 +1184,7 @@ h4 {
   top: 0;
   border-radius: 1.7px;
   width: 0%;
+  max-width: 100%;
   background: #115d5d;
   transition: all .3s ease-in-out;
   height: 100%;
@@ -3106,6 +3107,29 @@ form.checkout{
 }
 .register-form .form-group:last-child{
   margin-bottom: 0;
+}
+
+.account-item__vertical{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 44px);
+}
+
+.checkout h2{
+  text-align: center;
+  margin-bottom: 30px;
+}
+.checkout label{
+  display: block;
+  color: #115D5D;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.checkout textarea{
+  height: 150px;
+  box-sizing: border-box;
 }
 @media screen and (max-width: 1200px) {
   .content {

@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import axios from "axios"
 import {connect} from "react-redux"
 
-const Modal = ({cart, user, address}) => {
+const Modal = ({cart, user, address, totalPrice}) => {
   const [order, setOrder] = useState({
     products: []
   })
@@ -27,72 +27,49 @@ const Modal = ({cart, user, address}) => {
   return(
   <Popup trigger={<a className="button button-checkout"> <span>Оформить заказ</span> </a>} modal>
     <div id="checkout">
-      <div className="woocommerce">
-        <div className="woocommerce-notices-wrapper"></div>
-        <div className="woocommerce-notices-wrapper"></div>
-        <form name="checkout" method="post" className="checkout woocommerce-checkout" encType="multipart/form-data"
-              noValidate="novalidate">
-          <div className="col2-set" id="customer_details">
-            <div className="col-1">
-              <div className="woocommerce-billing-fields">
-                <h3>Детали оплаты</h3>
-                <div className="woocommerce-billing-fields__field-wrapper">
-                  <p className="form-row form-row-first" id="billing_first_name_field" data-priority="10">
-                    <label htmlFor="billing_first_name">Имя</label>
-                    <input type="text" className="input-text" onChange={onChangeHandler} name="customer_name" defaultValue={user != undefined ? user.displayName : "Не указан"} id="billing_first_name"/>
-                  </p>
-                  <p
-                    className="form-row"
-                    id="billing_email_field">
-                    <label htmlFor="billing_email">Email</label>
-                    <input type="email" className="input-text" onChange={onChangeHandler} name="customer_email" defaultValue={user != undefined ? user.email : "Не указан"} id="billing_email"/>
-                  </p>
-                  <p className="form-row "
-                     id="billing_phone_field">
-                    <label htmlFor="billing_phone">Телефон</label>
-                    <input type="tel" className="input-text" onChange={onChangeHandler} name="customer_phone" defaultValue={user != undefined ? user.phone : "Не указан"} id="billing_phone" />
-                  </p>
-                  <p className="form-row " id="billing_address_1_field">
-                    <label htmlFor="billing_address_1">Адрес</label>
-                    <input type="text" className="input-text" onChange={onChangeHandler} defaultValue={address} name="address" id="billing_address_1"/>
-                  </p>
-                  <p className="form-row" id="billing_addresstwo_field">
-                    <label htmlFor="billing_addresstwo">Подъезд/ квартира/</label>
-                    <input type="text" className="input-text" name="street" onChange={onChangeHandler} id="billing_addresstwo"/>
-                  </p>
-                  <p className="form-row form-row-wide" id="billing_date_field"><label
-                    htmlFor="billing_date">Дата</label>
-                    <input type="text" className="input-text" onChange={onChangeHandler} name="deliveryDate" id="billing_date"/>
-                  </p>
-                  <p className="form-row form-row-wide form-row-time" id="billing_time_field"><label
-                    htmlFor="billing_time">Время</label>
-                    <input type="text" className="input-text" onChange={onChangeHandler} name="deliveryTime"
-                           id="billing_time"/>
-                  </p>
-                  <p className="form-row form-row-wide" id="billing_cutlery_field">
-                    <label htmlFor="billing_cutlery">Приборы<span className="optional">(необязательно)</span></label>
-                    <input type="text" className="input-text" name="billing_cutlery" id="billing_cutlery"/>
-                  </p>
-
-                </div>
-              </div>
-            </div>
-            <div className="col-2">
-              <div className="woocommerce-shipping-fields">
-              </div>
-              <div className="woocommerce-additional-fields">
-                <h3>Детали</h3>
-                <div className="woocommerce-additional-fields__field-wrapper">
-                  <p className="form-row notes area" id="order_comments_field" data-priority="">
-                    <label htmlFor="order_comments">Примечание к заказу<span className="optional">(необязательно)</span></label>
-                    <textarea name="order_comments" className="input-text" name="additional" onChange={onChangeHandler} id="order_comments"></textarea>
-                  </p>
-                </div>
-              </div>
-            </div>
+      <form name="checkout" method="post" className="checkout">
+        <h2>Детали оплаты</h2>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="billing_first_name">Имя</label>
+            <input type="text" className="input-text" onChange={onChangeHandler} name="customer_name" defaultValue={user != undefined ? user.username : ""} />
           </div>
-        </form>
-      </div>
+          <div className="form-group">
+            <label htmlFor="billing_email">Email</label>
+            <input type="email" className="input-text" onChange={onChangeHandler} name="customer_email" defaultValue={user != undefined ? user.email : ""}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="billing_phone">Телефон</label>
+            <input type="tel" className="input-text" onChange={onChangeHandler} name="customer_phone" defaultValue={user != undefined ? user.phone : ""}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="billing_address_1">Адрес</label>
+            <input type="text" className="input-text" onChange={onChangeHandler} defaultValue={address} name="address" id="billing_address_1"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="billing_addresstwo">Подъезд/ квартира/</label>
+            <input type="text" className="input-text" name="street" onChange={onChangeHandler} id="billing_addresstwo"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="billing_date">Дата</label>
+            <input type="text" className="input-text" onChange={onChangeHandler} name="deliveryDate" id="billing_date"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="billing_time">Время</label>
+            <input type="text" className="input-text" onChange={onChangeHandler} name="deliveryTime" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="billing_cutlery">Приборы<span className="optional">(необязательно)</span></label>
+            <input type="text" className="input-text" name="billing_cutlery" id="billing_cutlery"/>
+          </div>
+        </div>
+        <div className="form-collection">
+          <div className="form-group">
+            <label htmlFor="order_comments">Примечание к заказу<span className="optional">(необязательно)</span></label>
+            <textarea name="order_comments" className="input-text" name="additional" onChange={onChangeHandler} id="order_comments"></textarea>
+          </div>
+        </div>
+      </form>
       <div className="checkout-wrapper">
         <div className="checkout-total">
           <div className="checkout-total__item">
@@ -101,7 +78,7 @@ const Modal = ({cart, user, address}) => {
           </div>
           <div className="checkout-total__item">
             <div className="checkout-total__label">Итого</div>
-            <div className="checkout-total__value"><span>15700 ₽</span>
+            <div className="checkout-total__value"><span>{totalPrice} ₽</span>
             </div>
           </div>
           <div className="checkout-total__item">
@@ -119,7 +96,6 @@ const Modal = ({cart, user, address}) => {
 
 const mapStateToProps = (state) => {
   return{
-    cart: state.asideReducer.cart,
     user: state.authReducer.user,
     address: state.addressReducer.address,
   }

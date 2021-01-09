@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
+import Account from "./pages/Account";
 import {setUserData} from "./redux/actions/authAction";
 import axios from "axios"
 import {connect} from "react-redux";
@@ -40,6 +41,7 @@ const App = ({setUserData}) => {
               <li>
                 <Link to='/'>Home</Link>
               </li>
+
             </ul>
           </nav>
           <Switch>
@@ -49,9 +51,13 @@ const App = ({setUserData}) => {
             <Route path="/category/create">
               <CreateCategory />
             </Route>
+            <Route path='/account'>
+              <Account/>
+            </Route>
             <Route path="/">
               <Home />
             </Route>
+
           </Switch>
         </div>
     </Router>
