@@ -88,7 +88,6 @@ class Aside extends Component{
             </>
           )}
         <div className="aside-delivery__button">
-
           {(this.props.address.delivery) ? (
             <Order cart={this.props.cart} typename={this.props.minPrice > totalPrice ? 'notedit' : ""} totalPrice={totalPrice} />
           ):(

@@ -5,7 +5,7 @@ const createOrder = async (req, res) => {
     const data = req.body
     const newOrder =  new Order(data)
     await newOrder.save()
-    console.log(newOrder)
+    res.status(200).json(newOrder)
   } catch (err) {
     res.status(500).json({error: err.message})
   }

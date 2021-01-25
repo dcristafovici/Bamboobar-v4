@@ -31,6 +31,7 @@ const orderSchema = new mongoose.Schema({
   price: String,
   deliveryDate: String,
   additional: String,
+  cutlery: String,
   deliveryTime: String,
   create: {
     type: Date,

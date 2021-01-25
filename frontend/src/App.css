@@ -3089,9 +3089,13 @@ form.checkout{
 .register-form button{
   height: 45px;
 }
-.button.disabled{
+.button.disabled,
+.checkout-total .button.disabled{
   background: #999999;
   pointer-events: none;
+}
+.checkout-total .button.disabled::before{
+  content: none;
 }
 .form-error{
   position: absolute;
@@ -3157,6 +3161,22 @@ form.checkout{
 .notedit{
   pointer-events: none;
   opacity: .5;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.react-datepicker-wrapper{
+  display: block;
+  width: 100%;
+}
+.form-group.notedit{
+  opacity: 1;
+}
+.form-group.notedit input{
+  background: #d7d6d6;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
