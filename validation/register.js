@@ -13,8 +13,6 @@ module.exports = function validateRegiterInput(data) {
   data.username = !Validator.isEmpty(data.username) ? data.username : "d"
 
 
-  data.address = !Validator.isEmpty(data.address) ? data.address : ""
-
   // Email
   if(Validator.isEmpty(data.email)){
     errors.email = "Укажите адрес электронной почты"

@@ -1,6 +1,6 @@
 import React,{Component} from "react"
 import {connect} from 'react-redux'
-import Modal from "../modal/Modal"
+import Order from "../modal/Order"
 import {addQuantity} from "../../redux/actions/asideAction"
 import {subQuantity} from '../../redux/actions/asideAction'
 import {removeFromCart} from '../../redux/actions/asideAction'
@@ -9,9 +9,11 @@ import {emptyCart} from '../../redux/actions/asideAction'
 class Aside extends Component{
   render() {
     let totalPrice = 0;
-    this.props.cart.forEach(cart => {
+    let cartCurrent = this.props.cart ? this.props.cart : []
+    cartCurrent.forEach(cart => {
       totalPrice += cart.priceGroup;
     })
+    let simpleCart = this.props.cart ? this.props.cart : []
     let differencePrice =  this.props.minPrice - totalPrice;
     let percentPrice = totalPrice/this.props.minPrice * 100
     function smoothToBanner(event) {
@@ -32,7 +34,7 @@ class Aside extends Component{
         {(this.props.address.delivery) ? (
           <React.Fragment>
             <div className="aside-items">
-              {this.props.cart.map((item, key) => (
+              {simpleCart.map((item, key) => (
                 <div className="aside-item" data-id={item.product._id} key={key}>
                   <div className="aside-item__name"><span>{item.product.name}</span></div>
                   <div className="aside-item__change" key={item.quantity}>
@@ -86,8 +88,9 @@ class Aside extends Component{
             </>
           )}
         <div className="aside-delivery__button">
+
           {(this.props.address.delivery) ? (
-            <Modal cart={this.props.cart} totalPrice={totalPrice} />
+            <Order cart={this.props.cart} typename={this.props.minPrice > totalPrice ? 'notedit' : ""} totalPrice={totalPrice} />
           ):(
             <a href="#banner" onClick={smoothToBanner} className="button button-checkout">
               <span>Указать адресс</span>

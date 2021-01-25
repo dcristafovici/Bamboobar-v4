@@ -8,7 +8,6 @@ const Register = () => {
     passwordCheck: "",
     phone: "",
     username: "",
-    address: ""
   })
   const [errors, setErrors] = useState({
     email: "",
@@ -125,13 +124,8 @@ const Register = () => {
           <div className="form-error">{errors.phone}</div>
         </div>
         <div className="form-group">
-          <label>Имя</label>
+          <label>Имя и фамилия</label>
           <input type="text" onChange={onChangeHandler} defaultValue={data.username} name="username"/>
-
-        </div>
-        <div className="form-group">
-          <label>Адрес</label>
-          <input type="text" onChange={onChangeHandler}  defaultValue={data.address} name="address"/>
 
         </div>
         <div className="form-group">

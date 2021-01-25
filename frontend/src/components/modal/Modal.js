@@ -5,7 +5,9 @@ import {connect} from "react-redux"
 
 const Modal = ({cart, user, address, totalPrice}) => {
   const [order, setOrder] = useState({
-    products: []
+    products: [],
+    customer_phone: '',
+
   })
 
   let userId

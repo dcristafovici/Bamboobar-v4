@@ -1,12 +1,13 @@
 import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "../actions/actions-types/address-reducer"
 import {loadState} from '../../localStorage'
 const addressInitial = loadState()
+
 const initialState = {
-  address: addressInitial.address.address || '',
-  distance: addressInitial.address.distance || null,
-  moscowCity: addressInitial.address.moscowCity || false,
-  minPrice: addressInitial.address.minPrice || null,
-  delivery: addressInitial.address.delivery || false,
+  address: addressInitial ? addressInitial.address.address : '',
+  distance: addressInitial ? addressInitial.address.distance : null,
+  moscowCity: addressInitial ? addressInitial.address.moscowCity : false,
+  minPrice: addressInitial ? addressInitial.address.minPrice : null,
+  delivery: addressInitial ? addressInitial.address.delivery : false,
   popup: false
 }
 export default function addressReducer(state = initialState, action) {

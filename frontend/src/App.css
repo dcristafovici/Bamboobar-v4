@@ -3154,6 +3154,16 @@ form.checkout{
   -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
 }
 
+.notedit{
+  pointer-events: none;
+  opacity: .5;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

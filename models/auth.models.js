@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Укажите номер телефона'],
   },
   username: {type: String},
-  address: {type: String}
 })
 
 module.exports = User = mongoose.model('user', userSchema)
