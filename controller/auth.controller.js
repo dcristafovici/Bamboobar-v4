@@ -44,7 +44,6 @@ const loginController = async(req, res) => {
         .json({email: "Такой пользователь не существует"})
     }
     const isMatch = await bcrypt.compare(password, user.password)
-    console.log(isMatch)
     if(!isMatch){
       return res
         .status(404)

@@ -104,7 +104,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
       })
     } catch (error) {
       console.log(error.response.data)
-
+      setErrors(error.response.data)
     }
   }
 
@@ -116,7 +116,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
         <div className="form-group">
           <label>E-mail*</label>
           <input type="email" onChange={onChangeHandler} defaultValue={data.email} name="email"/>
-          <div className="form-error">{errors.email}</div>
+          <div className="form-error">{errors.email} {errors.msg}</div>
         </div>
         <div className="form-group">
           <label>Пароль*</label>
@@ -142,7 +142,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
           <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
             <span>Регистрация</span>
           </button>
-          <div className="form-error">{errors.msg}</div>
+
         </div>
       </form>
     </div>

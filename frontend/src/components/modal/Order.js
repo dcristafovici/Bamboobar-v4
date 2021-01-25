@@ -30,6 +30,11 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 
   const [valid, setValid] = useState(false)
 
+  useEffect(() => {
+    if(user.user)
+      setData({...data, user: user.user.id})
+    console.log(data)
+  }, [user])
   const onChangeHandler = (event) =>{
     setData({...data, [event.target.name]: event.target.value})
   }
@@ -90,8 +95,8 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     event.preventDefault()
     try{
       console.log(data)
-      // const response = await axios.post('/api/order/create', data)
-      // console.log(response)
+      const response = await axios.post('/api/order/create', data)
+      console.log(response)
     } catch (err){
       console.log(err.message)
     }
@@ -119,7 +124,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
               <input type="tel" onChange={onChangeHandler} className="input-text" defaultValue={user.user ? user.user.phone : ''}  name="customer_phone" />
               <div className="form-error">{errors.customer_phone}</div>
             </div>
-            <div className="form-group">
+            <div className="form-group notedit">
               <label htmlFor="billing_address_1">Адрес</label>
               <input type="text" onChange={onChangeHandler} className="input-text" defaultValue={address ? address.address: ''}   name="address" id="billing_address_1"/>
             </div>
@@ -134,7 +139,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
             </div>
             <div className="form-group">
               <label htmlFor="billing_time">Время</label>
-              <input type="text" onChange={onChangeHandler} className="input-text"  name="deliveryTime" />
+              <input type="time"   onChange={onChangeHandler} className="input-text"  name="deliveryTime" />
               <div className="form-error">{errors.deliveryTime}</div>
             </div>
             <div className="form-group">
