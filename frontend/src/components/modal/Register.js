@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from "react"
 import Popup from "reactjs-popup";
 import axios from "axios"
-const Register = () => {
+import {connect} from "react-redux"
+import {openRegister, closeRegister, openLogin} from "../../redux/actions/modalAction";
+
+
+const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -13,8 +17,11 @@ const Register = () => {
     email: "",
     password: "",
     passwordCheck: "",
-    phone: ""
+    phone: "",
+    msg: ""
   })
+
+
 
   const [valid, setValid] = useState(false)
   const onChangeHandler = (event) => {
@@ -26,7 +33,7 @@ const Register = () => {
 
     setValid(true)
     // Validate Email
-    if(data['email'] == ''){
+    if(data['email'] === ''){
       setValid(false)
       errorsLocal['email'] = 'Укажите адрес электронной почты'
     }
@@ -39,7 +46,7 @@ const Register = () => {
     }
 
     // Validate Password
-    if(data['password'] == ''){
+    if(data['password'] === ''){
       setValid(false);
       errorsLocal['password'] = 'Пароль обязателен'
     }
@@ -51,7 +58,7 @@ const Register = () => {
     }
 
     // Validate Password Check
-    if(data['passwordCheck'] == ''){
+    if(data['passwordCheck'] === ''){
       setValid(false)
       errorsLocal['passwordCheck'] = 'Повторите пароль'
     }
@@ -64,7 +71,7 @@ const Register = () => {
     }
 
     // Validate Phone
-    if(data['phone'] == ''){
+    if(data['phone'] === ''){
       setValid(false)
       errorsLocal['phone'] = "Укажите номер телефона"
     }
@@ -85,21 +92,24 @@ const Register = () => {
     event.preventDefault()
     try{
       const registerResponse = await axios.post('/api/auth/register', data)
+      closeRegister()
+      openLogin()
       setData({
         email: "",
         password: "",
         passwordCheck: "",
         phone: "",
         username: "",
-        address: ""
+        address: "",
       })
     } catch (error) {
       console.log(error.response.data)
+
     }
   }
 
   return(
-    <Popup trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Регистрация</span> </div>} modal>
+    <Popup onClose={() => closeRegister()}  onOpen={() => openRegister()}  open={modal.registerModal} trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Регистрация</span> </div>}  modal>
       <div className="register-form">
       <h2>Регистрация</h2>
       <form className="form">
@@ -132,10 +142,26 @@ const Register = () => {
           <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
             <span>Регистрация</span>
           </button>
+          <div className="form-error">{errors.msg}</div>
         </div>
       </form>
     </div>
     </Popup>
   )
 }
-export default Register
+
+const mapStateToProps = (state) =>{
+  return{
+    modal: state.modalReducer
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    openRegister : () => dispatch(openRegister()),
+    closeRegister : () => dispatch(closeRegister()),
+    openLogin: () => dispatch(openLogin())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

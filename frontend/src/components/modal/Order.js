@@ -3,7 +3,6 @@ import Popup from "reactjs-popup";
 import DatePicker from "react-datepicker";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
-
 import {connect} from 'react-redux'
 
 
@@ -18,7 +17,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     deliveryTime: "",
     cutlery: "",
     additional: "",
-    user: user.id
+    user: user.user ? user.user.id : ""
   })
   const [errors, setErrors] = useState({
     customer_name: "",
@@ -39,7 +38,6 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
   useEffect( () => {
     let errorsLocal = {}
     setValid(true)
-
     // Validate Name
     if(data['customer_name'] === ''){
       setValid(false)
@@ -91,8 +89,9 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     try{
-      const response = await axios.post('/api/order/create', data)
-      console.log(response)
+      console.log(data)
+      // const response = await axios.post('/api/order/create', data)
+      // console.log(response)
     } catch (err){
       console.log(err.message)
     }

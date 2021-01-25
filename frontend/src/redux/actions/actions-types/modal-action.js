@@ -1,0 +1,5 @@
+export const OPEN_REGISTER = 'OPEN_REGISTER'
+export const CLOSE_REGISTER = 'CLOSE_REGISTER'
+export const OPEN_LOGIN = 'OPEN_LOGIN'
+export const CLOSE_LOGIN = 'CLOSE_LOGIn'
+export const TOGGLE_ORDER = 'TOGGLE_ORDER'

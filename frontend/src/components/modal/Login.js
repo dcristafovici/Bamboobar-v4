@@ -1,8 +1,9 @@
 import React,{useState, useEffect} from 'react'
 import Popup from "reactjs-popup";
 import axios from "axios"
-
-const Login = () => {
+import {connect} from 'react-redux'
+import {closeLogin, openLogin} from "../../redux/actions/modalAction";
+const Login = ({modal, openLogin, closeLogin}) => {
 
   const [data, setData] = useState({
     email: "",
@@ -24,7 +25,7 @@ const Login = () => {
     setValid(true)
 
     // Validate Email
-    if(data['email'] == ''){
+    if(data['email'] === ''){
       setValid(false)
       errorsLocal['email'] = 'Укажите адрес электронной почты'
     }
@@ -36,7 +37,7 @@ const Login = () => {
       }
     }
     // Validate Password
-    if(data['password'] == ''){
+    if(data['password'] === ''){
       setValid(false);
       errorsLocal['password'] = 'Пароль обязателен'
     }
@@ -54,13 +55,15 @@ const Login = () => {
         data
       )
       localStorage.setItem('auth-token', response.data.token)
+      window.location.reload();
+
     } catch (error) {
       setErrors(error.response.data)
     }
   }
 
   return(
-    <Popup trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Авторизация</span> </div>} modal>
+    <Popup onOpen={() => openLogin()} onClose={() => closeLogin()} open={modal.loginModal} trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Авторизация</span> </div>} modal>
       <div className="register-form login-form">
         <h2>Авторизация</h2>
         <form className="form">
@@ -85,4 +88,17 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = (state) => {
+  return{
+    modal: state.modalReducer
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    openLogin: () => dispatch(openLogin()),
+    closeLogin: () => dispatch(closeLogin())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

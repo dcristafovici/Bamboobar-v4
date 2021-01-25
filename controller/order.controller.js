@@ -11,7 +11,18 @@ const createOrder = async (req, res) => {
   }
 }
 
+const getOrderByUser = async(req, res) => {
+  try{
+    const { id } = req.body
+    const order = await Order.find({user: id})
+    res.status(200).json(order)
+  } catch (err){
+    res.status(500).json({error: err.message})
+  }
+}
+
 
 module.exports = {
-  createOrder
+  createOrder,
+  getOrderByUser
 }

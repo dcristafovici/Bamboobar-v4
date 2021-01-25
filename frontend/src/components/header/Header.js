@@ -35,7 +35,7 @@ const Header = ({user, clearUserData}) => {
                 </React.Fragment>
                 ) : (
                 <React.Fragment>
-                  <Register/>
+                  <Register  />
                   <Login/>
                 </React.Fragment>
                 )}
@@ -54,7 +54,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    clearUserData : () => dispatch(clearUserData())
+    clearUserData : () => dispatch(clearUserData()),
   }
 }
 
