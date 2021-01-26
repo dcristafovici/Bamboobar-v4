@@ -4,7 +4,7 @@ const config = require('config')
 const fileupload = require('express-fileupload')
 const cors = require('cors')
 const path = require('path')
-
+const axios = require('axios')
 const app = express()
 
 app.use(express.json())
@@ -41,6 +41,5 @@ const start = async () =>{
     console.log(e)
   }
 }
-
 
 start()

@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 
 
 const Order = ({user, typename, cart, address, totalPrice}) => {
+
   const [data, setData] = useState({
     products: cart ,
     customer_name: user.user ? user.user.username : '',
@@ -19,6 +20,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     additional: "",
     user: user.user ? user.user.id : ""
   })
+
   const [errors, setErrors] = useState({
     customer_name: "",
     customer_email: "",
@@ -30,16 +32,20 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 
   const [valid, setValid] = useState(false)
 
-  useEffect(() => {
-    if(user.user)
-      setData({...data, user: user.user.id})
-    console.log(data)
-  }, [user])
   const onChangeHandler = (event) =>{
     setData({...data, [event.target.name]: event.target.value})
   }
 
-
+  useEffect(() =>{
+    if(user.user){
+      setData({
+        ...data,
+        customer_name: user.user.username,
+        customer_email: user.user.email,
+        customer_phone: user.user.phone
+      })
+    }
+  }, [user])
   useEffect( () => {
     let errorsLocal = {}
     setValid(true)
@@ -105,28 +111,29 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
   return(
     <Popup trigger={<a className={"button button-checkout " + typename}> <span>Оформить заказ</span> </a>} modal>
       <div id="checkout">
+
         <form name="checkout" method="post" className="checkout">
-          <h2>Детали оплаты</h2>
+          <h2>Детали оплаты </h2>
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="billing_first_name">Имя</label>
-              <input type="text"  onChange={onChangeHandler} className="input-text" defaultValue={user.user ? user.user.username : ''}  name="customer_name"  />
+              <input type="text"  onChange={onChangeHandler} className="input-text" defaultValue={data.customer_name} name="customer_name"  />
               <div className="form-error">{errors.customer_name}</div>
             </div>
             <div className="form-group" >
               <label htmlFor="billing_email">Email</label>
-              <input type="email" onChange={onChangeHandler} className="input-text" defaultValue={user.user ? user.user.email : ''}  name="customer_email" />
+              <input type="email" onChange={onChangeHandler} className="input-text" defaultValue={data.customer_email}  name="customer_email" />
               <div className="form-error">{errors.customer_email}</div>
 
             </div>
             <div className="form-group">
               <label htmlFor="billing_phone">Телефон</label>
-              <input type="tel" onChange={onChangeHandler} className="input-text" defaultValue={user.user ? user.user.phone : ''}  name="customer_phone" />
+              <input type="tel" onChange={onChangeHandler} className="input-text" defaultValue={data.customer_phone}  name="customer_phone" />
               <div className="form-error">{errors.customer_phone}</div>
             </div>
             <div className="form-group notedit">
               <label htmlFor="billing_address_1">Адрес</label>
-              <input type="text" onChange={onChangeHandler} className="input-text" defaultValue={address ? address.address: ''}   name="address" id="billing_address_1"/>
+              <input type="text" onChange={onChangeHandler} className="input-text" defaultValue={data.address}   name="address" id="billing_address_1"/>
             </div>
             <div className="form-group">
               <label htmlFor="billing_addresstwo">Подъезд/ квартира/</label>
