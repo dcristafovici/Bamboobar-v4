@@ -1,3 +1,4 @@
+const axios = require('axios')
 const {Order, CartItem} =  require('../models/order.models')
 
 const createOrder = async (req, res) => {
@@ -21,8 +22,30 @@ const getOrderByUser = async(req, res) => {
   }
 }
 
+const payOrder = async(req, res) => {
+  try{
+    const { amount, id, products } = req.body
+
+    const payment = await axios.post(
+      'https://3dsec.sberbank.ru/payment/rest/register.do',
+      {
+        userName: "delivery-bamboobar-api",
+        password: ">@^z-J8XW#'-26~[",
+        orderId: "231"
+      },
+
+
+    )
+    console.log(payment.data)
+
+  } catch (err){
+    res.status(500).json({error: err.message})
+  }
+}
+
 
 module.exports = {
   createOrder,
-  getOrderByUser
+  getOrderByUser,
+  payOrder
 }

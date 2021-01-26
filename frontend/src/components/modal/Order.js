@@ -42,7 +42,8 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
         ...data,
         customer_name: user.user.username,
         customer_email: user.user.email,
-        customer_phone: user.user.phone
+        customer_phone: user.user.phone,
+        user: user.user.id
       })
     }
   }, [user])
@@ -100,9 +101,10 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     try{
-      console.log(data)
       const response = await axios.post('/api/order/create', data)
-      console.log(response)
+      if(response.status === 200){
+        const payment = await axios.post('/api/order/pay', {id: response.data._id, products: response.data.products, amount: 3000  })
+      }
     } catch (err){
       console.log(err.message)
     }
