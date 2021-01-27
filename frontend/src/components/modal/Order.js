@@ -114,7 +114,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
       if(response.status === 200){
         console.log(response)
         const payment = await axios.post('/api/order/pay', {id: response.data._id, price: priceOrder, address: address.address, user: user.user, products: response.data.products, date:response.headers.date  })
-        console.log(payment)
+        window.location.href = payment.data.formUrl
       }
     } catch (err){
       console.log(err.message)
