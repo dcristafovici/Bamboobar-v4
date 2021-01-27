@@ -3,8 +3,9 @@ const mongoose  = require('mongoose')
 const CartItemSchema = new mongoose.Schema({
   product: {type: mongoose.Schema.ObjectId, ref: 'Product'},
   quantity: Number,
-  price: Number,
-  totalPrice: Number
+  priceItem: Number,
+  priceGroup: Number,
+  name: String,
 })
 
 const CartItem = mongoose.model('CartItem', CartItemSchema)

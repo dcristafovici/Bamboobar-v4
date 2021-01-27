@@ -23,26 +23,60 @@ const getOrderByUser = async(req, res) => {
 }
 
 const payOrder = async(req, res) => {
-  try{
-    const { amount, id, products } = req.body
-    axios({
-      method: "POST",
-      url: "https://3dsec.sberbank.ru/payment/rest/register.do",
-      data: qs.stringify({
-        userName: "delivery-bamboobar-api",
-        password: ">@^z-J8XW#'-26~[",
-        returnUrl: 'http://google.com/',
-        failUrl: 'http://google.com/',
-        orderId: 240,
-        orderNumber: 150,
-        amount: 6000
-      }),
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+  try {
+    let {price, address, date, id, products, user} = req.body
+    price = price * 100
+    let positionIdCount = 1;
+    const items = products.map((product) => {
+      let {_id, name, quantity, priceItem} = product
+
+      return {
+        positionId: positionIdCount++,
+        name: name,
+        itemCurrency: "643",
+        quantity: {"value": quantity, "measure": "единиц"},
+        itemPrice: priceItem * 100,
+        itemCode: _id,
       }
     })
-      .then(response => {
-        console.log(response)
+    const orderBundle =
+      {
+        "orderCreationDate": date,
+        "customerDetails": {
+          "email": user.email,
+          "phone": user.phone,
+          "contact":  user.username,
+          "deliveryInfo": {
+            "deliveryType": "courier", "country": "RU", "city": "Moscow",
+            "postAddress": address
+          }
+        },
+        "cartItems": {
+          "items": items
+        }
+      }
+
+
+    const params = new URLSearchParams()
+    params.append("userName", "delivery-bamboobar-api")
+    params.append("password", ">@^z-J8XW#'-26~[")
+    params.append("returnUrl", "http://google.com/")
+    params.append("currency", '643')
+    params.append("failUrl", "http://google.com/")
+    params.append("orderId", id)
+    params.append("orderNumber", id)
+    params.append("amount", price)
+    params.append("orderBundle", JSON.stringify(orderBundle))
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+
+    const url = 'https://3dsec.sberbank.ru/payment/rest/register.do'
+    axios.post(url, params, config)
+      .then((result) => {
+        res.status(200).json(result.data)
       })
 
   } catch (err){

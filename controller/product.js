@@ -45,8 +45,19 @@ const findByCategoriesId = async (req, res) => {
   }
 }
 
+const getById = async(req, res) => {
+  try{
+    const { id } = req.body
+    const product = await Product.findById(id)
+    res.status(200).json(product)
+  } catch (err){
+    res.status(500).json({err: err.message})
+  }
+}
+
 
 module.exports = {
   createProduct,
-  findByCategoriesId
+  findByCategoriesId,
+  getById
 }

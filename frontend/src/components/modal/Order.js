@@ -7,6 +7,10 @@ import {connect} from 'react-redux'
 
 
 const Order = ({user, typename, cart, address, totalPrice}) => {
+  let priceOrder = 0;
+  cart.forEach(product => {
+    priceOrder += product.priceGroup
+  })
 
   const [data, setData] = useState({
     products: cart ,
@@ -17,6 +21,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     street: "",
     deliveryTime: "",
     cutlery: "",
+    price: priceOrder,
     additional: "",
     user: user.user ? user.user.id : ""
   })
@@ -36,6 +41,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     setData({...data, [event.target.name]: event.target.value})
   }
 
+
   useEffect(() =>{
     if(user.user){
       setData({
@@ -47,6 +53,9 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
       })
     }
   }, [user])
+
+
+
   useEffect( () => {
     let errorsLocal = {}
     setValid(true)
@@ -103,7 +112,9 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     try{
       const response = await axios.post('/api/order/create', data)
       if(response.status === 200){
-        const payment = await axios.post('/api/order/pay', {id: response.data._id, products: response.data.products, amount: 3000  })
+        console.log(response)
+        const payment = await axios.post('/api/order/pay', {id: response.data._id, price: priceOrder, address: address.address, user: user.user, products: response.data.products, date:response.headers.date  })
+        console.log(payment)
       }
     } catch (err){
       console.log(err.message)
@@ -189,7 +200,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 const mapStateToProps = (state) => {
   return {
     user: state.authReducer,
-    address: state.addressReducer
+    address: state.addressReducer,
   }}
 
 export default connect(mapStateToProps)(Order)

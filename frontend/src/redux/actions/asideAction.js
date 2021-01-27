@@ -13,7 +13,9 @@ export function addToCart(product) {
     payload : {
       product,
       quantity: 1,
-      priceGroup: product.price
+      priceGroup: product.price,
+      priceItem: product.price,
+      name: product.name
     }
   }
 }
