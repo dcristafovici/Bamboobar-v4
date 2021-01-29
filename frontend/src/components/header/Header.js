@@ -1,11 +1,9 @@
 import React from "react"
 import Register from "../modal/Register";
-import Login from "../modal/Login";
-import {connect} from "react-redux";
-import { Link } from 'react-router-dom'
+import {connect} from "react-redux"
 import {clearUserData} from "../../redux/actions/authAction";
 
-const Header = ({user, clearUserData}) => {
+const Header = ({user, clearData}) => {
   return(
       <header className="header">
         <div className="content">
@@ -27,19 +25,16 @@ const Header = ({user, clearUserData}) => {
             </div>
             <div className="header-phone"><a href="tel:7 (985) 766-49-62">7 (985) 766-49-62</a>
             </div>
+            {(user.user) ? (
+              <div className="header-account__top" onClick={() => clearData()}>
+                <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" />
+                <span>Выйти</span>
+              </div>
+            ) : (
             <div className="header-account">
-              {user ? (
-                <React.Fragment>
-                <Link to="/account">Личный кабинет</Link>
-                <span onClick={() => clearUserData()}>Выйти</span>
-                </React.Fragment>
-                ) : (
-                <React.Fragment>
-                  <Register  />
-                  <Login/>
-                </React.Fragment>
-                )}
+             <Register />
             </div>
+            )}
           </div>
         </div>
       </header>
@@ -48,13 +43,13 @@ const Header = ({user, clearUserData}) => {
 
 const mapStateToProps = (state) => {
   return{
-    user: state.authReducer.user
+    user: state.authReducer
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return{
-    clearUserData : () => dispatch(clearUserData()),
+  return {
+    clearData: () => dispatch(clearUserData())
   }
 }
 

@@ -15,20 +15,17 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
     msg: ""
   })
   const [code ,setCode] = useState('')
-
-
-
   const [valid, setValid] = useState(false)
+
   const onChangeHandler = (event) => {
     setData({...data, [event.target.name]: event.target.value})
   }
-
   const onChangeSmsHandler = async(event) => {
     if(event.target.value === code){
       setErrors({...errors, code: ""})
-      await axios.post('/api/auth/register', data)
+      const responseAuth = await axios.post('/api/auth/auth', data)
+      localStorage.setItem('auth-token', responseAuth.data.token)
       closeRegister()
-      openLogin()
     } else{
       setErrors({...errors, code : "Неправильный код"})
     }
@@ -36,9 +33,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
 
   useEffect(() => {
     let errorsLocal = {}
-
     setValid(true)
-
     // Validate Phone
     if(data['phone'] === ''){
       setValid(false)
@@ -60,9 +55,8 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     try{
-      const registerResponse = await axios.post('/api/auth/checkRegister', data)
-      if(!registerResponse.data.message.includes('Message accepted for sending')){
-        console.log(registerResponse.data.code)
+      const registerResponse = await axios.post('/api/auth/generate', data)
+      if(registerResponse.data.message.includes('Message accepted for sending')){
         setCode(registerResponse.data.code)
       }
     } catch (error) {
@@ -72,9 +66,13 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   }
 
   return(
-    <Popup onClose={() => closeRegister()}  onOpen={() => openRegister()}  open={modal.registerModal} trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Регистрация</span> </div>}  modal>
+    <Popup
+      onClose={() => closeRegister()}
+      onOpen={() => openRegister()}
+      open={modal.registerModal}
+      trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Вход</span> </div>}  modal>
       <div className="register-form">
-      <h2>Регистрация</h2>
+      <h2>Авторизация</h2>
       <form className="form">
         <div className="form-group">
           <label>Телефон</label>

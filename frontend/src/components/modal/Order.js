@@ -25,7 +25,6 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     additional: "",
     user: user.user ? user.user.id : ""
   })
-
   const [errors, setErrors] = useState({
     customer_name: "",
     customer_email: "",
@@ -53,8 +52,6 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
       })
     }
   }, [user])
-
-
 
   useEffect( () => {
     let errorsLocal = {}
@@ -139,7 +136,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
               <div className="form-error">{errors.customer_email}</div>
 
             </div>
-            <div className="form-group">
+            <div className="form-group notedit">
               <label htmlFor="billing_phone">Телефон</label>
               <input type="tel" onChange={onChangeHandler} className="input-text" defaultValue={data.customer_phone}  name="customer_phone" />
               <div className="form-error">{errors.customer_phone}</div>
@@ -199,8 +196,8 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.authReducer,
     address: state.addressReducer,
+    user: state.authReducer
   }}
 
 export default connect(mapStateToProps)(Order)

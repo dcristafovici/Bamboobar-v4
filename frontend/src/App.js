@@ -4,42 +4,30 @@ import CreateProduct from "./components/product/CreateProduct";
 import CreateCategory from "./components/category/CreateCategory";
 import Home from "./pages/Home";
 import Account from "./pages/Account";
-
-import {setUserData} from "./redux/actions/authAction";
-
-import axios from "axios"
-import {connect} from "react-redux";
-
+import axios from "axios";
+import {connect} from 'react-redux'
 import './App.css';
+import {setUserData} from "./redux/actions/authAction";
 
 const App = ({setUserData}) => {
   useEffect(() => {
 
     const checkLoggedIn = async() => {
-      let token = '';
+      let token = ''
       token = localStorage.getItem('auth-token')
-      const tokenResponse = await axios.post(
-        '/api/auth/check',
-        null,
-        {headers: {'x-auth-token': token}}
-      )
-
-      if(tokenResponse.data){
-        const user = await axios.get(
-          '/api/auth/get',
-          {headers: {'x-auth-token': token}}
-        )
-        setUserData(user.data)
+      if(token !== null){
+        const tokenResponse = await axios.post(
+          '/api/auth/check',
+          null ,
+          {headers: {'x-auth-token': token}})
+        if(tokenResponse.data){
+          setUserData(tokenResponse.data)
+        }
       }
     }
 
     checkLoggedIn()
-
   }, [])
-
-
-
-
 
   return(
       <Router>
@@ -77,6 +65,7 @@ const mapStateToProps = (state) => {
 
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return{
     setUserData: (user) => dispatch(setUserData(user))

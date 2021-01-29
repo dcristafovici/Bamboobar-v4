@@ -1,11 +1,11 @@
 import React,{Component} from "react"
 import {connect} from 'react-redux'
-import Order from "../modal/Order"
 import {addQuantity} from "../../redux/actions/asideAction"
 import {subQuantity} from '../../redux/actions/asideAction'
 import {removeFromCart} from '../../redux/actions/asideAction'
 import {emptyCart} from '../../redux/actions/asideAction'
-
+import {openRegister} from "../../redux/actions/modalAction";
+import Order from "../modal/Order";
 class Aside extends Component{
   render() {
     let totalPrice = 0;
@@ -21,6 +21,7 @@ class Aside extends Component{
       let element = document.getElementById('banner')
       element.scrollIntoView({ behavior: 'smooth' })
     }
+
     return(
       <aside className="aside aside-ready" data-delivery="5000">
         <div className="aside-control">
@@ -89,8 +90,16 @@ class Aside extends Component{
           )}
         <div className="aside-delivery__button">
           {(this.props.address.delivery) ? (
-            <Order cart={this.props.cart} typename={this.props.minPrice > totalPrice ? 'notedit' : ""} totalPrice={totalPrice} />
-          ):(
+            <>
+              {(this.props.user.user) ? (
+                <Order cart={this.props.cart} typename={this.props.minPrice > totalPrice ? 'notedit' : ""} totalPrice={totalPrice} />
+              ):(
+                <div onClick={() => this.props.openRegister()} className={"button button-checkout"}>
+                  <span>Оформить заказ</span>
+                </div>
+              )}
+            </>
+            ):(
             <a href="#banner" onClick={smoothToBanner} className="button button-checkout">
               <span>Указать адресс</span>
             </a>
@@ -105,7 +114,8 @@ const mapStateToProps = (state) => {
   return{
     cart: state.asideReducer.cart,
     minPrice: state.addressReducer.minPrice,
-    address: state.addressReducer
+    address: state.addressReducer,
+    user: state.authReducer
   }
 }
 
@@ -114,7 +124,8 @@ const mapDispatchToProps = (dispatch) => {
     addQuantity: (id, quantity, price) => dispatch(addQuantity(id, quantity, price)),
     subQuantity: (id, quantity, price) => dispatch(subQuantity(id, quantity, price)),
     removeFromCart: (id) => dispatch(removeFromCart(id)),
-    emptyCart: () => dispatch(emptyCart())
+    emptyCart: () => dispatch(emptyCart()),
+    openRegister : () => dispatch(openRegister()),
   }
 }
 
