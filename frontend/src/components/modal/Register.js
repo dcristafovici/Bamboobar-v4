@@ -7,19 +7,14 @@ import {openRegister, closeRegister, openLogin} from "../../redux/actions/modalA
 
 const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   const [data, setData] = useState({
-    email: "",
-    password: "",
-    passwordCheck: "",
-    phone: "",
-    username: "",
+    phone: ""
   })
   const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-    passwordCheck: "",
     phone: "",
+    code: "",
     msg: ""
   })
+  const [code ,setCode] = useState('')
 
 
 
@@ -28,47 +23,21 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
     setData({...data, [event.target.name]: event.target.value})
   }
 
+  const onChangeSmsHandler = async(event) => {
+    if(event.target.value === code){
+      setErrors({...errors, code: ""})
+      await axios.post('/api/auth/register', data)
+      closeRegister()
+      openLogin()
+    } else{
+      setErrors({...errors, code : "Неправильный код"})
+    }
+  }
+
   useEffect(() => {
     let errorsLocal = {}
 
     setValid(true)
-    // Validate Email
-    if(data['email'] === ''){
-      setValid(false)
-      errorsLocal['email'] = 'Укажите адрес электронной почты'
-    }
-    if(data['email'] !== ''){
-        let pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-        if(!pattern.test(data['email'])){
-          setValid(false)
-          errorsLocal['email'] = "Укажите правильно адресс электронной почты"
-        }
-    }
-
-    // Validate Password
-    if(data['password'] === ''){
-      setValid(false);
-      errorsLocal['password'] = 'Пароль обязателен'
-    }
-    if(data['password'] !== ''){
-      if(data['password'].length < 6 || data['password'].length > 25){
-        setValid(false)
-        errorsLocal['password'] = "Пароль должен иметь от 6 до 25 символов"
-      }
-    }
-
-    // Validate Password Check
-    if(data['passwordCheck'] === ''){
-      setValid(false)
-      errorsLocal['passwordCheck'] = 'Повторите пароль'
-    }
-
-    if(data['passwordCheck'] !== ''){
-      if(data['password'] !== data['passwordCheck']) {
-        setValid(false)
-        errorsLocal['passwordCheck'] = ' Пароли не совпадают'
-      }
-    }
 
     // Validate Phone
     if(data['phone'] === ''){
@@ -91,17 +60,11 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     try{
-      const registerResponse = await axios.post('/api/auth/register', data)
-      closeRegister()
-      openLogin()
-      setData({
-        email: "",
-        password: "",
-        passwordCheck: "",
-        phone: "",
-        username: "",
-        address: "",
-      })
+      const registerResponse = await axios.post('/api/auth/checkRegister', data)
+      if(!registerResponse.data.message.includes('Message accepted for sending')){
+        console.log(registerResponse.data.code)
+        setCode(registerResponse.data.code)
+      }
     } catch (error) {
       console.log(error.response.data)
       setErrors(error.response.data)
@@ -114,36 +77,24 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
       <h2>Регистрация</h2>
       <form className="form">
         <div className="form-group">
-          <label>E-mail*</label>
-          <input type="email" onChange={onChangeHandler} defaultValue={data.email} name="email"/>
-          <div className="form-error">{errors.email} {errors.msg}</div>
-        </div>
-        <div className="form-group">
-          <label>Пароль*</label>
-          <input type="password" onChange={onChangeHandler}  defaultValue={data.password} name="password"/>
-          <div className="form-error">{errors.password}</div>
-        </div>
-        <div className="form-group">
-          <label>Повторите пароль*</label>
-          <input type="password" onChange={onChangeHandler}  defaultValue={data.passwordCheck} name="passwordCheck"/>
-          <div className="form-error">{errors.passwordCheck}</div>
-        </div>
-        <div className="form-group">
           <label>Телефон</label>
           <input type="tel" onChange={onChangeHandler}  defaultValue={data.phone} name="phone"/>
           <div className="form-error">{errors.phone}</div>
         </div>
-        <div className="form-group">
-          <label>Имя и фамилия</label>
-          <input type="text" onChange={onChangeHandler} defaultValue={data.username} name="username"/>
-
-        </div>
+        {(code !== '') ? (
+          <div className="form-group">
+            <label>Код</label>
+            <input type="tel" onChange={onChangeSmsHandler} name="code"/>
+            <div className="form-error">{errors.code}</div>
+          </div>
+          ): ''}
+        {(code === '') ? (
         <div className="form-group">
           <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
             <span>Регистрация</span>
           </button>
-
         </div>
+        ) : ''}
       </form>
     </div>
     </Popup>

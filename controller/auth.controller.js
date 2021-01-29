@@ -2,33 +2,48 @@ const User = require('../models/auth.models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
-const validateRegisterInput = require('../validation/register')
+const axios = require('axios')
 
 const registerController = async(req, res) => {
   try{
-    let {email, password,  phone, username, address} = req.body
-    const {errors, isValid} = validateRegisterInput(req.body)
-    if(!isValid){
-     return res.status(404).json(errors)
-    }
-
-    const userExist = await User.findOne({email: email})
-    if(userExist){
-      return res.status(404).json({msg: "Такой пользователь уже существует"})
-    }
-    const salt = await bcrypt.genSalt()
-    const passwordHash = await bcrypt.hash(password, salt)
-
-    const newUser = new User({
-      email: email,
-      password: passwordHash,
-      phone,
-      username,
-      address
-    })
-    const savedUser = await newUser.save()
-    res.json(savedUser)
+    const data = req.body
+    const newUser = new User(data)
+    await newUser.save()
+    res.status(200).json(newUser)
   } catch (err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+const checkRegisterController = async(req, res) =>{
+  try{
+
+    const { phone } = req.body
+
+    const existUser = await User.findOne({phone: phone})
+    if(existUser) {
+      return res
+        .status(401)
+        .json({msg: "Такой пользователь существует"})
+    }
+    const code = Math.floor(100000 + Math.random() * 900000) + ''
+    const url = 'https://www.stramedia.ru/modules/send_sms.php'
+    const params = new URLSearchParams()
+    params.append("username" , "Shi8631")
+    params.append("password" , "7hY6YGb49i")
+    params.append("to" , "+79683550450")
+    params.append("from" , "BAMBOO.BAR")
+    params.append("coding" , "2")
+    params.append("text" , code)
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    const response = await axios.post(url, params, config)
+    res.status(200).json({message: response.data, code: code})
+
+  } catch (err){
     res.status(500).json({error: err.message})
   }
 }
@@ -36,8 +51,8 @@ const registerController = async(req, res) => {
 
 const loginController = async(req, res) => {
   try{
-    const {email, password} = req.body
-    const user = await User.findOne({email: email})
+    const {email, password, phone} = req.body
+    const user = await User.findOne({phone: phone})
     if(!user){
       return res
         .status(401)
@@ -49,6 +64,8 @@ const loginController = async(req, res) => {
         .status(404)
         .json({password: "Неправильные данные для входа"})
     }
+
+
     const token = jwt.sign({id: user._id}, config.get('JWT_SECRET'))
     res.json({
       token: token,
@@ -66,6 +83,43 @@ const loginController = async(req, res) => {
   }
 }
 
+const generateCode = async(req ,res) => {
+  try{
+    const { phone } = req.body
+    const user = await User.findOne({phone: phone})
+    if(!user){
+      return res.status(401).json({message: "Пользователь не существует"})
+    }
+    const code = Math.floor(100000 + Math.random() * 900000)
+
+    await User.findOne({phone: phone})
+      .then(user => {
+        user.password = code
+        user.save()
+      })
+
+    // const url = 'https://www.stramedia.ru/modules/send_sms.php'
+    // const params = new URLSearchParams()
+    // params.append("username" , "Shi863")
+    // params.append("password" , "7hY6YGb49i")
+    // params.append("to" , "+79683550450")
+    // params.append("from" , "BAMBOO.BAR")
+    // params.append("coding" , "2")
+    // params.append("text" , code)
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/x-www-form-urlencoded'
+    //   }
+    // }
+    // const response = await axios.post(url, params, config)
+    //
+    // res.status(200).json({response: response.data})
+
+
+  } catch (err){
+    res.status(500).json({err:err.message})
+  }
+}
 
 const checkToken = async(req, res) => {
   try{
@@ -105,8 +159,10 @@ const getUser = async(req, res) => {
 
 
 module.exports = {
+  checkRegisterController,
   registerController,
   loginController,
   checkToken,
   getUser,
+  generateCode,
 }

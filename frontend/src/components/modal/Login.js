@@ -20,42 +20,43 @@ const Login = ({modal, openLogin, closeLogin}) => {
     setData({...data, [event.target.name]: event.target.value})
   }
 
-  useEffect(() => {
-    let errorsLocal = {}
-    setValid(true)
-
-    // Validate Email
-    if(data['email'] === ''){
-      setValid(false)
-      errorsLocal['email'] = 'Укажите адрес электронной почты'
-    }
-    if(data['email'] !== ''){
-      let pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      if(!pattern.test(data['email'])){
-        setValid(false)
-        errorsLocal['email'] = "Укажите правильно адресс электронной почты"
-      }
-    }
-    // Validate Password
-    if(data['password'] === ''){
-      setValid(false);
-      errorsLocal['password'] = 'Пароль обязателен'
-    }
-    setErrors(errorsLocal)
-
-
-  }, [data])
+  // useEffect(() => {
+  //   let errorsLocal = {}
+  //   setValid(true)
+  //
+  //   // Validate Email
+  //   if(data['email'] === ''){
+  //     setValid(false)
+  //     errorsLocal['email'] = 'Укажите адрес электронной почты'
+  //   }
+  //   if(data['email'] !== ''){
+  //     let pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+  //     if(!pattern.test(data['email'])){
+  //       setValid(false)
+  //       errorsLocal['email'] = "Укажите правильно адресс электронной почты"
+  //     }
+  //   }
+  //   // Validate Password
+  //   if(data['password'] === ''){
+  //     setValid(false);
+  //     errorsLocal['password'] = 'Пароль обязателен'
+  //   }
+  //   setErrors(errorsLocal)
+  //
+  //
+  // }, [data])
 
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     try{
       const response = await axios.post(
-        '/api/auth/login',
+        '/api/auth/generate',
         data
       )
-      localStorage.setItem('auth-token', response.data.token)
-      window.location.reload();
+      console.log(response)
+      // localStorage.setItem('auth-token', response.data.token)
+      // window.location.reload();
 
     } catch (error) {
       setErrors(error.response.data)
@@ -67,18 +68,23 @@ const Login = ({modal, openLogin, closeLogin}) => {
       <div className="register-form login-form">
         <h2>Авторизация</h2>
         <form className="form">
+          {/*<div className="form-group">*/}
+          {/*  <label>E-mail*</label>*/}
+          {/*  <input type="email" onChange={onChangeHandler} defaultValue={data.email} name="email"/>*/}
+          {/*  <div className="form-error">{errors.email}</div>*/}
+          {/*</div>*/}
           <div className="form-group">
-            <label>E-mail*</label>
-            <input type="email" onChange={onChangeHandler} defaultValue={data.email} name="email"/>
-            <div className="form-error">{errors.email}</div>
+            <label>Телефон*</label>
+            <input type="email" onChange={onChangeHandler} defaultValue={data.phone} name="phone"/>
+            {/*<div className="form-error">{errors.phone}</div>*/}
           </div>
+          {/*<div className="form-group">*/}
+          {/*  <label>Пароль*</label>*/}
+          {/*  <input type="password" onChange={onChangeHandler} defaultValue={data.password} name="password"/>*/}
+          {/*  <div className="form-error">{errors.password}</div>*/}
+          {/*</div>*/}
           <div className="form-group">
-            <label>Пароль*</label>
-            <input type="password" onChange={onChangeHandler} defaultValue={data.password} name="password"/>
-            <div className="form-error">{errors.password}</div>
-          </div>
-          <div className="form-group">
-            <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
+            <button className="button" onClick={onSubmitHandler}>
               <span>Авторизация</span>
             </button>
           </div>
