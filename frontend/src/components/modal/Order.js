@@ -7,10 +7,8 @@ import {connect} from 'react-redux'
 
 
 const Order = ({user, typename, cart, address, totalPrice}) => {
-  let priceOrder = 0;
-  cart.forEach(product => {
-    priceOrder += product.priceGroup
-  })
+
+
 
   const [data, setData] = useState({
     products: cart ,
@@ -21,9 +19,9 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     street: "",
     deliveryTime: "",
     cutlery: "",
-    price: priceOrder,
+    price: totalPrice,
     additional: "",
-    user: user.user ? user.user.id : ""
+    user: user.user ? user.user._id : ""
   })
   const [errors, setErrors] = useState({
     customer_name: "",
@@ -41,6 +39,10 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
   }
 
 
+  useEffect(() => {
+    setData({...data, price: totalPrice})
+  }, [totalPrice])
+
   useEffect(() =>{
     if(user.user){
       setData({
@@ -48,7 +50,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
         customer_name: user.user.name,
         customer_email: user.user.email,
         customer_phone: user.user.phone,
-        user: user.user.id
+        user: user.user._id
       })
     }
   }, [user])
@@ -110,7 +112,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
       const response = await axios.post('/api/order/create', data)
       if(response.status === 200){
         console.log(response)
-        const payment = await axios.post('/api/order/pay', {id: response.data._id, price: priceOrder, address: address.address, user: user.user, products: response.data.products, date:response.headers.date  })
+        const payment = await axios.post('/api/order/pay', {id: response.data._id, price: totalPrice, address: address.address, user: user.user, products: response.data.products, date:response.headers.date  })
         window.location.href = payment.data.formUrl
       }
     } catch (err){

@@ -3,6 +3,7 @@ import asideReducer from "./asideReducer";
 import addressReducer from './addressReducer'
 import authReducer from "./authReducer"
 import modalReducer from "./modalReducer";
+import orderReducer from './orderReducer'
 import {combineReducers} from "redux";
 
 const rootReducer = combineReducers({
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
   asideReducer,
   authReducer,
   addressReducer,
-  modalReducer
+  modalReducer,
+  orderReducer
 })
 
 export default rootReducer

@@ -52,7 +52,7 @@ const Account = ({user}) => {
                 </div>
               </div>
             </div>
-            <AccountHistory />
+            <AccountHistory user={user} />
           </div>
         </div>
       </div>

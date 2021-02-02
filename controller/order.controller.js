@@ -15,6 +15,7 @@ const createOrder = async (req, res) => {
 const getOrderByUser = async(req, res) => {
   try{
     const { id } = req.body
+    console.log(id)
     const order = await Order.find({user: id})
     res.status(200).json(order)
   } catch (err){
@@ -60,9 +61,9 @@ const payOrder = async(req, res) => {
     const params = new URLSearchParams()
     params.append("userName", "delivery-bamboobar-api")
     params.append("password", ">@^z-J8XW#'-26~[")
-    params.append("returnUrl", "http://google.com/")
+    params.append("returnUrl", "http://localhost:3000/?success=true?orderId=" + id)
     params.append("currency", '643')
-    params.append("failUrl", "http://google.com/")
+    params.append("failUrl", "http://localhost:3000/?success=false")
     params.append("orderId", id)
     params.append("orderNumber", id)
     params.append("amount", price)

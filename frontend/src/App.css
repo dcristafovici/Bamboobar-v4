@@ -2604,30 +2604,6 @@ nav.menu-nav li.item-more.active > a::after{
   object-fit: cover;
 }
 
-.account-history__items{
-  position: relative;
-}
-.account-history__item{
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  opacity: 0;
-  transform: translateX(-10px);
-  z-index: -1;
-  visibility: hidden;
-  pointer-events: none;
-}
-.account-history__item.active{
-  position: relative;
-  z-index: 4;
-  transform: translateX(0px);
-  visibility: visible;
-  pointer-events: all;
-  transition: all .3s ease-in-out;
-  opacity: 1;
-}
-
 
 .bamboo-error{
   border-radius: 10px;
@@ -3143,6 +3119,19 @@ form.checkout{
 }
 /* animation */
 
+.account-item__legend ul{
+  display: flex;
+  align-items: center;
+}
+.account-item__legend li{
+  flex: auto;
+}
+.account-history__item{
+  display: flex;
+}
+.account-history__item div{
+  flex: auto;
+}
 @keyframes anvil {
   0% {
     transform: scale(1) translateY(0px);

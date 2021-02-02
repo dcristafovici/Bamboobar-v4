@@ -34,6 +34,7 @@ const orderSchema = new mongoose.Schema({
   additional: String,
   cutlery: String,
   deliveryTime: String,
+  orderStatus: {type: String, default: "0"},
   create: {
     type: Date,
     default: Date.now
