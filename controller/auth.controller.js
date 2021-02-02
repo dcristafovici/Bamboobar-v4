@@ -1,4 +1,5 @@
 const User = require('../models/auth.models')
+const Generate = require('../models/generate.models')
 const axios = require('axios')
 const jwt   = require('jsonwebtoken')
 require('dotenv').config()
@@ -22,10 +23,28 @@ const generateCode = async(req,res) => {
     params.append("text" , code + "")
 
     const response = await axios.post(url, params, config)
-    res.status(200).json({message: response.data, code: code + ""})
+    const saveEvent = new Generate({code: code})
+    await saveEvent.save()
+
+    res.status(200).json({message: response.data, session: saveEvent._id})
 
   } catch (err){
     res.status(500).json({error: err.message})
+  }
+}
+
+const getCode = async(req,res) => {
+  try{
+    const { session } = req.body
+    const generate = await Generate.findById(session)
+    if(!generate){
+      res.status(401).json({message: "Время кода истекло"})
+    }
+    res.status(200).json({code: generate.code})
+
+
+  } catch (err){
+    res.status(500).json({err: err.message})
   }
 }
 
@@ -89,8 +108,23 @@ const checkToken = async(req, res) => {
 }
 
 
+const updateAccount = async(req,res) => {
+  try{
+    const {id, name, email} = req.body
+    const update = await User.findByIdAndUpdate({_id: id}, {name, email})
+    console.log(update)
+    res.status(200).json({message: "Профиль обновлен"})
+
+  } catch (err){
+    res.status(500).json({msg: err.message})
+  }
+}
+
+
 module.exports = {
   generateCode,
   authController,
-  checkToken
+  checkToken,
+  getCode,
+  updateAccount,
 }

@@ -7,27 +7,55 @@ import {openRegister, closeRegister, openLogin} from "../../redux/actions/modalA
 
 const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   const [data, setData] = useState({
-    phone: ""
+    phone: "",
+    code: ""
   })
   const [errors, setErrors] = useState({
     phone: "",
     code: "",
     msg: ""
   })
-  const [code ,setCode] = useState('')
+  const [session , setSession] = useState('')
   const [valid, setValid] = useState(false)
 
   const onChangeHandler = (event) => {
     setData({...data, [event.target.name]: event.target.value})
   }
-  const onChangeSmsHandler = async(event) => {
-    if(event.target.value === code){
+  // const onChangeSmsHandler = async(event) => {
+  //   if(event.target.value === session){
+  //     setErrors({...errors, code: ""})
+  //     const responseAuth = await axios.post('/api/auth/auth', data)
+  //     localStorage.setItem('auth-token', responseAuth.data.token)
+  //     closeRegister()
+  //   } else{
+  //     setErrors({...errors, code : "Неправильный код"})
+  //   }
+  // }
+
+  const successfulAuth = async() => {
+    try{
       setErrors({...errors, code: ""})
       const responseAuth = await axios.post('/api/auth/auth', data)
       localStorage.setItem('auth-token', responseAuth.data.token)
       closeRegister()
-    } else{
-      setErrors({...errors, code : "Неправильный код"})
+
+    } catch (err){
+      console.log(err.message)
+    }
+  }
+  const checkCodeByBase = async(event) => {
+    event.preventDefault()
+    try{
+      const response = await axios.post('/api/auth/getCode', {session: session})
+      if(data.code === response.data.code){
+        successfulAuth()
+      }
+      else{
+        setErrors({...errors, session : "Неправильный код"})
+      }
+    }
+    catch (err){
+      setErrors({...errors, session: err.response.data.message})
     }
   }
 
@@ -56,8 +84,9 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
     event.preventDefault()
     try{
       const registerResponse = await axios.post('/api/auth/generate', data)
-      if(registerResponse.data.message.includes('Message accepted for sending')){
-        setCode(registerResponse.data.code)
+      if(!registerResponse.data.message.includes('Message accepted for sending')){
+        setSession(registerResponse.data.session)
+        console.log(registerResponse.data.session)
       }
     } catch (error) {
       console.log(error.response.data)
@@ -79,20 +108,26 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
           <input type="tel" onChange={onChangeHandler}  defaultValue={data.phone} name="phone"/>
           <div className="form-error">{errors.phone}</div>
         </div>
-        {(code !== '') ? (
+        {(session !== '') ? (
           <div className="form-group">
             <label>Код</label>
-            <input type="tel" onChange={onChangeSmsHandler} name="code"/>
-            <div className="form-error">{errors.code}</div>
+            <input type="tel" onChange={onChangeHandler} defaultValue={data.code} name="code"/>
+            <div className="form-error">{errors.session}</div>
           </div>
           ): ''}
-        {(code === '') ? (
+        {(session === '') ? (
         <div className="form-group">
           <button className={"button" + (valid ? '' : ' disabled')} onClick={onSubmitHandler}>
             <span>Регистрация</span>
           </button>
         </div>
-        ) : ''}
+        ) :
+        <div className="form-group">
+          <button className={'button'} onClick={checkCodeByBase}>
+            <span>Вход</span>
+          </button>
+        </div>
+        }
       </form>
     </div>
     </Popup>

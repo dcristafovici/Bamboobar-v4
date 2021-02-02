@@ -14,7 +14,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 
   const [data, setData] = useState({
     products: cart ,
-    customer_name: user.user ? user.user.username : '',
+    customer_name: user.user ? user.user.name : '',
     customer_email: user.user ? user.user.email : '',
     customer_phone: user.user ? user.user.phone : '',
     address: address ? address.address: '',
@@ -45,7 +45,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     if(user.user){
       setData({
         ...data,
-        customer_name: user.user.username,
+        customer_name: user.user.name,
         customer_email: user.user.email,
         customer_phone: user.user.phone,
         user: user.user.id

@@ -1,7 +1,10 @@
 import React from 'react'
 import Header from "../components/header/Header";
-import {connect} from 'react-redux'
 import Footer from "../components/footer/Footer";
+import AccountInfo from "../components/AccountInfo/AccountInfo";
+import AccountHistory from "../components/AccountHistory/AccountHistory";
+import {connect} from 'react-redux'
+
 const Account = ({user}) => {
   return(
     <main className="bamboobar-main">
@@ -13,25 +16,7 @@ const Account = ({user}) => {
         </div>
         <div className="account-wrapper">
           <div className="account-items">
-            <div className="account-item">
-              <div className="account-item__name">Личные данные</div>
-              <div className="account-item__vertical">
-              <div className="account-item__info">
-                <ul>
-                  <li><span>Имя:</span><span>{(user ? user.username : "")}</span>
-                  </li>
-                  <li><span>Email:</span><span>{(user ? user.email : "")}</span>
-                  </li>
-                  <li><span>Телефон:</span><span>{(user ? user.phone : "")}</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="account-item__button">
-                <button className="button button-gray"><span>Редактировать</span>
-                </button>
-              </div>
-            </div>
-            </div>
+            <AccountInfo user={user}/>
             <div className="account-item account-address">
               <div className="account-item__name">Адрес доставки</div>
               <div className="account-address__top">
@@ -67,9 +52,7 @@ const Account = ({user}) => {
                 </div>
               </div>
             </div>
-            <div className="account-item account-history">
-              <div className="account-item__name">История заказов</div>
-            </div>
+            <AccountHistory />
           </div>
         </div>
       </div>
