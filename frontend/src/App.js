@@ -8,6 +8,7 @@ import axios from "axios";
 import {connect} from 'react-redux'
 import './App.css';
 import {setUserData} from "./redux/actions/authAction";
+import Thanks from "./pages/Thanks";
 
 const App = ({setUserData}) => {
   useEffect(() => {
@@ -49,6 +50,9 @@ const App = ({setUserData}) => {
               </Route>
               <Route path='/account'>
                 <Account/>
+              </Route>
+              <Route path='/thanks'>
+                <Thanks />
               </Route>
               <Route path="/">
                 <Home />

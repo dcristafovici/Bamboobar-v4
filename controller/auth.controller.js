@@ -112,7 +112,6 @@ const updateAccount = async(req,res) => {
   try{
     const {id, name, email} = req.body
     const update = await User.findByIdAndUpdate({_id: id}, {name, email})
-    console.log(update)
     res.status(200).json({message: "Профиль обновлен"})
 
   } catch (err){

@@ -43,6 +43,12 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     setData({...data, price: totalPrice})
   }, [totalPrice])
 
+  useEffect(() => {
+    setData({...data, products: cart})
+    console.log(data)
+  }, [cart])
+
+
   useEffect(() =>{
     if(user.user){
       setData({
@@ -111,7 +117,6 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     try{
       const response = await axios.post('/api/order/create', data)
       if(response.status === 200){
-        console.log(response)
         const payment = await axios.post('/api/order/pay', {id: response.data._id, price: totalPrice, address: address.address, user: user.user, products: response.data.products, date:response.headers.date  })
         window.location.href = payment.data.formUrl
       }

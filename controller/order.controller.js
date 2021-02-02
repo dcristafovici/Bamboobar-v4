@@ -40,6 +40,7 @@ const payOrder = async(req, res) => {
         itemCode: _id,
       }
     })
+
     const orderBundle =
       {
         "orderCreationDate": date,
@@ -61,7 +62,7 @@ const payOrder = async(req, res) => {
     const params = new URLSearchParams()
     params.append("userName", "delivery-bamboobar-api")
     params.append("password", ">@^z-J8XW#'-26~[")
-    params.append("returnUrl", "http://localhost:3000/?success=true?orderId=" + id)
+    params.append("returnUrl", "http://localhost:3000/thanks/?orderID=" + id)
     params.append("currency", '643')
     params.append("failUrl", "http://localhost:3000/?success=false")
     params.append("orderId", id)
@@ -85,9 +86,20 @@ const payOrder = async(req, res) => {
   }
 }
 
+const updateOrder = async(req,res) => {
+  try{
+    const { id , status } = req.body
+    const update = await Order.findByIdAndUpdate({_id: id}, {orderStatus: status})
+    res.status(200).json({message: "Заказ обновлен"})
+  } catch (err){
+    res.status(500).json({erorr: err.message})
+  }
+}
+
 
 module.exports = {
   createOrder,
   getOrderByUser,
-  payOrder
+  payOrder,
+  updateOrder
 }
