@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import { YMaps, Map } from "react-yandex-maps";
 import {connect} from 'react-redux'
 import {clearUserAddress, setUserAddress} from "../../redux/actions/addressAction"
@@ -16,6 +16,9 @@ const Find = ({setUserAddress , addressState, clearUserAddress}) => {
         async function (res) {
           const coords = await res.geoObjects.get(0).geometry._coordinates;
           let distance = ymaps.coordSystem.geo.getDistance(bambooCords, coords);
+
+
+
           distance = parseInt(distance);
           distance = distance / 1000;
           setUserAddress(displayName, distance)
@@ -33,7 +36,7 @@ const Find = ({setUserAddress , addressState, clearUserAddress}) => {
           query={{
             apikey: "0a8d2b6c-a129-4df5-be51-bbaabc237547",
           }}
-          >
+        >
           <Map
             onLoad={ymaps => loadSuggest(ymaps)}
             defaultState={{ center: [55.751574, 37.573856],  zoom: 9 }}

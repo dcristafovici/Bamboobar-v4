@@ -45,7 +45,6 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 
   useEffect(() => {
     setData({...data, products: cart})
-    console.log(data)
   }, [cart])
 
 
