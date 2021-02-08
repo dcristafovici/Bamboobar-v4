@@ -1,37 +1,29 @@
-import {FETCH_CATEGORIES_START, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_ERROR} from "./actions-types/categories-actions"
+import {
+  FETCH_CATEGORIES_START,
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_ERROR
+} from "./actions-types/categories-actions"
 import axios from "axios"
 
-export function fetchCategories() {
-  return async dispatch => {
-    dispatch(fetchCategoriesStart())
-    try {
-      const response = await axios.get('/api/category/categories')
-      const categories = []
-      categories.push(response.data.data)
-      dispatch(fetchCategoriesSuccess(categories))
-    } catch (e) {
-      dispatch(fetchCategoriesError(e))
-    }
-  }
-}
+export const fetchCategories = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: FETCH_CATEGORIES_START,
+    })
+    const {data} = await axios.get('/api/category/categories')
 
-export function fetchCategoriesStart() {
-  return{
-    type: FETCH_CATEGORIES_START
-  }
-}
+    dispatch({
+      type: FETCH_CATEGORIES_SUCCESS,
+      payload: data.data
+    })
 
-
-export function fetchCategoriesSuccess(categories) {
-  return{
-    type: FETCH_CATEGORIES_SUCCESS,
-    categories
-  }
-}
-
-export function fetchCategoriesError(error) {
-  return{
-    type: FETCH_CATEGORIES_ERROR ,
-    error
+  } catch (error) {
+    dispatch({
+      type: FETCH_CATEGORIES_ERROR,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
   }
 }

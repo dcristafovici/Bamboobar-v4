@@ -9,15 +9,19 @@ export default function categoriesReducer(state = initialState, action){
   switch (action.type) {
     case FETCH_CATEGORIES_START:
       return {
-        ...state, loading: true
+        ...state,
+        loading: true
       }
     case FETCH_CATEGORIES_SUCCESS:
       return {
-        ...state, loading: false, categories: action.categories[0]
+        ...state,
+        loading: false,
+        categories: action.payload
       }
     case FETCH_CATEGORIES_ERROR:
       return {
-        ...state, loading: false, error: action.error
+        ...state, loading: false,
+        error: action.payload
       }
     default:
       return state

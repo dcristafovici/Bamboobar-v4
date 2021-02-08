@@ -1,75 +1,40 @@
-import React,{Component} from 'react'
-import {connect} from 'react-redux'
+import React, {useEffect} from 'react'
 import Aside from "../aside/Aside";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../redux/actions/categoriesAction";
-import CatalogItem from "./CatalogItem";
+import CatalogPoint from "./CatalogPoint";
 
-class Catalog extends Component {
+const Catalog = () => {
+  const categoriesReducer = useSelector(state => state.categoriesReducer)
+  const {categories, loading, error} = categoriesReducer
 
-  renderCategories(){
-    const categories = this.props.categories
-      return categories.map((category, index) => {
-        return(
-          <div key={index}  className="catalog-point">
-            <div className="title">
-              <h2>{category.name}</h2>
-            </div>
-            <div className="catalog-filters">
-              <span>Сортировка:</span>
-              <ul>
-                <li>
-                  <span>Цена</span>
-                  <img
-                    src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/catalog/down.svg"
-                    alt="Down" />
-                </li>
-              </ul>
-            </div>
-            <div className="catalog-items">
-              <CatalogItem   categoryId={category._id}/>
-            </div>
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
+  return (
+    <section className="catalog">
+      <div className="content">
+        <div className="catalog-wrapper">
+          <div className="catalog-main">
+            {loading ?
+              (<h1>loading</h1>)
+              : error ? (<h2>{error}</h2>)
+                : (
+                  categories.map((category, index) => {
+                    return (
+                      <CatalogPoint key={index} category={category}/>
+                    )
+                  })
+                )
+            }
           </div>
-        )
-    })
-  }
-
-  componentDidMount() {
-    this.props.fetchCategories()
-  }
-
-  render() {
-    return(
-      <section className="catalog">
-        <div className="content">
-          <div className="catalog-wrapper">
-            <div className="catalog-main">
-              {
-                this.props.loading  && this.props.categories !== 0
-                ? "<h1> loading </h1>"
-                : <ul>
-                  {this.renderCategories()}
-                  </ul>
-              }
-            </div>
-            <Aside cart={this.props.cart}/>
-          </div>
+          <Aside/>
         </div>
-      </section>
-    )
-  }
-}
-const mapStateToProps = (state) =>{
-  return{
-    categories: state.categoriesReducer.categories,
-    loading: state.categoriesReducer.loading,
-    cart: state.asideReducer.cart
-  }
+      </div>
+    </section>
+  )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return{
-    fetchCategories: () => dispatch(fetchCategories()),
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Catalog)
+export default Catalog
