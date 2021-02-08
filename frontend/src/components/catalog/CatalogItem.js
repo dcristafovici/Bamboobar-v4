@@ -1,47 +1,20 @@
-import React, {useEffect, useState, useContext} from "react"
-import {connect} from "react-redux"
-import axios from "axios";
-import {addToCart} from "../../redux/actions/asideAction";
-import {togglePopup} from "../../redux/actions/addressAction";
+import React from "react"
 
 
-const CatalogItem = ({categoryId, addToCart, address, togglePopup}) => {
-  const [data, updateData] = useState([]);
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get('/api/product/findById/' + categoryId)
-      const products = response.data.products
-      updateData(products)
-    }
-    getData()
-  }, [])
+const CatalogItem = ({products}) => {
 
-
-  return(
-    <React.Fragment>
-    {data.map((product, index) => {
-      let productImage = product.productImage
-      productImage = "http://localhost:5000/" + productImage
-      return(
-        <div
-              className="catalog-item"
-             onClick={() => {
-              if(address.delivery){
-                addToCart(product)
-              } else{
-                togglePopup()
-              }
-              }
-             }
-             key={index}
-             data-id={product._id}>
+  return (
+    products.map((product, index) => {
+      return (
+        <div key={index} className="catalog-item">
           <div className="catalog-item__top">
             <h4>{product.name}</h4>
-            <span><span className="woocommerce-Price-amount amount"><bdi>{product.price}<span
-              className="woocommerce-Price-currencySymbol">₽</span></bdi></span></span>
+            <span><span className="woocommerce-Price-amount amount">
+              <bdi>{product.price}
+                <span className="woocommerce-Price-currencySymbol">₽</span></bdi></span></span>
           </div>
           <div className="catalog-item__photo">
-            <img src={productImage} />
+            <img src={"http://localhost:5000/" + product.productImage} />
             <div className="catalog-photo__general">
               <div className="catalog-photo__gramme"><span>{product.weight} г</span>
               </div>
@@ -51,27 +24,14 @@ const CatalogItem = ({categoryId, addToCart, address, togglePopup}) => {
             <div></div>
             <div></div>
           </div>
+
         </div>
       )
-    })}
-    </React.Fragment>
+    })
   )
 
+
 }
 
 
-const mapStateToProps = (state) => {
-  return{
-    products: state.asideReducer.products,
-    address: state.addressReducer
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return{
-    addToCart: (product) => dispatch(addToCart(product)),
-    togglePopup: () => dispatch(togglePopup())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CatalogItem)
+export default CatalogItem

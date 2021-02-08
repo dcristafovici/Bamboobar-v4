@@ -2,17 +2,26 @@ import React, {useEffect} from 'react'
 import Aside from "../aside/Aside";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../redux/actions/categoriesAction";
+import {fetchProducts} from "../../redux/actions/productsAction";
 import CatalogPoint from "./CatalogPoint";
 
 const Catalog = () => {
   const categoriesReducer = useSelector(state => state.categoriesReducer)
-  const {categories, loading, error} = categoriesReducer
+  const productsReducer = useSelector(state => state.productsReducer)
 
+  const {categories, loading, error} = categoriesReducer
+  const { products } = productsReducer
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCategories())
+    async function fetchData(){
+      await dispatch(fetchProducts())
+      dispatch(fetchCategories())
+    }
+    fetchData()
   }, [dispatch])
+
+
   return (
     <section className="catalog">
       <div className="content">
@@ -23,8 +32,9 @@ const Catalog = () => {
               : error ? (<h2>{error}</h2>)
                 : (
                   categories.map((category, index) => {
+                    const filteredProducts = products.filter(product => product.category === category._id)
                     return (
-                      <CatalogPoint key={index} category={category}/>
+                      <CatalogPoint key={index} products={filteredProducts} category={category}/>
                     )
                   })
                 )

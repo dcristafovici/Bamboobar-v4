@@ -1,7 +1,7 @@
 import React from "react"
 import CatalogItem from "./CatalogItem";
 
-const CatalogPoint = ({category}) => {
+const CatalogPoint = ({category, products}) => {
   return(
     <div className="catalog-point">
       <div className="title">
@@ -19,7 +19,7 @@ const CatalogPoint = ({category}) => {
         </ul>
       </div>
       <div className="catalog-items">
-        <CatalogItem   categoryId={category._id}/>
+        <CatalogItem  products={products}  />
       </div>
     </div>
   )
