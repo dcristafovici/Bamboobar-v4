@@ -1,135 +1,68 @@
-import React,{Component} from "react"
+import React, {useState, useEffect} from "react";
 import {connect} from 'react-redux'
-import {addQuantity} from "../../redux/actions/asideAction"
-import {subQuantity} from '../../redux/actions/asideAction'
-import {removeFromCart} from '../../redux/actions/asideAction'
-import {emptyCart} from '../../redux/actions/asideAction'
-import {openRegister} from "../../redux/actions/modalAction";
+import AsideItem from "./AsideItem";
 import Order from "../modal/Order";
-class Aside extends Component{
-  render() {
+import AsideDelivery from "../catalog/AsideDelivery";
+
+const Aside = ({cart, address, addressReducer}) => {
+
+  const [total, setTotal] = useState("0")
+  const [percent, setPercent] = useState("0")
+  useEffect(() => {
     let totalPrice = 0;
-    let cartCurrent = this.props.cart ? this.props.cart : []
-    cartCurrent.forEach(cart => {
-      totalPrice += cart.priceGroup;
+    cart.forEach(item => {
+      totalPrice += item.priceGroup;
+      setTotal(totalPrice)
     })
-    let simpleCart = this.props.cart ? this.props.cart : []
-    let differencePrice =  this.props.minPrice - totalPrice;
-    let percentPrice = totalPrice/this.props.minPrice * 100
-    function smoothToBanner(event) {
-      event.preventDefault()
-      let element = document.getElementById('banner')
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+    setPercent(totalPrice/addressReducer.deliveryMin * 100)
+  }, [cart])
 
-    return(
-      <aside className="aside aside-ready" data-delivery="5000">
-        <div className="aside-control">
-          <div className="aside-title"><span>Мой заказ</span>
-          </div>
-          <div className="aside-close" onClick={() => this.props.emptyCart()}>
-            <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/close.svg"
-                 alt="Close" />
-          </div>
+  return (
+    <aside className="aside aside-ready">
+      <div className="aside-control">
+        <div className="aside-title"><span>Мой заказ</span>
         </div>
-        {(this.props.address.delivery) ? (
-          <React.Fragment>
-            <div className="aside-items">
-              {simpleCart.map((item, key) => (
-                <div className="aside-item" data-id={item.product._id} key={key}>
-                  <div className="aside-item__name"><span>{item.product.name}</span></div>
-                  <div className="aside-item__change" key={item.quantity}>
-                    <div className="aside-plus" onClick={() => this.props.addQuantity(item.product._id, item.quantity, item.product.price)}></div>
-                    <input type="number" className="item-quantity" defaultValue={item.quantity || 1}/>
-                    <div
-                      className={"aside-minus "  + (item.quantity > 1 ? '' : 'remove')}
-                      onClick={() =>{
-                        item.quantity > 1 ? this.props.subQuantity(item.product._id, item.quantity, item.product.price)
-                        : this.props.removeFromCart(item.product._id)
-                        }
-                      }>
-                    </div>
-                  </div>
-                  <div className="aside-item__right">
-                    <span><span className="amount"><bdi>{item.priceGroup}₽</bdi></span></span><span>{item.product.weight} г</span>
-                  </div>
-                </div>
-              ))}
-              </div>
-
-            <div className="aside-delivery">
-              <div className="aside-delivery__min">заказ по данному адресу возможен от <span
-                id="min_delivery">{this.props.minPrice}</span> ₽
-              </div>
-              {differencePrice > 0 ? (
-              <div className="aside-delivery__name">
-                <span>Закажите ещё на
-                  <span id="remaind"> {differencePrice}</span> ₽ для бесплатной доставки
-                </span>
-              </div>
-                ): ""}
-              <div className="aside-delivery__count"><span>{totalPrice} ₽ </span><span>{this.props.minPrice} ₽</span>
-              </div>
-              <div className="aside-delivery__line">
-                <div className="aside-delivery__fill" style={{width: percentPrice + '%'}} >
-                  <span> {totalPrice}  ₽</span></div>
-              </div>
-            </div>
-
-            <div className="aside-delivery__info">
-              <div className="aside-info__item"><span>Время доставки</span><span>~60 мин</span>
-              </div>
-
-              <div className="aside-info__item"><span>Итого</span><span id="total-amount">{totalPrice} ₽</span>
-              </div>
-            </div>
-        </React.Fragment>
+        <div className="aside-close">
+          <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/close.svg"
+               alt="Close"/>
+        </div>
+      </div>
+      {address ? (
+        <>
+          <div className="aside-items">
+            {cart.map((item, index) => {
+              return (
+                <AsideItem key={index} item={item}/>
+              )
+            })}
+          </div>
+          <AsideDelivery  total={total} percent={percent} cart={cart}/>
+        </>
+      ) : ""}
+      <div className="aside-delivery__button">
+        {address ? (
+            <Order cart={cart} typename={addressReducer.deliveryMin > total ? 'notedit' : ""}/>
           ) : (
-            <>
-            </>
+          <a href="#banner"  className="button button-checkout">
+            <span>Указать адресс</span>
+          </a>
           )}
-        <div className="aside-delivery__button">
-          {(this.props.address.delivery) ? (
-            <>
-              {(this.props.user.user) ? (
-                <Order cart={this.props.cart} typename={this.props.minPrice > totalPrice ? 'notedit' : ""} totalPrice={totalPrice} />
-              ):(
-                <div onClick={() => this.props.openRegister()} className={"button button-checkout"}>
-                  <span>Оформить заказ</span>
-                </div>
-              )}
-            </>
-            ):(
-            <a href="#banner" onClick={smoothToBanner} className="button button-checkout">
-              <span>Указать адресс</span>
-            </a>
-          )}
-        </div>
-      </aside>
-    )
-  }
+      </div>
+    </aside>
+  )
 }
 
 const mapStateToProps = (state) => {
-  return{
+  return {
     cart: state.asideReducer.cart,
-    minPrice: state.addressReducer.minPrice,
-    address: state.addressReducer,
-    user: state.authReducer
+    address: state.addressReducer.address,
+    addressReducer: state.addressReducer,
+    user: state.authReducer.user
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return{
-    addQuantity: (id, quantity, price) => dispatch(addQuantity(id, quantity, price)),
-    subQuantity: (id, quantity, price) => dispatch(subQuantity(id, quantity, price)),
-    removeFromCart: (id) => dispatch(removeFromCart(id)),
-    emptyCart: () => dispatch(emptyCart()),
-    openRegister : () => dispatch(openRegister()),
-  }
+  return {}
 }
-
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Aside)
