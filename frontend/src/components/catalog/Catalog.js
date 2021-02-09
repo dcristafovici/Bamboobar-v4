@@ -40,7 +40,7 @@ const Catalog = () => {
                 )
             }
           </div>
-          {/*<Aside/>*/}
+          <Aside/>
         </div>
       </div>
     </section>
