@@ -14,7 +14,8 @@ const NotDelivery = ({popup, togglePopup}) => {
     <Popup open={open}  modal onClose={()=> togglePopup()}>
       <div className="notdelivery-wrapper bamboo-error">
         <h2>Укажите ваш адрес</h2>
-        <p>Укажите адрес доставки, в приделах МКАД</p>
+        <p>В данной области доставка не доступна</p>
+        <p></p>
         <div className="button">
           <span>Указать адрес</span>
         </div>

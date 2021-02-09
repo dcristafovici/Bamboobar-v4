@@ -18,14 +18,9 @@ const store = createStore(rootReducer,
   )
 )
 store.subscribe(() => {
-  // const cartState = store.getState().asideReducer.cart
-  // let cartTotalPrice = 0;
-  // cartState.forEach(product => {
-  //   cartTotalPrice += product.priceGroup;
-  // })
   saveState({
     cart: store.getState().asideReducer.cart,
-    address: store.getState().addressReducer,
+    address: store.getState().addressReducer
   })
 
 

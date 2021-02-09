@@ -64,9 +64,10 @@
         ]
       },
       "properties": {
-        "delivery_time": "30-45 мин.",
-        "delivery_min" : "1500",
-        "delivery_sale": true,
+        "time": "30-45 мин.",
+        "min" : "1500",
+        "sale": true,
+        "pay": false,
         "description": "Москва-Сити\nот 1500\nдоставка бесплатная\nскидка 20%\nсрок 30-45мин",
         "fill": "#595959",
         "fill-opacity": 0.6,
@@ -138,11 +139,11 @@
         ]
       },
       "properties": {
-        "delivery_time": "40-60 мин.",
-        "delivery_min" : "3500",
-        "delivery_sale": false,
-        "delivery_pay": true,
-        "delivery_not_pay": "5000",
+        "time": "40-60 мин.",
+        "min" : "3500",
+        "sale": false,
+        "pay": true,
+        "notPay": "5000",
         "description": "5 КМ\n- от 5000руб бесплатно\n- от 3500-5000руб  + такси\n- 40-60 мин",
         "fill": "#ed4543",
         "fill-opacity": 0.6,
@@ -306,11 +307,11 @@
         ]
       },
       "properties": {
-        "delivery_time": "60-90 мин.",
-        "delivery_min" : "5000",
-        "delivery_sale": false,
-        "delivery_pay": true,
-        "delivery_not_pay": "10000",
+        "time": "60-90 мин.",
+        "min" : "5000",
+        "sale": false,
+        "pay": true,
+        "notPay": "10000",
         "description": "В пределах МКАД \n- 60-90 минут\n- от 10 000 бесплатно\n- от 5000 (тариф такси по МСК)",
         "fill": "#56db40",
         "fill-opacity": 0.3,
@@ -406,10 +407,10 @@
         ]
       },
       "properties": {
-        "delivery_time": "70-90 мин.",
-        "delivery_min" : "10000",
-        "delivery_sale": false,
-        "delivery_pay": true,
+        "time": "70-90 мин.",
+        "min" : "10000",
+        "sale": false,
+        "pay": true,
         "description": "Рублевка\n- от 10 000\n- доставка по тарифу такси\n70-90 мин",
         "fill": "#f371d1",
         "fill-opacity": 0.6,

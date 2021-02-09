@@ -1,28 +1,23 @@
 import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "./actions-types/address-reducer"
-export function setUserAddress(address, distance) {
-  return{
+
+export const setUserAddress = (address, data) => (dispatch) => {
+  dispatch({
     type: SET_USER_ADDRESS,
     payload: {
       address,
-      distance
+      data
     }
-  }
+  })
 }
 
-export function clearUserAddress() {
-  return{
+export const clearUserAddress = () => (dispatch) => {
+  dispatch({
     type: CLEAR_USER_ADDRESS,
-    payload: {
-      address: '',
-      distance: null
-    }
-  }
+  })
 }
 
-export function togglePopup() {
-  return{
-    type: TOGGLE_POPUP,
-  }
+export const togglePopup = (data) => (dispatch) => {
+  dispatch({
+    type: TOGGLE_POPUP
+  })
 }
-
-
