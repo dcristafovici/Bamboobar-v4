@@ -1,12 +1,26 @@
-import React from "react"
-import { YMaps, Map } from "react-yandex-maps";
+import React, {useState, useRef, useEffect} from "react"
+import {YMaps, Map} from "react-yandex-maps";
+import GeoCoordinates from '../../misc/delivery.json'
 import {connect} from 'react-redux'
 import {clearUserAddress, setUserAddress} from "../../redux/actions/addressAction"
 
 
-const Find = ({setUserAddress , addressState, clearUserAddress}) => {
+const Find = ({setUserAddress, addressState, clearUserAddress}) => {
+  const map = useRef(null)
+  const [cords, setCords] = useState()
+  const [obymaps, setYmaps] = useState(null)
+  useEffect(() => {
+    if (obymaps && map.current) {
+      const deliveryZones = obymaps.geoQuery(GeoCoordinates).addToMap(map.current)
+      if(cords){
+        const setRes = deliveryZones.searchContaining(cords)
+        console.log(setRes._objects[0].properties._data)
+      }
+    }
+  }, [map, obymaps,cords])
 
   const loadSuggest = ymaps => {
+    setYmaps(ymaps)
     const suggestView = new ymaps.SuggestView("suggest");
     const bambooCords = [55.747159, 37.539070]
     suggestView.events.add("select", (e) => {
@@ -15,18 +29,16 @@ const Find = ({setUserAddress , addressState, clearUserAddress}) => {
       myGeocoder.then(
         async function (res) {
           const coords = await res.geoObjects.get(0).geometry._coordinates;
-          let distance = ymaps.coordSystem.geo.getDistance(bambooCords, coords);
-
-
-
-          distance = parseInt(distance);
-          distance = distance / 1000;
-          setUserAddress(displayName, distance)
+          setCords(coords)
+          // let distance = ymaps.coordSystem.geo.getDistance(bambooCords, coords);
+          // distance = parseInt(distance);
+          // distance = distance / 1000;
+          // setUserAddress(displayName, distance)
         }
       )
     });
   };
-  return(
+  return (
     <div className="banner-find">
       <h1>Быстрая Доставка из лучшего ресторана<br/>в москва-СИТИ bamboo.bar</h1>
 
@@ -38,17 +50,18 @@ const Find = ({setUserAddress , addressState, clearUserAddress}) => {
           }}
         >
           <Map
+            instanceRef={map}
             onLoad={ymaps => loadSuggest(ymaps)}
-            defaultState={{ center: [55.751574, 37.573856],  zoom: 9 }}
-            modules={["SuggestView", "geocode", "coordSystem.geo"]}
+            defaultState={{center: [55.747159, 37.539070], zoom: 9}}
+            modules={["SuggestView", "geocode", "coordSystem.geo", "geoQuery", "geoObject.addon.balloon", "geoObject.addon.hint"]}
           />
-          <input type="text" id='suggest' placeholder='Указать адрес' defaultValue={addressState.address || ''}  />
+          <input type="text" id='suggest' placeholder='Указать адрес' defaultValue={addressState.address || ''}/>
         </YMaps>
         <div className="form-group__clear" onClick={() => clearUserAddress()}>
           <span>Изменить</span>
           <img
             src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/banner/pencil.svg"
-            alt="" />
+            alt=""/>
         </div>
       </div>
     </div>
@@ -62,9 +75,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return{
-    setUserAddress: (address, distance) => dispatch(setUserAddress(address,distance)),
-    clearUserAddress: () =>dispatch(clearUserAddress())
+  return {
+    setUserAddress: (address, distance) => dispatch(setUserAddress(address, distance)),
+    clearUserAddress: () => dispatch(clearUserAddress())
   }
 }
 

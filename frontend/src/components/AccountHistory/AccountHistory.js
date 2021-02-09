@@ -40,7 +40,6 @@ const AccountHistory = ({user}) =>{
                 {order.products.map((product, index) => {
                   return(
                     <div className="account-product" key={index}>
-                      {console.log(product)}
                       <div className="account-product__name">{product.name}</div>
                       <div className="account-product__quantity">{product.quantity}</div>
                       <div className="account-product__price">{product.priceItem} ₽</div>
