@@ -4,13 +4,12 @@ import {
   SUB_QUANTITY,
   REMOVE_FROM_CART,
   EMPTY_CART,
-  UPDATE_PRICE
 } from '../actions/actions-types/aside-actions'
 import {loadState} from '../../localStorage'
 
 const cart = loadState()
 const initialState = {
-  cart: cart.cart ? cart.cart : []
+  cart: cart.cart ? cart.cart : [],
 }
 
 export default function asideReducer(state = initialState, action) {
@@ -27,7 +26,8 @@ export default function asideReducer(state = initialState, action) {
               ? item
               : { ...itemInCart,
                   quantity: itemInCart.quantity + 1,
-                  priceGroup: (itemInCart.quantity + 1) * itemInCart.product.price
+                  priceGroup: (itemInCart.quantity + 1) * itemInCart.priceItem,
+                  priceGroupWithSale: (itemInCart.quantity + 1) * itemInCart.priceWithSale
                 }
           }),
         }
@@ -44,7 +44,8 @@ export default function asideReducer(state = initialState, action) {
           item.product._id === action.payload.id
           ? {...item,
               quantity : action.payload.quantity + 1,
-              priceGroup: (action.payload.quantity + 1) * action.payload.price
+              priceGroup: (action.payload.quantity + 1) * action.payload.price,
+              priceGroupWithSale: (action.payload.quantity + 1) * action.payload.priceWithSale
             }
           : item
         ),
@@ -56,7 +57,9 @@ export default function asideReducer(state = initialState, action) {
           item.product._id === action.payload.id
             ? {...item,
               quantity : action.payload.quantity - 1 ,
-              priceGroup: (action.payload.quantity - 1) * action.payload.price
+              priceGroup: (action.payload.quantity - 1) * action.payload.price,
+              priceGroupWithSale: (action.payload.quantity - 1) * action.payload.priceWithSale
+
             }
             : item
         ),

@@ -15,6 +15,8 @@ export function addToCart(product) {
       quantity: 1,
       priceGroup: product.price,
       priceItem: product.price,
+      priceWithSale: product.price - product.price * .20,
+      priceGroupWithSale: product.price - product.price * .20,
       name: product.name
     }
   }
@@ -25,7 +27,8 @@ export function addQuantity(id, quantity, price) {
     payload: {
       id,
       quantity,
-      price
+      price,
+      priceWithSale: price - price * .20,
     }
   }
 }
@@ -36,7 +39,8 @@ export function subQuantity(id, quantity, price ) {
     payload: {
       id,
       quantity,
-      price
+      price,
+      priceWithSale: price - price * .20,
     }
   }
 }

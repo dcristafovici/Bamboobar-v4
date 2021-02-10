@@ -3,29 +3,46 @@ import {connect} from 'react-redux'
 import AsideItem from "./AsideItem";
 import Order from "../modal/Order";
 import AsideDelivery from "../catalog/AsideDelivery";
+import {openRegister} from "../../redux/actions/modalAction";
+import {emptyCart} from "../../redux/actions/asideAction";
 
-const Aside = ({cart, address, addressReducer}) => {
+const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) => {
 
   const [total, setTotal] = useState("0")
+  const [sale, setSale] = useState(0)
   const [percent, setPercent] = useState("0")
+
   useEffect(() => {
     let totalPrice = 0;
+    if(!cart.length){
+      setTotal(0)
+    }
     cart.forEach(item => {
       totalPrice += item.priceGroup;
       setTotal(totalPrice)
     })
-    setPercent(totalPrice/addressReducer.deliveryMin * 100)
+    setPercent(totalPrice / addressReducer.deliveryMin * 100)
   }, [cart])
+
+
+  useEffect(() => {
+    if(addressReducer.deliverySale){
+      setSale(total - total * .20)
+    }
+  }, [total])
 
   return (
     <aside className="aside aside-ready">
       <div className="aside-control">
         <div className="aside-title"><span>Мой заказ</span>
         </div>
-        <div className="aside-close">
+        <div className="aside-close" onClick={() => emptyCart()}>
           <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/close.svg"
                alt="Close"/>
         </div>
+        {(addressReducer.deliverySale) ? (
+          <div className="aside-sale">Скидка 20% активировано </div>
+        ) : ""}
       </div>
       {address ? (
         <>
@@ -36,17 +53,32 @@ const Aside = ({cart, address, addressReducer}) => {
               )
             })}
           </div>
-          <AsideDelivery  total={total} percent={percent} cart={cart}/>
+          <AsideDelivery total={total} sale={sale} percent={percent} cart={cart}/>
         </>
       ) : ""}
       <div className="aside-delivery__button">
+
         {address ? (
-            <Order cart={cart} typename={addressReducer.deliveryMin > total ? 'notedit' : ""}/>
-          ) : (
-          <a href="#banner"  className="button button-checkout">
+          <>
+            {(user) ? (
+              <Order
+                cart={cart}
+                total={sale ? sale : total}
+                time={addressReducer.deliveryTime}
+                isSale={sale ? true: false}
+                typename={addressReducer.deliveryMin > total ? 'notedit' : ""}/>
+            ) : (
+              <div onClick={() => openRegister()} className={"button button-checkout"}>
+                <span>Оформить заказ</span>
+              </div>
+            )}
+
+          </>
+        ) : (
+          <a href="#banner" className="button button-checkout">
             <span>Указать адресс</span>
           </a>
-          )}
+        )}
       </div>
     </aside>
   )
@@ -62,7 +94,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    openRegister: () => dispatch(openRegister()),
+    emptyCart: () => dispatch(emptyCart())
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Aside)

@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {connect} from 'react-redux'
 
 
-const Order = ({user, typename, cart, address, totalPrice}) => {
+const Order = ({user, typename, cart, address, total, time, isSale}) => {
 
 
 
@@ -19,7 +19,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     street: "",
     deliveryTime: "",
     cutlery: "",
-    price: totalPrice,
+    price: total,
     additional: "",
     user: user.user ? user.user._id : ""
   })
@@ -40,8 +40,8 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
 
 
   useEffect(() => {
-    setData({...data, price: totalPrice})
-  }, [totalPrice])
+    setData({...data, price: total})
+  }, [total])
 
   useEffect(() => {
     setData({...data, products: cart})
@@ -116,7 +116,7 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
     try{
       const response = await axios.post('/api/order/create', data)
       if(response.status === 200){
-        const payment = await axios.post('/api/order/pay', {id: response.data._id, price: totalPrice, address: address.address, user: user.user, products: response.data.products, date:response.headers.date  })
+        const payment = await axios.post('/api/order/pay', {id: response.data._id, price: total, address: address.address, user: user.user, products: response.data.products, date:response.headers.date, isSale: isSale  })
         window.location.href = payment.data.formUrl
       }
     } catch (err){
@@ -181,11 +181,11 @@ const Order = ({user, typename, cart, address, totalPrice}) => {
           <div className="checkout-total">
             <div className="checkout-total__item">
               <div className="checkout-total__label">Время доставки</div>
-              <div className="checkout-total__value" id="checkout-pop__time">~30 мин</div>
+              <div className="checkout-total__value" id="checkout-pop__time">{time}</div>
             </div>
             <div className="checkout-total__item">
               <div className="checkout-total__label">Итого</div>
-              <div className="checkout-total__value"><span>{totalPrice} ₽</span>
+              <div className="checkout-total__value"><span>{total} ₽</span>
               </div>
             </div>
             <div className="checkout-total__item">

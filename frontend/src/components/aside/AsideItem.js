@@ -21,7 +21,8 @@ const AsideItem = ({item, addQuantity, subQuantity, removeFromCart}) => {
         </div>
       </div>
       <div className="aside-item__right">
-        <span><span className="amount"><bdi>{item.priceGroup}₽</bdi></span></span><span>{item.product.weight} г</span>
+        <span className='amount'>{item.priceGroupWithSale} ₽</span>
+        <span>{item.product.weight} г</span>
       </div>
     </div>
   )

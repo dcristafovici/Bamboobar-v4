@@ -15,7 +15,6 @@ const createOrder = async (req, res) => {
 const getOrderByUser = async(req, res) => {
   try{
     const { id } = req.body
-    console.log(id)
     const order = await Order.find({user: id})
     res.status(200).json(order)
   } catch (err){
@@ -25,18 +24,18 @@ const getOrderByUser = async(req, res) => {
 
 const payOrder = async(req, res) => {
   try {
-    let {price, address, date, id, products, user} = req.body
+    let {price, address, date, id, products, user, isSale} = req.body
     price = price * 100
     let positionIdCount = 1;
     const items = products.map((product) => {
-      let {_id, name, quantity, priceItem} = product
+      let {_id, name, quantity, priceItem, priceWithSale} = product
 
       return {
         positionId: positionIdCount++,
         name: name,
         itemCurrency: "643",
         quantity: {"value": quantity, "measure": "единиц"},
-        itemPrice: priceItem * 100,
+        itemPrice: isSale ? priceWithSale * 100 : priceItem * 100,
         itemCode: _id,
       }
     })

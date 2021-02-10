@@ -1216,10 +1216,12 @@ h4 {
   display: block;
 }
 .aside-info__item span:first-child {
-  color: #666;
   font-size: 10px;
   text-transform: uppercase;
   margin-bottom: 7px;
+}
+.aside-info__item > span:first-child{
+  color: #666;
 }
 .aside-info__item span:last-child {
   display: block;
@@ -3323,6 +3325,43 @@ form.checkout{
 .account-product{
   padding-left: calc(20% + 10px);
   box-sizing: border-box;
+}
+
+
+.aside-control{
+  flex-wrap: wrap;
+}
+.aside-sale{
+  width: 100%;
+  position: relative;
+  top: 10px;
+  font-size: 12px;
+  color: #115d5d;
+  font-family: 'Roboto-Medium', sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.aside-item__sale .total-amount,
+.aside-item__sale .total-amount:last-child
+{
+  display: flex;
+  align-items: center;
+}
+
+
+.aside-item__sale .total-amount:last-child span,
+.aside-item__sale .total-amount:last-child{
+  font-size: 17px;
+  margin-bottom: 0;
+  color: #072630;
+}
+.aside-item__sale .total-amount span:last-child{
+  text-decoration: line-through;
+  margin-left: 5px;
+  color: #666;
+}
+.aside-info__item:last-child > span:first-child{
+  text-align: right;
 }
 @media screen and (max-width: 1200px) {
   .content {

@@ -5,6 +5,8 @@ const CartItemSchema = new mongoose.Schema({
   quantity: Number,
   priceItem: Number,
   priceGroup: Number,
+  priceWithSale: Number,
+  priceGroupWithSale: Number,
   name: String,
 })
 
