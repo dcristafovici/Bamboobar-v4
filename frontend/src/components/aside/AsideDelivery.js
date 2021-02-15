@@ -36,7 +36,12 @@ const AsideDelivery = ({total, address, percent}) => {
         <div className='aside-info__item'>
           <span>Итого</span>
           <span id="total-amount" className='total-amount'>
-            <span>{total} ₽</span>
+            <span>
+              {total} ₽
+              {(address.deliveryTaxi && address.taxiPrice) ? (
+                <span className="small">+{address.taxiPrice} ₽ доставка</span>
+              ): ""}
+            </span>
           </span>
         </div>
 

@@ -1,7 +1,8 @@
 import React from "react"
 import AsideItem from "./AsideItem";
+import AsideTaxi from "./AsideTaxi";
 
-const AsideItems = ({cart, isSale}) => {
+const AsideItems = ({cart, isSale, address}) => {
   return(
     <div className="aside-items">
       {cart.map((item, index) => {
@@ -13,6 +14,9 @@ const AsideItems = ({cart, isSale}) => {
           />
         )
       })}
+      {address.deliveryTaxi ? (
+        <AsideTaxi />
+      ): ""}
     </div>
   )
 }
