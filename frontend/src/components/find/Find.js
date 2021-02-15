@@ -18,7 +18,7 @@ const Find = ({setUserAddress, addressReducer, clearUserAddress, togglePopup}) =
         const setRes = deliveryZones.searchContaining(cords)._objects[0]
         if (typeof setRes !== 'undefined') {
           const properties = setRes.properties._data
-          setUserAddress(address, properties)
+          setUserAddress(address, properties, cords)
         } else{
           togglePopup()
         }
@@ -79,7 +79,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUserAddress: (address, data) => dispatch(setUserAddress(address, data)),
+    setUserAddress: (address, data, cords) => dispatch(setUserAddress(address, data, cords)),
     clearUserAddress: () => dispatch(clearUserAddress()),
     togglePopup: () => dispatch(togglePopup()),
   }

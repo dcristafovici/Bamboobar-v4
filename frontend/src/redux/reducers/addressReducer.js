@@ -2,7 +2,6 @@ import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "../actions/act
 import {loadState} from '../../localStorage'
 const addressInitial = loadState()
 
-
 const initialState = {
   address: addressInitial ? addressInitial.address.address : "",
   deliveryTime: addressInitial ? addressInitial.address.deliveryTime : "",
@@ -10,6 +9,8 @@ const initialState = {
   deliverySale: addressInitial ? addressInitial.address.deliverySale : "",
   deliveryPay: addressInitial ? addressInitial.address.deliveryPay : "",
   deliveryNotPay: addressInitial ? addressInitial.address.deliveryNotPay : "",
+  addressCoords: addressInitial ? addressInitial.address.addressCoords : "",
+  bambooCoords: [55.746697, 37.539020],
   popup: false
 }
 
@@ -24,6 +25,7 @@ export default function addressReducer(state = initialState, action) {
         deliverySale: action.payload.data.sale,
         deliveryPay: action.payload.data.pay,
         deliveryNotPay: action.payload.data.notPay,
+        addressCoords: action.payload.coords
       }
     case CLEAR_USER_ADDRESS:
       return{
@@ -34,6 +36,7 @@ export default function addressReducer(state = initialState, action) {
         deliverySale: false,
         deliveryPay: true,
         deliveryNotPay: 0,
+        addressCoords: "",
         popup: false
       }
     case TOGGLE_POPUP:

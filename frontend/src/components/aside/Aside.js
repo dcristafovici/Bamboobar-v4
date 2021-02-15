@@ -5,12 +5,14 @@ import Order from "../modal/Order";
 import AsideDelivery from "../catalog/AsideDelivery";
 import {openRegister} from "../../redux/actions/modalAction";
 import {emptyCart} from "../../redux/actions/asideAction";
+import axios from "axios";
 
 const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) => {
 
   const [total, setTotal] = useState("0")
   const [sale, setSale] = useState(0)
   const [percent, setPercent] = useState("0")
+
 
   useEffect(() => {
     let totalPrice = 0;
@@ -31,6 +33,38 @@ const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) =
     }
   }, [total])
 
+  useEffect( () => {
+    const data = JSON.stringify({
+      "route": [[55.746697, 37.539020] , [55.737557, 37.516368]],
+      "skip_estimated_waiting": true,
+      "supports_forced_surge": false
+    })
+
+    const config = {
+      method: "POST",
+      url: "https://taxi.yandex.ru/3.0/routestats",
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+      },
+      data: data
+    }
+
+    axios(config)
+      .then(function (response) {
+        console.log(`Маршрут составит ${response.data.distance} и займет ${response.data.time}`);
+        response.data.service_levels.forEach(function (i) {
+          console.log(`${i.name} - ${i.price}`);
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+  }, [])
+
   return (
     <aside className="aside aside-ready">
       <div className="aside-control">
@@ -49,7 +83,11 @@ const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) =
           <div className="aside-items">
             {cart.map((item, index) => {
               return (
-                <AsideItem key={index} item={item}/>
+                <AsideItem
+                  key={index}
+                  item={item}
+                  isSale={sale ? true : false}
+                />
               )
             })}
           </div>

@@ -2,7 +2,7 @@ import React from "react"
 import {connect} from "react-redux"
 import {addQuantity, removeFromCart, subQuantity} from "../../redux/actions/asideAction";
 
-const AsideItem = ({item, addQuantity, subQuantity, removeFromCart}) => {
+const AsideItem = ({item, addQuantity, subQuantity, removeFromCart, isSale}) => {
   return (
     <div className="aside-item">
       <div className="aside-item__name"><span>{item.name}</span></div>
@@ -21,7 +21,7 @@ const AsideItem = ({item, addQuantity, subQuantity, removeFromCart}) => {
         </div>
       </div>
       <div className="aside-item__right">
-        <span className='amount'>{item.priceGroupWithSale} ₽</span>
+        <span className='amount'>{isSale ? item.priceGroupWithSale : item.priceGroup} ₽ </span>
         <span>{item.product.weight} г</span>
       </div>
     </div>

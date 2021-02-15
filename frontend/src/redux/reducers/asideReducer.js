@@ -9,7 +9,7 @@ import {loadState} from '../../localStorage'
 
 const cart = loadState()
 const initialState = {
-  cart: cart.cart ? cart.cart : [],
+  cart: cart ? cart.cart : [],
 }
 
 export default function asideReducer(state = initialState, action) {

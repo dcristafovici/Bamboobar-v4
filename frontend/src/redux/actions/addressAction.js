@@ -1,11 +1,12 @@
 import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "./actions-types/address-reducer"
 
-export const setUserAddress = (address, data) => (dispatch) => {
+export const setUserAddress = (address, data, coords) => (dispatch) => {
   dispatch({
     type: SET_USER_ADDRESS,
     payload: {
       address,
-      data
+      data,
+      coords
     }
   })
 }
