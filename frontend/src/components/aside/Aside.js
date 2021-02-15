@@ -3,16 +3,17 @@ import {connect} from 'react-redux'
 import AsideItem from "./AsideItem";
 import Order from "../modal/Order";
 import AsideDelivery from "../catalog/AsideDelivery";
+import AsideTaxi from "./AsideTaxi";
 import {openRegister} from "../../redux/actions/modalAction";
 import {emptyCart} from "../../redux/actions/asideAction";
+import {deliveryOFF, deliveryON, setTaxiInfo} from "../../redux/actions/addressAction";
 import axios from "axios";
 
-const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) => {
+const Aside = ({cart, address, addressReducer, setTaxiInfo, deliveryOn, deliveryOff, user, openRegister, emptyCart}) => {
 
   const [total, setTotal] = useState("0")
   const [sale, setSale] = useState(0)
   const [percent, setPercent] = useState("0")
-
 
   useEffect(() => {
     let totalPrice = 0;
@@ -24,6 +25,10 @@ const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) =
       setTotal(totalPrice)
     })
     setPercent(totalPrice / addressReducer.deliveryMin * 100)
+
+    if(totalPrice > addressReducer.deliveryNotPay){
+      deliveryOff()
+    } else{deliveryOn()}
   }, [cart])
 
 
@@ -33,37 +38,21 @@ const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) =
     }
   }, [total])
 
-  useEffect( () => {
-    const data = JSON.stringify({
-      "route": [[55.746697, 37.539020] , [55.737557, 37.516368]],
-      "skip_estimated_waiting": true,
-      "supports_forced_surge": false
-    })
 
-    const config = {
-      method: "POST",
-      url: "https://taxi.yandex.ru/3.0/routestats",
-      headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-      },
-      data: data
-    }
-
-    axios(config)
-      .then(function (response) {
-        console.log(`Маршрут составит ${response.data.distance} и займет ${response.data.time}`);
-        response.data.service_levels.forEach(function (i) {
-          console.log(`${i.name} - ${i.price}`);
-        })
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-
-  }, [])
+  useEffect(() => {
+    if(addressReducer.address){
+      const findTaxiPrice  = async() => {
+        try{
+          const response = await axios.post('/api/find/route', {bamboo: addressReducer.bambooCoords, coords : addressReducer.addressCoords})
+          const priceTaxi = parseFloat(response.data.service_levels[0].description_parts.value)
+          setTaxiInfo(response.data.distance, priceTaxi)
+        } catch (err){
+          console.log(err)
+        }
+      }
+        findTaxiPrice()
+      }
+  }, [addressReducer.address])
 
   return (
     <aside className="aside aside-ready">
@@ -90,6 +79,10 @@ const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) =
                 />
               )
             })}
+            {(sale || !addressReducer.deliveryMode) ? ("") : (
+              <AsideTaxi/>
+            )}
+
           </div>
           <AsideDelivery total={total} sale={sale} percent={percent} cart={cart}/>
         </>
@@ -104,6 +97,8 @@ const Aside = ({cart, address, addressReducer, user, openRegister, emptyCart}) =
                 total={sale ? sale : total}
                 time={addressReducer.deliveryTime}
                 isSale={sale ? true: false}
+                isDelivery={addressReducer.deliveryMode ? true : false}
+                deliveryPrice={addressReducer.taxiPrice ? addressReducer.taxiPrice : ""}
                 typename={addressReducer.deliveryMin > total ? 'notedit' : ""}/>
             ) : (
               <div onClick={() => openRegister()} className={"button button-checkout"}>
@@ -134,7 +129,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     openRegister: () => dispatch(openRegister()),
-    emptyCart: () => dispatch(emptyCart())
+    emptyCart: () => dispatch(emptyCart()),
+    setTaxiInfo: (taxiDistance, taxiPrice) => dispatch(setTaxiInfo(taxiDistance, taxiPrice)),
+    deliveryOn : () => dispatch(deliveryON()),
+    deliveryOff : () => dispatch(deliveryOFF())
   }
 }
 

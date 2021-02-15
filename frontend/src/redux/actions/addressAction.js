@@ -1,12 +1,19 @@
-import {SET_USER_ADDRESS, CLEAR_USER_ADDRESS, TOGGLE_POPUP} from "./actions-types/address-reducer"
+import {
+  SET_USER_ADDRESS,
+  CLEAR_USER_ADDRESS,
+  TOGGLE_POPUP,
+  SET_TAXI_INFO,
+  DELIVERY_ON,
+  DELIVERY_OFF
+} from "./actions-types/address-reducer"
 
-export const setUserAddress = (address, data, coords) => (dispatch) => {
+export const setUserAddress = (address, data, coords, distance, price) => (dispatch) => {
   dispatch({
     type: SET_USER_ADDRESS,
     payload: {
       address,
       data,
-      coords
+      coords,
     }
   })
 }
@@ -20,5 +27,29 @@ export const clearUserAddress = () => (dispatch) => {
 export const togglePopup = (data) => (dispatch) => {
   dispatch({
     type: TOGGLE_POPUP
+  })
+}
+
+
+export const setTaxiInfo = (taxiDistance, taxiPrice) => (dispatch) => {
+  dispatch({
+    type: SET_TAXI_INFO,
+    payload: {
+      taxiDistance,
+      taxiPrice
+    }
+  })
+}
+
+
+export const deliveryON = () => (dispatch) => {
+  dispatch({
+    type: DELIVERY_ON
+  })
+}
+
+export const deliveryOFF = () => (dispatch) => {
+  dispatch({
+    type: DELIVERY_OFF
   })
 }

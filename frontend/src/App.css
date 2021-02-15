@@ -3363,6 +3363,21 @@ form.checkout{
 .aside-info__item:last-child > span:first-child{
   text-align: right;
 }
+
+.aside-item{
+  position: relative;
+}
+
+.aside-item__taxi .aside-item__right span:last-child{
+  position: absolute;
+  top: 100%;
+  line-height: 1.4;
+  left: 0;
+}
+
+.aside-delivery__name #remaind{
+  font-family: 'Roboto-Bold', sans-serif;
+}
 @media screen and (max-width: 1200px) {
   .content {
     width: 950px;

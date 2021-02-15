@@ -24,6 +24,7 @@ app.use('/api/product', require('./routes/product'))
 app.use('/api/category', require('./routes/category'))
 app.use('/api/order', require('./routes/order.routes'))
 app.use('/api/address', require('./routes/data.routes'))
+app.use('/api/find', require('./routes/find.routes'))
 
 const PORT = config.get('port') || 5000
 const start = async () =>{

@@ -1,10 +1,10 @@
 const axios = require('axios')
-const {Order, CartItem} =  require('../models/order.models')
+const {Order, CartItem} = require('../models/order.models')
 const qs = require('qs')
 const createOrder = async (req, res) => {
-  try{
+  try {
     const data = req.body
-    const newOrder =  new Order(data)
+    const newOrder = new Order(data)
     await newOrder.save()
     res.status(200).json(newOrder)
   } catch (err) {
@@ -12,22 +12,22 @@ const createOrder = async (req, res) => {
   }
 }
 
-const getOrderByUser = async(req, res) => {
-  try{
-    const { id } = req.body
+const getOrderByUser = async (req, res) => {
+  try {
+    const {id} = req.body
     const order = await Order.find({user: id})
     res.status(200).json(order)
-  } catch (err){
+  } catch (err) {
     res.status(500).json({error: err.message})
   }
 }
 
-const payOrder = async(req, res) => {
+const payOrder = async (req, res) => {
   try {
-    let {price, address, date, id, products, user, isSale} = req.body
+    let {price, address, date, id, products, user, isSale, isDelivery, deliveryPrice} = req.body
     price = price * 100
     let positionIdCount = 1;
-    const items = products.map((product) => {
+    let items = products.map((product) => {
       let {_id, name, quantity, priceItem, priceWithSale} = product
 
       return {
@@ -39,6 +39,18 @@ const payOrder = async(req, res) => {
         itemCode: _id,
       }
     })
+    if(isDelivery){
+      const productDelivery = {
+        positionId: positionIdCount++,
+        name: "Доставка",
+        itemCurrency: "643",
+        quantity: {"value": 1, "measure": "единиц"},
+        itemPrice: deliveryPrice * 100,
+        itemCode: 'taxi_delivery',
+      }
+      items.push(productDelivery)
+      price = price + deliveryPrice * 100
+    }
 
     const orderBundle =
       {
@@ -46,7 +58,7 @@ const payOrder = async(req, res) => {
         "customerDetails": {
           "email": user.email,
           "phone": user.phone,
-          "contact":  user.username,
+          "contact": user.username,
           "deliveryInfo": {
             "deliveryType": "courier", "country": "RU", "city": "Moscow",
             "postAddress": address
@@ -80,17 +92,17 @@ const payOrder = async(req, res) => {
         res.status(200).json(result.data)
       })
 
-  } catch (err){
+  } catch (err) {
     res.status(500).json({error: err.message})
   }
 }
 
-const updateOrder = async(req,res) => {
-  try{
-    const { id , status } = req.body
+const updateOrder = async (req, res) => {
+  try {
+    const {id, status} = req.body
     const update = await Order.findByIdAndUpdate({_id: id}, {orderStatus: status})
     res.status(200).json({message: "Заказ обновлен"})
-  } catch (err){
+  } catch (err) {
     res.status(500).json({erorr: err.message})
   }
 }

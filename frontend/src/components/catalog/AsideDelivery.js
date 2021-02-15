@@ -10,10 +10,10 @@ const AsideDelivery = ({sale, addressReducer, total, percent}) => {
           заказ по данному адресу возможен от
           <span id="min_delivery">{addressReducer.deliveryMin}</span> ₽
         </div>
-        {(addressReducer.deliveryPay) ? (
+        {(addressReducer.deliveryNotPay -  total > 0) ? (
           <div className="aside-delivery__name">
             <span>Закажите ещё на
-            <span id="remaind"> </span> ₽ для бесплатной доставки
+            <span id="remaind"> {addressReducer.deliveryNotPay -  total} </span> ₽ для бесплатной доставки
             </span>
           </div>
         ) : ""}
