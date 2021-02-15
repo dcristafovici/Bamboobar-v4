@@ -15,10 +15,8 @@ const initialState = {
   deliveryTime: addressInitial ? addressInitial.address.deliveryTime : "",
   deliveryMin: addressInitial ? addressInitial.address.deliveryMin : "",
   deliverySale: addressInitial ? addressInitial.address.deliverySale : "",
-  deliveryPay: addressInitial ? addressInitial.address.deliveryPay : "",
   deliveryNotPay: addressInitial ? addressInitial.address.deliveryNotPay : "",
   addressCoords: addressInitial ? addressInitial.address.addressCoords : "",
-  possibleDelivery: addressInitial ? addressInitial.address.possibleDelivery : "",
   bambooCoords: [55.746697, 37.539020],
   deliveryMode: false,
   taxiDistance: "",
@@ -35,9 +33,7 @@ export default function addressReducer(state = initialState, action) {
         deliveryTime: action.payload.data.time,
         deliveryMin: action.payload.data.min,
         deliverySale: action.payload.data.sale,
-        deliveryPay: action.payload.data.pay,
         deliveryNotPay: action.payload.data.notPay,
-        possibleDelivery: action.payload.data.possible,
         addressCoords: action.payload.coords
       }
     case CLEAR_USER_ADDRESS:
@@ -46,11 +42,8 @@ export default function addressReducer(state = initialState, action) {
         address: "",
         deliveryTime: "",
         deliveryMin: '',
-        deliverySale: false,
-        deliveryPay: true,
         deliveryNotPay: 0,
         addressCoords: "",
-        possibleDelivery: false,
         popup: false
       }
     case DELIVERY_ON:

@@ -1,49 +1,42 @@
 import React from "react";
-import {connect} from 'react-redux'
 
-const AsideDelivery = ({sale, addressReducer, total, percent}) => {
+const AsideDelivery = ({total, address, percent}) => {
   return (
     <React.Fragment>
 
       <div className="aside-delivery">
         <div className="aside-delivery__min">
           заказ по данному адресу возможен от
-          <span id="min_delivery">{addressReducer.deliveryMin}</span> ₽
+          <span id="min_delivery"> {address.deliveryMin}</span> ₽
         </div>
-        {(addressReducer.deliveryNotPay -  total > 0) ? (
+
+        {address.deliveryMin - total > 0 ? (
           <div className="aside-delivery__name">
             <span>Закажите ещё на
-            <span id="remaind"> {addressReducer.deliveryNotPay -  total} </span> ₽ для бесплатной доставки
+            <span id="remaind"> {address.deliveryMin - total} </span> ₽ для бесплатной доставки
             </span>
           </div>
         ) : ""}
 
         <div className="aside-delivery__count">
-          {sale ? ( <span>{sale}</span> ) : (<span>{total}</span>)}
+         <span>{total} ₽</span>
           <span>
-           {addressReducer.deliveryMin} ₽
+           {address.deliveryMin} ₽
           </span>
         </div>
         <div className="aside-delivery__line">
           <div className="aside-delivery__fill" style={{width: percent + '%'}}>
-            {sale ? ( <span>{sale} ₽</span> ) : (<span>{total} ₽</span>)}
+            <span>{total}</span>
           </div>
         </div>
       </div>
       <div className="aside-delivery__info">
-        <div className="aside-info__item"><span>Время доставки</span><span>~{addressReducer.deliveryTime}</span>
+        <div className="aside-info__item"><span>Время доставки</span><span>~{address.deliveryTime}</span>
         </div>
-        <div className={"aside-info__item " + (sale ? "aside-item__sale" : "")}>
+        <div className='aside-info__item'>
           <span>Итого</span>
           <span id="total-amount" className='total-amount'>
-            {sale ? (
-              <span>{sale} ₽</span>
-            ) : ""}
-            <span>{total} ₽
-              {(addressReducer.deliveryMode && addressReducer.taxiPrice && addressReducer.possibleDelivery) ? (
-                <span className="small">+{addressReducer.taxiPrice} ₽ доставка</span>
-              ): ""}
-            </span>
+            <span>{total} ₽</span>
           </span>
         </div>
 
@@ -53,10 +46,5 @@ const AsideDelivery = ({sale, addressReducer, total, percent}) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    addressReducer: state.addressReducer
-  }
-}
 
-export default connect(mapStateToProps)(AsideDelivery)
+export default AsideDelivery

@@ -28,8 +28,8 @@ const AsideItem = ({item, addQuantity, subQuantity, removeFromCart, isSale}) => 
   )
 }
 
-const mapStateToProps = (state) => {
-  return {}
+const mapStateToProps = (dispatch) => {
+  return{}
 }
 
 const mapDispatchToProps = (dispatch) => {

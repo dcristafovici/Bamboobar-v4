@@ -4,7 +4,8 @@ import {
   SUB_QUANTITY,
   REMOVE_FROM_CART,
   EMPTY_CART,
-  UPDATE_PRICE
+  SET_TOTAL,
+  SET_PERCENT
 } from './actions-types/aside-actions'
 
 export function addToCart(product) {
@@ -58,3 +59,20 @@ export function emptyCart() {
   }
 }
 
+export function setTotal(total)  {
+  return{
+    type: SET_TOTAL,
+    payload: {
+      total
+    }
+  }
+}
+
+export function setPercent(percent) {
+  return{
+    type: SET_PERCENT,
+    payload: {
+      percent
+    }
+  }
+}
