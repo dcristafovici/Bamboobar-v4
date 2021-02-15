@@ -3360,10 +3360,13 @@ form.checkout{
   margin-left: 5px;
   color: #666;
 }
-.aside-info__item:last-child > span:first-child{
+.aside-info__item:nth-child(2) > span:first-child{
   text-align: right;
 }
 
+.aside-info__item:nth-child(2) > span:last-child{
+  text-align: right;
+}
 .aside-item{
   position: relative;
 }
@@ -3377,6 +3380,45 @@ form.checkout{
 
 .aside-delivery__name #remaind{
   font-family: 'Roboto-Bold', sans-serif;
+}
+
+
+.aside-delivery__info{
+  position: relative;
+}
+
+.aside-delivery__taxi{
+  position: absolute;
+  top: 100%;
+  right: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.aside-delivery__info{
+  flex-wrap: wrap;
+}
+
+
+.aside-info__item:nth-child(3){
+  margin-top: 15px;
+}
+
+
+.aside-info__item .total-amount .small{
+  font-size: 10px;
+  font-family: 'Roboto-Regular', sans-serif;
+  margin-top: 2px;
+}
+
+.total-amount{
+  position: relative;
+}
+.total-amount .small{
+  position: absolute;
+  right: 0;
+  top: 100%;
+  white-space: nowrap;
 }
 @media screen and (max-width: 1200px) {
   .content {

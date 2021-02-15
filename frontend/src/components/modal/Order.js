@@ -201,7 +201,11 @@ const Order = ({user, typename, cart, address, total, time, isSale, isDelivery, 
             </div>
             <div className="checkout-total__item">
               <div className="checkout-total__label">Итого</div>
-              <div className="checkout-total__value"><span>{total} ₽</span>
+              <div className="checkout-total__value"><span>
+                {(address.deliveryMode)  ? (
+                  total + address.taxiPrice + " ₽"
+                ) : total + " ₽"}
+              </span>
               </div>
             </div>
             <div className="checkout-total__item">

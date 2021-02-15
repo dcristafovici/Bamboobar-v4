@@ -39,10 +39,16 @@ const AsideDelivery = ({sale, addressReducer, total, percent}) => {
             {sale ? (
               <span>{sale} ₽</span>
             ) : ""}
-            <span>{total} ₽</span>
+            <span>{total} ₽
+              {(addressReducer.deliveryMode && addressReducer.taxiPrice) ? (
+                <span className="small">+{addressReducer.taxiPrice} ₽ доставка</span>
+              ): ""}
+            </span>
           </span>
         </div>
+
       </div>
+
     </React.Fragment>
   )
 }
