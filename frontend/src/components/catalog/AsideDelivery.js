@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {connect} from 'react-redux'
 
 const AsideDelivery = ({sale, addressReducer, total, percent}) => {
@@ -40,7 +40,7 @@ const AsideDelivery = ({sale, addressReducer, total, percent}) => {
               <span>{sale} ₽</span>
             ) : ""}
             <span>{total} ₽
-              {(addressReducer.deliveryMode && addressReducer.taxiPrice) ? (
+              {(addressReducer.deliveryMode && addressReducer.taxiPrice && addressReducer.possibleDelivery) ? (
                 <span className="small">+{addressReducer.taxiPrice} ₽ доставка</span>
               ): ""}
             </span>
