@@ -3,9 +3,10 @@ import Popup from "reactjs-popup";
 import axios from "axios"
 import {connect} from "react-redux"
 import {openRegister, closeRegister, openLogin} from "../../redux/actions/modalAction";
+import {setUserData} from "../../redux/actions/authAction";
 
 
-const Register = ({modal, openRegister, closeRegister, openLogin}) => {
+const Register = ({modal, openRegister, closeRegister, openLogin, setUserData}) => {
   const [data, setData] = useState({
     phone: "",
     code: ""
@@ -21,16 +22,20 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
   const onChangeHandler = (event) => {
     setData({...data, [event.target.name]: event.target.value})
   }
-  // const onChangeSmsHandler = async(event) => {
-  //   if(event.target.value === session){
-  //     setErrors({...errors, code: ""})
-  //     const responseAuth = await axios.post('/api/auth/auth', data)
-  //     localStorage.setItem('auth-token', responseAuth.data.token)
-  //     closeRegister()
-  //   } else{
-  //     setErrors({...errors, code : "Неправильный код"})
-  //   }
-  // }
+
+  const checkLogged = async(token) => {
+    try{
+      const tokenResponse = await axios.post(
+        '/api/auth/check',
+        null ,
+        {headers: {'x-auth-token': token}})
+      if(tokenResponse.data){
+        setUserData(tokenResponse.data)
+      }
+    } catch (err){
+      console.log(err.message)
+    }
+  }
 
   const successfulAuth = async() => {
     try{
@@ -38,7 +43,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
       const responseAuth = await axios.post('/api/auth/auth', data)
       localStorage.setItem('auth-token', responseAuth.data.token)
       closeRegister()
-
+      checkLogged(responseAuth.data.token)
     } catch (err){
       console.log(err.message)
     }
@@ -69,7 +74,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
     }
 
     if(data['phone'] !== ''){
-      let patternPhone = new RegExp('^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$')
+      let patternPhone = new RegExp('^(\\+7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$')
       if(!patternPhone.test(data['phone'])){
         setValid(false)
         errorsLocal['phone'] = 'Укажите правильный номер телефона'
@@ -84,6 +89,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin}) => {
     event.preventDefault()
     try{
       const registerResponse = await axios.post('/api/auth/generate', data)
+      console.log(registerResponse)
       if(!registerResponse.data.message.includes('Message accepted for sending')){
         setSession(registerResponse.data.session)
         console.log(registerResponse.data.session)
@@ -144,7 +150,8 @@ const mapDispatchToProps = (dispatch) => {
   return{
     openRegister : () => dispatch(openRegister()),
     closeRegister : () => dispatch(closeRegister()),
-    openLogin: () => dispatch(openLogin())
+    openLogin: () => dispatch(openLogin()),
+    setUserData: (user) => dispatch(setUserData(user))
   }
 }
 

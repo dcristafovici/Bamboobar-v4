@@ -7,9 +7,11 @@ const AccountHistory = ({user}) =>{
 
   const orderList = useSelector(state => state.orderReducer)
   const{ loading , errors, orders } = orderList
-  useEffect(() => {
-    dispatch(listOrders('6018d716c591a127b0b27c88'))
-  }, [dispatch])
+    useEffect(() => {
+      if(user){
+        dispatch(listOrders(user._id))
+      }
+    }, [dispatch])
 
   return(
     <div className="account-item account-history">
