@@ -4,7 +4,8 @@ import {
   TOGGLE_POPUP,
   SET_TAXI_INFO,
   DELIVERY_ON,
-  DELIVERY_OFF
+  DELIVERY_OFF,
+  PICKUP_ON
 } from "./actions-types/address-reducer"
 
 export const setUserAddress = (address, data, coords, distance, price) => (dispatch) => {
@@ -51,5 +52,12 @@ export const deliveryON = () => (dispatch) => {
 export const deliveryOFF = () => (dispatch) => {
   dispatch({
     type: DELIVERY_OFF
+  })
+}
+
+
+export const pickup = () => (dispatch) => {
+  dispatch({
+    type: PICKUP_ON
   })
 }

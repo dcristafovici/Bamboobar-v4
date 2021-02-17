@@ -24,12 +24,17 @@ const Aside = ({cart, setTotal, setPercent, total, address, percent, user}) => {
   return (
     <aside className="aside aside-ready">
       <AsideControl address={address}/>
-      <AsideItems
-        cart={cart}
-        address={address}
-        isSale={address.deliverySale ? true : false}
-      />
-      <AsideDelivery total={total} percent={percent} address={address}/>
+      {address.address || address.pickup ?  (
+        <React.Fragment>
+          <AsideItems
+            cart={cart}
+            address={address}
+            total={total}
+            isSale={address.deliverySale ? true : false}
+          />
+          <AsideDelivery total={total} percent={percent} address={address}/>
+        </React.Fragment>
+        ): ""}
       <AsideDeliveryButton
         address={address}
         user={user}

@@ -2,7 +2,7 @@ import React from "react"
 import AsideItem from "./AsideItem";
 import AsideTaxi from "./AsideTaxi";
 
-const AsideItems = ({cart, isSale, address}) => {
+const AsideItems = ({cart, isSale, address, total}) => {
   return(
     <div className="aside-items">
       {cart.map((item, index) => {
@@ -14,7 +14,7 @@ const AsideItems = ({cart, isSale, address}) => {
           />
         )
       })}
-      {address.deliveryTaxi ? (
+      {(address.deliveryTaxi && address.deliveryNotPay - total > 0) ?   (
         <AsideTaxi />
       ): ""}
     </div>

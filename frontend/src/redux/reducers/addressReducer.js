@@ -4,7 +4,8 @@ import {
   TOGGLE_POPUP,
   SET_TAXI_INFO,
   DELIVERY_OFF,
-  DELIVERY_ON
+  DELIVERY_ON,
+  PICKUP_ON
 } from "../actions/actions-types/address-reducer"
 import {loadState} from '../../localStorage'
 
@@ -20,6 +21,7 @@ const initialState = {
   addressCoords: addressInitial ? addressInitial.address.addressCoords : "",
   bambooCoords: [55.746697, 37.539020],
   deliveryMode: false,
+  pickup: false,
   taxiDistance: "",
   taxiPrice: "",
   popup: false
@@ -70,6 +72,13 @@ export default function addressReducer(state = initialState, action) {
         ...state,
         taxiDistance: action.payload.taxiDistance,
         taxiPrice: action.payload.taxiPrice
+      }
+    case PICKUP_ON:
+      return{
+        ...state,
+        pickup: true,
+        deliveryMin: 2500,
+        deliveryTime: '60 мин'
       }
     default :
       return state

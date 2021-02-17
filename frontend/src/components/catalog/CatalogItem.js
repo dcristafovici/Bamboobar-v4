@@ -3,7 +3,7 @@ import {useSelector, connect} from "react-redux";
 import {addToCart} from "../../redux/actions/asideAction";
 import {togglePopup} from '../../redux/actions/addressAction'
 
-const CatalogItem = ({products, addToCart, togglePopup, address}) => {
+const CatalogItem = ({products, addToCart, togglePopup, pickup, address}) => {
 
   const addressReducer = useSelector(state => state.addressReducer)
   const {delivery} = addressReducer
@@ -11,7 +11,7 @@ const CatalogItem = ({products, addToCart, togglePopup, address}) => {
     products.map((product, index) => {
       return (
         <div key={index} className="catalog-item"
-             onClick={() => (address) ? addToCart(product) : togglePopup()}>
+             onClick={() => (address || pickup) ? addToCart(product) : togglePopup()}>
           <div className="catalog-item__top">
             <h4>{product.name}</h4>
             <span><span className="woocommerce-Price-amount amount">
@@ -40,7 +40,8 @@ const CatalogItem = ({products, addToCart, togglePopup, address}) => {
 
 const mapStateToProps = state => {
   return{
-    address : state.addressReducer.address
+    address : state.addressReducer.address,
+    pickup: state.addressReducer.pickup
   }
 }
 

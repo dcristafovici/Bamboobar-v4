@@ -1,15 +1,21 @@
 import React, {useState, useEffect} from 'react'
 import Popup from "reactjs-popup";
 import {connect} from 'react-redux'
-import {togglePopup} from "../../redux/actions/addressAction";
+import {pickup, togglePopup} from "../../redux/actions/addressAction";
 
 
-const NotDelivery = ({popup, togglePopup}) => {
+const NotDelivery = ({popup, togglePopup, pickup}) => {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setOpen(popup)
   }, [popup])
+
+  const onPickUpHandler = () => {
+    pickup()
+    setOpen(false)
+  }
+
   return(
     <Popup open={open}  modal onClose={()=> togglePopup()}>
       <div className="notdelivery-wrapper bamboo-error">
@@ -19,7 +25,7 @@ const NotDelivery = ({popup, togglePopup}) => {
         <div className="button">
           <span>Указать адрес</span>
         </div>
-        <div className="button button-pickup">
+        <div className="button button-pickup" onClick={onPickUpHandler}>
           <span>Самовывоз</span>
         </div>
       </div>
@@ -36,7 +42,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    togglePopup: () => dispatch(togglePopup())
+    togglePopup: () => dispatch(togglePopup()),
+    pickup: () => dispatch(pickup())
   }
 }
 

@@ -38,7 +38,7 @@ const AsideDelivery = ({total, address, percent}) => {
           <span id="total-amount" className='total-amount'>
             <span>
               {total} ₽
-              {(address.deliveryTaxi && address.taxiPrice) ? (
+              {(address.deliveryTaxi && address.taxiPrice && address.deliveryNotPay - total > 0) ? (
                 <span className="small">+{address.taxiPrice} ₽ доставка</span>
               ): ""}
             </span>
