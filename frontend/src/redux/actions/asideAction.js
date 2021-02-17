@@ -5,7 +5,8 @@ import {
   REMOVE_FROM_CART,
   EMPTY_CART,
   SET_TOTAL,
-  SET_PERCENT
+  SET_PERCENT,
+  OPEN_NOT_DELIVERY
 } from './actions-types/aside-actions'
 
 export function addToCart(product) {
@@ -73,6 +74,16 @@ export function setPercent(percent) {
     type: SET_PERCENT,
     payload: {
       percent
+    }
+  }
+}
+
+
+export function openNotDelivery(status){
+  return{
+    type: OPEN_NOT_DELIVERY,
+    payload: {
+      status
     }
   }
 }

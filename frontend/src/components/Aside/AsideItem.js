@@ -2,7 +2,7 @@ import React from "react"
 import {connect} from "react-redux"
 import {addQuantity, removeFromCart, subQuantity} from "../../redux/actions/asideAction";
 
-const AsideItem = ({item, addQuantity, subQuantity, removeFromCart, isSale}) => {
+const AsideItem = ({item, addQuantity, subQuantity, removeFromCart, addressReducer }) => {
   return (
     <div className="aside-item">
       <div className="aside-item__name"><span>{item.name}</span></div>
@@ -21,15 +21,17 @@ const AsideItem = ({item, addQuantity, subQuantity, removeFromCart, isSale}) => 
         </div>
       </div>
       <div className="aside-item__right">
-        <span className='amount'>{isSale ? item.priceGroupWithSale : item.priceGroup} ₽ </span>
+        <span className='amount'>{addressReducer.sale ? item.priceGroupWithSale : item.priceGroup} ₽ </span>
         <span>{item.product.weight} г</span>
       </div>
     </div>
   )
 }
 
-const mapStateToProps = (dispatch) => {
-  return{}
+const mapStateToProps = (state) => {
+  return{
+    addressReducer: state.addressReducer
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,86 +1,65 @@
-import {
-  SET_USER_ADDRESS,
-  CLEAR_USER_ADDRESS,
-  TOGGLE_POPUP,
-  SET_TAXI_INFO,
-  DELIVERY_OFF,
-  DELIVERY_ON,
-  PICKUP_ON
-} from "../actions/actions-types/address-reducer"
-import {loadState} from '../../localStorage'
+import {SET_ADDRESS, CLEAR_ADDRESS, SET_PICKUP, SET_TAXI_INFO} from '../actions/actions-types/address-actions'
+import {loadState} from "../../localStorage";
 
-const addressInitial = loadState()
-
+const localStorage = loadState()
 const initialState = {
-  address: addressInitial ? addressInitial.address.address : "",
-  deliveryTime: addressInitial ? addressInitial.address.deliveryTime : "",
-  deliveryMin: addressInitial ? addressInitial.address.deliveryMin : "",
-  deliverySale: addressInitial ? addressInitial.address.deliverySale : "",
-  deliveryTaxi: addressInitial ? addressInitial.address.deliveryTaxi : "",
-  deliveryNotPay: addressInitial ? addressInitial.address.deliveryNotPay : "",
-  addressCoords: addressInitial ? addressInitial.address.addressCoords : "",
-  bambooCoords: [55.746697, 37.539020],
-  deliveryMode: false,
+  location: localStorage ? localStorage.address.location : "",
+  time: localStorage ? localStorage.address.time : "",
+  minCount: localStorage ? localStorage.address.minCount : "",
+  sale: localStorage ? localStorage.address.sale : false,
+  withoutPayDelivery: localStorage ? localStorage.address.withoutPayDelivery : "",
+  useTaxi: localStorage ? localStorage.address.useTaxi : false,
+  locationCoords: localStorage ? localStorage.address.locationCoords : [],
+  bambooCoords : [55.746697, 37.539020],
   pickup: false,
-  taxiDistance: "",
-  taxiPrice: "",
-  popup: false
+  taxiPrice: 0,
+  taxiDistance: 0
 }
 
-export default function addressReducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_USER_ADDRESS:
+export default function addressReducer(state = initialState, action){
+  switch (action.type){
+    case SET_ADDRESS:
       return {
         ...state,
-        address: action.payload.address,
-        deliveryTime: action.payload.data.time,
-        deliveryMin: action.payload.data.min,
-        deliverySale: action.payload.data.sale,
-        deliveryNotPay: action.payload.data.notPay,
-        deliveryTaxi: action.payload.data.delivery,
-        addressCoords: action.payload.coords
+        location: action.payload.location,
+        time: action.payload.data.time,
+        minCount: action.payload.data.min,
+        sale: action.payload.data.sale,
+        useTaxi: action.payload.data.useTaxi,
+        withoutPayDelivery: action.payload.data.withoutPayDelivery,
+        locationCoords: action.payload.coords,
+        pickup: false
       }
-    case CLEAR_USER_ADDRESS:
-      return {
-        ...state,
-        address: "",
-        deliveryTime: "",
-        deliveryMin: '',
-        deliveryNotPay: 0,
-        addressCoords: "",
-        deliverySale: false,
-        deliveryTaxi: false,
-        popup: false
-      }
-    case DELIVERY_ON:
-      return {
-        ...state,
-        deliveryMode: true
-      }
-    case DELIVERY_OFF:
-      return {
-        ...state,
-        deliveryMode: false
-      }
-    case TOGGLE_POPUP:
-      return {
-        ...state,
-        popup: !state.popup
-      }
-    case SET_TAXI_INFO:
-      return {
-        ...state,
-        taxiDistance: action.payload.taxiDistance,
-        taxiPrice: action.payload.taxiPrice
-      }
-    case PICKUP_ON:
+    case CLEAR_ADDRESS:
       return{
         ...state,
-        pickup: true,
-        deliveryMin: 2500,
-        deliveryTime: '60 мин'
+        location: "",
+        time: "",
+        minCount: "",
+        sale: false,
+        useTaxi: false,
+        withoutPayDelivery: "",
+        locationCoords: []
       }
-    default :
+    case SET_PICKUP:
+      return{
+        ...state,
+        location: "",
+        time: "60 мин",
+        minCount: "2500",
+        sale: false,
+        withoutPayDelivery: "2500",
+        useTaxi: false,
+        locationCoords:  [],
+        pickup: true,
+      }
+    case SET_TAXI_INFO:
+      return{
+        ...state,
+        taxiPrice: action.payload.taxiPrice,
+        taxiDistance: action.payload.taxiDistance
+      }
+    default:
       return state
   }
 }

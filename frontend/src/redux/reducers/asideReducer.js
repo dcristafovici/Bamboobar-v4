@@ -5,7 +5,8 @@ import {
   REMOVE_FROM_CART,
   EMPTY_CART,
   SET_TOTAL,
-  SET_PERCENT
+  SET_PERCENT,
+  OPEN_NOT_DELIVERY
 } from '../actions/actions-types/aside-actions'
 import {loadState} from '../../localStorage'
 
@@ -13,7 +14,9 @@ const cart = loadState()
 const initialState = {
   cart: cart ? cart.cart : [],
   total: 0,
-  percent: 0
+  percent: 0,
+  pickup: false,
+  notDelivery: false
 }
 
 export default function asideReducer(state = initialState, action) {
@@ -90,6 +93,12 @@ export default function asideReducer(state = initialState, action) {
         ... state,
         percent: action.payload.percent
       }
+    case OPEN_NOT_DELIVERY:
+      return {
+        ...state,
+        notDelivery: action.payload.status
+      }
+
     default:
       return state
   }

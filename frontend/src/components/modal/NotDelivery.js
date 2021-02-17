@@ -1,31 +1,42 @@
 import React, {useState, useEffect} from 'react'
 import Popup from "reactjs-popup";
 import {connect} from 'react-redux'
-import {pickup, togglePopup} from "../../redux/actions/addressAction";
+import {openNotDelivery} from "../../redux/actions/asideAction";
+import {setPickup} from "../../redux/actions/AddressAction";
 
 
-const NotDelivery = ({popup, togglePopup, pickup}) => {
+const NotDelivery = ({notDelivery, openNotDelivery, setPickup}) => {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    setOpen(popup)
-  }, [popup])
+    setOpen(notDelivery)
+  }, [notDelivery])
 
-  const onPickUpHandler = () => {
-    pickup()
-    setOpen(false)
+  const writeAddressClick = () => {
+    openNotDelivery(false)
+    document.getElementById("banner").scrollIntoView({ behavior: "smooth" });
+  }
+  const pickupClickHandle = () => {
+    openNotDelivery(false)
+    setPickup()
   }
 
+
+
   return(
-    <Popup open={open}  modal onClose={()=> togglePopup()}>
-      <div className="notdelivery-wrapper bamboo-error">
+    <Popup
+      open={open}
+      modal
+      onClose={() => openNotDelivery(false)}
+    >
+      <div className="notdelivery-wrapper bamboo-error"  >
         <h2>Укажите ваш адрес</h2>
         <p>В данной области доставка не доступна</p>
         <p></p>
-        <div className="button">
+        <div className="button" onClick={writeAddressClick}>
           <span>Указать адрес</span>
         </div>
-        <div className="button button-pickup" onClick={onPickUpHandler}>
+        <div className="button button-pickup" onClick={pickupClickHandle}>
           <span>Самовывоз</span>
         </div>
       </div>
@@ -36,14 +47,14 @@ const NotDelivery = ({popup, togglePopup, pickup}) => {
 
 const mapStateToProps = (state) => {
   return{
-    popup: state.addressReducer.popup
+    notDelivery: state.asideReducer.notDelivery
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    togglePopup: () => dispatch(togglePopup()),
-    pickup: () => dispatch(pickup())
+    openNotDelivery: (status) => dispatch(openNotDelivery(status)),
+    setPickup: () => dispatch(setPickup()),
   }
 }
 

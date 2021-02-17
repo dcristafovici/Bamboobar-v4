@@ -2329,7 +2329,7 @@ input,select,textarea{
 }
 
 .aside-items{
-  max-height: calc(100vh - 390px);
+  max-height: 100%;
   height: 100%;
 }
 
@@ -2715,15 +2715,6 @@ nav.menu-nav li.item-more.active > a::after{
 }
 
 
-.aside .aside-delivery__info,
-.aside .aside-delivery{
-  display: none;
-}
-
-.aside-delivery__button a:first-child{
-  display: none;
-}
-
 .aside.include-address .aside-delivery__address{
   display: flex;
 }
@@ -2825,9 +2816,6 @@ nav.menu-nav li.item-more.active > a::after{
 }
 
 
-.aside-items{
-  display: none;
-}
 
 .aside.aside-ready .aside-items{
   display: block;

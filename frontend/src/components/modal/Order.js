@@ -6,21 +6,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import {connect} from 'react-redux'
 
 
-const Order = ({user, typename, cart, address, total, time, isSale, isDelivery, deliveryPrice}) => {
-
-
+const Order = ({user, typename, cart, addressReducer, total, time, isSale, isDelivery, deliveryPrice}) => {
   const [data, setData] = useState({
     products: cart,
-    customer_name: user.user ? user.user.name : '',
-    customer_email: user.user ? user.user.email : '',
-    customer_phone: user.user ? user.user.phone : '',
-    address: address ? address.address : '',
+    customer_name: user ? user.name : '',
+    customer_email: user ? user.email : '',
+    customer_phone: user ? user.phone : '',
+    address: (addressReducer.location) ? addressReducer.location : ( addressReducer.pickup ) ? 'Пресненская наб., 8, Москва, Россия' : "" ,
     street: "",
     deliveryTime: "",
     cutlery: "",
     price: total,
     additional: "",
-    user: user.user ? user.user._id : ""
+    user: user ? user._id : ""
   })
   const [errors, setErrors] = useState({
     customer_name: "",
@@ -48,13 +46,13 @@ const Order = ({user, typename, cart, address, total, time, isSale, isDelivery, 
 
 
   useEffect(() => {
-    if (user.user) {
+    if (user) {
       setData({
         ...data,
-        customer_name: user.user.name,
-        customer_email: user.user.email,
-        customer_phone: user.user.phone,
-        user: user.user._id
+        customer_name: user.name,
+        customer_email: user.email,
+        customer_phone: user.phone,
+        user: user._id
       })
     }
   }, [user])
@@ -118,8 +116,8 @@ const Order = ({user, typename, cart, address, total, time, isSale, isDelivery, 
         const payment = await axios.post('/api/order/pay', {
           id: response.data._id,
           price: total,
-          address: address.address,
-          user: user.user,
+          address: data.address,
+          user: user,
           products: response.data.products,
           date: response.headers.date,
           isSale: isSale,
@@ -202,9 +200,11 @@ const Order = ({user, typename, cart, address, total, time, isSale, isDelivery, 
             <div className="checkout-total__item">
               <div className="checkout-total__label">Итого</div>
               <div className="checkout-total__value"><span>
-                {(address.deliveryMode)  ? (
-                  total + address.taxiPrice + " ₽"
-                ) : total + " ₽"}
+                {(addressReducer.withoutPayDelivery - total > 0) ? (
+                  total + addressReducer.taxiPrice + " ₽"
+                ): (
+                  total + " ₽"
+                )}
               </span>
               </div>
             </div>
@@ -222,8 +222,8 @@ const Order = ({user, typename, cart, address, total, time, isSale, isDelivery, 
 
 const mapStateToProps = (state) => {
   return {
-    address: state.addressReducer,
-    user: state.authReducer
+    addressReducer: state.addressReducer,
+    user: state.authReducer.user
   }
 }
 

@@ -1,17 +1,18 @@
 import React from "react"
 import {useSelector, connect} from "react-redux";
-import {addToCart} from "../../redux/actions/asideAction";
-import {togglePopup} from '../../redux/actions/addressAction'
+import {addToCart, openNotDelivery} from "../../redux/actions/asideAction";
 
-const CatalogItem = ({products, addToCart, togglePopup, pickup, address}) => {
+const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery}) => {
 
-  const addressReducer = useSelector(state => state.addressReducer)
-  const {delivery} = addressReducer
+
   return (
     products.map((product, index) => {
       return (
-        <div key={index} className="catalog-item"
-             onClick={() => (address || pickup) ? addToCart(product) : togglePopup()}>
+        <div
+          key={index}
+          className="catalog-item"
+          onClick={() => (addressReducer.location || addressReducer.pickup) ? addToCart(product) : openNotDelivery(true)}
+        >
           <div className="catalog-item__top">
             <h4>{product.name}</h4>
             <span><span className="woocommerce-Price-amount amount">
@@ -39,16 +40,15 @@ const CatalogItem = ({products, addToCart, togglePopup, pickup, address}) => {
 }
 
 const mapStateToProps = state => {
-  return{
-    address : state.addressReducer.address,
-    pickup: state.addressReducer.pickup
+  return {
+    addressReducer: state.addressReducer,
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return{
+  return {
     addToCart: (product) => dispatch(addToCart(product)),
-    togglePopup: () => dispatch(togglePopup())
+    openNotDelivery: (status) => dispatch(openNotDelivery(status))
   }
 }
 

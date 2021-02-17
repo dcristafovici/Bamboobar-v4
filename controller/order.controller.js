@@ -52,6 +52,7 @@ const payOrder = async (req, res) => {
       price = price + deliveryPrice * 100
     }
 
+
     const orderBundle =
       {
         "orderCreationDate": date,
@@ -89,7 +90,9 @@ const payOrder = async (req, res) => {
     const url = 'https://3dsec.sberbank.ru/payment/rest/register.do'
     axios.post(url, params, config)
       .then((result) => {
+        console.log(result.data)
         res.status(200).json(result.data)
+
       })
 
   } catch (err) {

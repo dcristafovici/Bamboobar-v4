@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import Aside from "../aside/Aside";
+import Aside from "../Aside/Aside";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../redux/actions/categoriesAction";
 import {fetchProducts} from "../../redux/actions/productsAction";
