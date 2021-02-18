@@ -3471,7 +3471,7 @@ section.menu.menu-fixed nav.menu-nav span{
 
 section.menu.menu-fixed nav.menu-nav a:hover,
 section.menu.menu-fixed nav.menu-nav span:hover,
-section.menu.menu-fixed nav.menu-nav li.active span{
+section.menu.menu-fixed nav.menu-nav  span.active{
   background: #1a677c;
   color: #fff
 }
