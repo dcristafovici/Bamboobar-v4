@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 const Menu = () => {
 
@@ -8,7 +8,8 @@ const Menu = () => {
   const [bannerPosition, setBannerPosition] = useState(0)
 
   const categoriesReducer = useSelector(state => state.categoriesReducer)
-  const{ loading , errors, categories } = categoriesReducer
+  const{categories } = categoriesReducer
+  const allElements = document.querySelectorAll('.menu-nav li span')
 
 
   useEffect(() => {
@@ -20,7 +21,6 @@ const Menu = () => {
       const categoryAttribute = "[data-id=" + "'" + index + "'" + "]";
       const element = document.querySelector(categoryAttribute)
 
-      const allElements = document.querySelectorAll('.menu-nav li span')
       for(let el of allElements){
         el.classList.remove('active')
       }
@@ -44,7 +44,7 @@ const Menu = () => {
     const allPoints = document.getElementsByClassName('catalog-point')
     let allPositions = []
     for(let point of allPoints){
-      const position = point.getBoundingClientRect().top + window.pageYOffset - 60
+      const position = point.getBoundingClientRect().top + window.pageYOffset - 100
       allPositions.push(position)
     }
     setPositions(allPositions)

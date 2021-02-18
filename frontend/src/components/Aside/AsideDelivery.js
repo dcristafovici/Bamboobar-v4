@@ -40,6 +40,9 @@ const AsideDelivery = ({ addressReducer, asideReducer }) => {
           <span id="total-amount" className='total-amount'>
             <span>
               {asideReducer.total} ₽
+              {(addressReducer.useTaxi && addressReducer.taxiPrice && addressReducer.withoutPayDelivery - asideReducer.total > 0) ? (
+                <span className="small">+{addressReducer.taxiPrice} ₽ доставка</span>
+              ): ""}
             </span>
           </span>
         </div>

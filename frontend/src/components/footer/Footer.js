@@ -1,5 +1,6 @@
 import React from "react"
 import NotDelivery from "../modal/NotDelivery";
+import MobileShow from "../MobileShow/MobileShow";
 const Footer = () => {
   return(
     <React.Fragment>
@@ -127,6 +128,7 @@ const Footer = () => {
           </div>
         </form>
       </div>
+      <MobileShow />
 
 
     </React.Fragment>
