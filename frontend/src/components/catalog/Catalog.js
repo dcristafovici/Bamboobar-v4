@@ -34,7 +34,7 @@ const Catalog = () => {
                   categories.map((category, index) => {
                     const filteredProducts = products.filter(product => product.category === category._id)
                     return (
-                      <CatalogPoint key={index} products={filteredProducts} category={category}/>
+                      <CatalogPoint key={index} index={index} products={filteredProducts} category={category}/>
                     )
                   })
                 )

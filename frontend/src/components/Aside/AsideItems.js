@@ -30,7 +30,7 @@ const AsideItems = ({cart, addressReducer, asideReducer, setTotal, setPercent}) 
           />
         )
       })}
-      {asideReducer.useTaxi ? (
+      {addressReducer.useTaxi ? (
         <AsideTaxi />
       ): ""}
     </div>
