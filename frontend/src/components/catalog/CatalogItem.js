@@ -40,9 +40,11 @@ const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery, cart
     else
       openNotDelivery(true)
   }
+  const domain = window.location.origin
 
   return (
     products.map((product, index) => {
+      const cartQuantity = cart.find(item => item.product._id === product._id)?.quantity || '';
       return (
         <div
           key={index}
@@ -56,15 +58,15 @@ const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery, cart
                 <span className="woocommerce-Price-currencySymbol">₽</span></bdi></span></span>
           </div>
           <div className="catalog-item__photo">
-            <img src={"http://localhost:5000/" + product.productImage} alt={product.name}/>
+            <img src={domain + '/' + product.productImage} alt={product.name}/>
             <div className="catalog-photo__general">
               <div className="catalog-photo__gramme"><span>{product.weight} г</span>
               </div>
             </div>
           </div>
-          <div className="catalog-mobile__counter" key={cart.find(item => item.product._id === product._id) ? cart.find(item => item.product._id === product._id).quantity : "" }>
+          <div className="catalog-mobile__counter" key={cartQuantity}>
               <div className="catalog-mobile__minus"></div>
-              <input type="text" defaultValue={cart.find(item => item.product._id === product._id) ? cart.find(item => item.product._id === product._id).quantity : "" } />
+              <input type="text" defaultValue={cartQuantity} />
               <div className="catalog-mobile__plus"></div>
           </div>
 

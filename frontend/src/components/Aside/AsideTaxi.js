@@ -12,7 +12,7 @@ const AsideTaxi = ({addressReducer, setTaxiInfo}) => {
           bamboo: addressReducer.bambooCoords,
           coords: addressReducer.locationCoords
         })
-        const priceTaxi = parseFloat(response.data.service_levels[0].description_parts.value)
+        const priceTaxi = parseFloat(response.data.service_levels[10].description_parts.value)
         setTaxiInfo(priceTaxi, response.data.distance, )
 
       } catch (err){
