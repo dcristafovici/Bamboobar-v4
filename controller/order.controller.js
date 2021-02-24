@@ -1,6 +1,8 @@
 const axios = require('axios')
 const {Order, CartItem} = require('../models/order.models')
 const qs = require('qs')
+require('dotenv').config()
+
 const createOrder = async (req, res) => {
   try {
     const data = req.body
@@ -74,9 +76,9 @@ const payOrder = async (req, res) => {
     const params = new URLSearchParams()
     params.append("userName", "delivery-bamboobar-api")
     params.append("password", ">@^z-J8XW#'-26~[")
-    params.append("returnUrl", "http://localhost:3000/thanks/?orderID=" + id)
+    params.append("returnUrl", process.env.base_url + "thanks/?orderID=" + id)
     params.append("currency", '643')
-    params.append("failUrl", "http://localhost:3000/?success=false")
+    params.append("failUrl", process.env.base_url + "?success=false")
     params.append("orderId", id)
     params.append("orderNumber", id)
     params.append("amount", price)

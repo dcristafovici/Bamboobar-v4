@@ -34,13 +34,20 @@ const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery, cart
     }
   }
 
+  const addToAsideMobileEvent = (event, product) => {
+    if(addressReducer.location || addressReducer.pickup)
+      addToAsideMobile(event,product)
+    else
+      openNotDelivery(true)
+  }
+
   return (
     products.map((product, index) => {
       return (
         <div
           key={index}
           className="catalog-item"
-          onClick={(event) => {isMobile ? addToAsideMobile(event, product): addToAside(product)}}
+          onClick={(event) => {isMobile ? addToAsideMobileEvent(event, product): addToAside(product)}}
         >
           <div className="catalog-item__top">
             <h4>{product.name}</h4>

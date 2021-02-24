@@ -89,10 +89,8 @@ const Register = ({modal, openRegister, closeRegister, openLogin, setUserData}) 
     event.preventDefault()
     try{
       const registerResponse = await axios.post('/api/auth/generate', data)
-      console.log(registerResponse)
-      if(!registerResponse.data.message.includes('Message accepted for sending')){
+      if(registerResponse.data.message.includes('Message accepted for sending')){
         setSession(registerResponse.data.session)
-        console.log(registerResponse.data.session)
       }
     } catch (error) {
       console.log(error.response.data)
