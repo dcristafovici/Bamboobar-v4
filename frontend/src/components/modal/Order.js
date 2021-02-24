@@ -18,8 +18,13 @@ const Order = ({user, typename, cart, addressReducer, total, time, isSale, isDel
     cutlery: "",
     price: total,
     additional: "",
-    user: user ? user._id : ""
+    user: user ? user._id : "",
+    taxiPrice: deliveryPrice
   })
+  useEffect(() => {
+    setData({...data, ['taxiPrice']: deliveryPrice})
+  }, [deliveryPrice])
+
   const [errors, setErrors] = useState({
     customer_name: "",
     customer_email: "",

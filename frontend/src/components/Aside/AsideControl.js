@@ -15,12 +15,12 @@ const AsideControl = ({emptyCart}) => {
     <div className="aside-control">
       <div className="aside-title">
         <div className="aside-back" onClick={closeAsideHandle}>
-          <img src="https://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/arrow.svg" alt=""/>
+          <img src="/images/arrow.svg" alt=""/>
         </div>
         <span>Мой заказ</span>
       </div>
       <div className="aside-close" onClick={() => emptyCart()}>
-        <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/aside/close.svg"
+        <img src="/images/close.svg"
              alt="Close"/>
       </div>
     </div>

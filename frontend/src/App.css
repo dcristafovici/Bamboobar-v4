@@ -550,7 +550,6 @@ h4 {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-  align-items: flex-start;
   -ms-flex-pack: justify;
   justify-content: space-between;
   -ms-flex-wrap: wrap;
@@ -558,7 +557,7 @@ h4 {
   margin-bottom: -28px;
 }
 .account-item {
-  width: 27.7064220183%;
+  width: calc(50% - 10px);
   margin-bottom: 28px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -3106,7 +3105,7 @@ form.checkout{
 }
 
 .account-item__info .notedit{
-  opacity: 1;
+  opacity: .5;
 }
 
 /* animation */
@@ -3127,6 +3126,11 @@ form.checkout{
 .button.button-checkout:last-child{
   margin-top: 10px;
 }
+.account-item.account-history{
+  width: 100%;
+}
+
+
 
 @keyframes anvil {
   0% {
@@ -3492,6 +3496,82 @@ nav.menu-nav span:hover{
   margin-right: 15px;
   display: none;
 }
+.header-account__entry img{
+  max-width: 20px;
+}
+.header-account__entry img{
+  max-width: 20px;
+  max-height: 15px;
+  object-fit: contain;
+}
+.header-account__entry span{
+  white-space: nowrap;
+}
+.account-item.account-address{
+  display: none;
+}
+
+
+.account-history__legend li:first-child,
+.account-history__item div:first-child{
+  width: 15%;
+  box-sizing: border-box;
+}
+.account-history__legend li:nth-child(2),
+.account-history__address{
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.account-history__legend li:nth-child(3),
+.account-history__item div:nth-child(3){
+  width: 15%;
+  box-sizing: border-box;
+  text-align: left;
+}
+.account-product{
+  margin-left: calc(15% + 10px);
+  padding-left: 0;
+}
+
+.account-product__name{
+  width: 58%;
+}
+.account-product__total, .account-product__price, .account-product__quantity{
+  width: 14%;
+}
+.account-product__total{
+  text-align: right;
+}
+.account-product{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid rgba(226, 226, 226, 0.5);
+}
+
+.account-product:first-child > * {
+  font-family: 'Roboto-Bold', sans-serif;
+}
+.account-history__item div:nth-child(4),
+.account-history__legend li:nth-child(4){
+  flex: auto;
+  width: auto;
+}
+.account-product__taxi > div:first-child{
+  padding-left: 30px;
+  box-sizing: border-box;
+  position: relative
+}
+.account-product__taxi > div:first-child::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  background: url('img/assets/account/truck.svg') no-repeat center/contain;
+}
 
 @media screen and (max-width: 1200px) {
   .content {
@@ -3852,6 +3932,65 @@ nav.menu-nav span:hover{
   }
   ul.flickity-enabled{
     outline: none;
+  }
+
+
+  .account-history__legend{
+    display: none;
+  }
+
+  .header-account__top.header-account__entry span{
+    display: none;
+  }
+  .header-account__entry img{
+    width: 20px;
+  }
+  .header-phone a{
+    font-size: 13px;
+    padding-left: 0;
+  }
+  .header-phone a::before{
+    content: none;
+  }
+  .logo{
+    max-width: 55px;
+  }
+  .account-history__item{
+    flex-wrap : wrap;
+  }
+  .account-history__legend li:first-child, .account-history__item div:first-child{
+    width: 100%;
+  }
+  .account-history__item div:nth-child(2){
+    width: 100%;
+    padding: 0;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .account-history__item div:nth-child(3),
+  .account-history__item div:nth-child(4){
+    width: 50%;
+    padding: 0;
+  }
+  .account-product:first-child{
+    display: none;
+  }
+  .account-product{
+    margin-left: 0;
+  }
+  .account-history__group{
+    margin-bottom: 20px;
+  }
+  .account-history__item div:nth-child(4){
+    font-size: 15px;
+  }
+  .account-history__item div:nth-child(2){
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .account{
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 }
 

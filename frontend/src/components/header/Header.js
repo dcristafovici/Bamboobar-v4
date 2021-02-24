@@ -10,7 +10,7 @@ const Header = ({user, clearData}) => {
           <div className="header-wrapper">
             <div className="header-logo">
               <a href="/" className="logo">
-                <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/logo.svg"
+                <img src="/images/logo.svg"
                      alt="Logo"/>
               </a>
             </div>
@@ -26,10 +26,16 @@ const Header = ({user, clearData}) => {
             <div className="header-phone"><a href="tel:7 (985) 766-49-62">7 (985) 766-49-62</a>
             </div>
             {(user.user) ? (
-              <div className="header-account__top" onClick={() => clearData()}>
-                <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" />
-                <span>Выйти</span>
-              </div>
+              <React.Fragment>
+                <a href='/account' className="header-account__top header-account__entry">
+                  <img src="/images/user.svg" alt="User"/>
+                  <span>Личный кабинет</span>
+                </a>
+                <div className="header-account__top" onClick={() => clearData()}>
+                  <img src="/images/bear.png" />
+                  <span>Выйти</span>
+                </div>
+              </React.Fragment>
             ) : (
             <div className="header-account">
              <Register />

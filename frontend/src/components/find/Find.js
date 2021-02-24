@@ -60,7 +60,7 @@ const Find = ({setAddress, addressReducer, clearAddress}) => {
         <div className="form-group__clear" onClick={() => clearAddress()}>
           <span>Изменить</span>
           <img
-            src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/banner/pencil.svg"
+            src="/images/banner/pencil.svg"
             alt=""/>
         </div>
       </div>

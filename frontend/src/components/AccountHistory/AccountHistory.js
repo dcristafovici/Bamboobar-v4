@@ -3,15 +3,15 @@ import {useDispatch, useSelector} from 'react-redux'
 import {listOrders} from "../../redux/actions/orderAction";
 
 const AccountHistory = ({user}) =>{
+  const monthNames = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
   const dispatch = useDispatch()
-
   const orderList = useSelector(state => state.orderReducer)
-  const{ loading , errors, orders } = orderList
+  let { loading , errors, orders } = orderList
     useEffect(() => {
       if(user){
         dispatch(listOrders(user._id))
       }
-    }, [dispatch])
+    }, [dispatch , user])
 
   return(
     <div className="account-item account-history">
@@ -27,18 +27,23 @@ const AccountHistory = ({user}) =>{
       <div className="account-history-items">
         {orders.map((order, index) => {
           let date = new Date(order.create)
-
           return(
             <div className='account-history__group' key={index}>
               <div className="account-history__item">
-                <div className="account-history__time">{date.getDay()}.{date.getMonth()}.{date.getFullYear()}</div>
+                <div className="account-history__time">{date.getDate()} { monthNames[date.getMonth()]} {date.getFullYear()}</div>
                 <div className="account-history__address">{order.address}</div>
                 <div className="account-history__status" data-status={order.orderStatus}>
                   <span>{(order.orderStatus === "0") ? "Не оплачен" : 'Оплачен'    }</span>
                 </div>
-                <div className="account-history__price">{order.price} ₽</div>
+                <div className="account-history__price">{parseFloat(order.price) + parseFloat(order.taxiPrice)} ₽</div>
               </div>
               <div className='account-history__products'>
+                <div className="account-product">
+                  <div className="account-product__name">Название продукта</div>
+                  <div className="account-product__quantity">Количество</div>
+                  <div className="account-product__price">Стоимость единицы</div>
+                  <div className="account-product__total">Итого</div>
+                </div>
                 {order.products.map((product, index) => {
                   return(
                     <div className="account-product" key={index}>
@@ -49,6 +54,15 @@ const AccountHistory = ({user}) =>{
                     </div>
                   )
                 })}
+                {(parseFloat(order.taxiPrice)) ? (
+                  <div className="account-product account-product__taxi">
+                    <div className="account-product__name">Доставка</div>
+                    <div className="account-product__quantity">1</div>
+                    <div className="account-product__price">{order.taxiPrice} ₽</div>
+                    <div className="account-product__total">{order.taxiPrice} ₽</div>
+                  </div>
+                ) : ""}
+
               </div>
           </div>
           )

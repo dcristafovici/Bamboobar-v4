@@ -36,6 +36,7 @@ const orderSchema = new mongoose.Schema({
   additional: String,
   cutlery: String,
   deliveryTime: String,
+  taxiPrice: {type: String, default: 0},
   orderStatus: {type: String, default: "0"},
   create: {
     type: Date,

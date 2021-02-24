@@ -103,7 +103,7 @@ const Register = ({modal, openRegister, closeRegister, openLogin, setUserData}) 
       onClose={() => closeRegister()}
       onOpen={() => openRegister()}
       open={modal.registerModal}
-      trigger={<div className="header-account__top"> <img src="http://delivery.bamboobar.su/wp-content/themes/bamboobar/static/img/assets/header/bear.png" /> <span>Вход</span> </div>}  modal>
+      trigger={<div className="header-account__top"> <img src="/images/bear.png" /> <span>Вход</span> </div>}  modal>
       <div className="register-form">
       <h2>Авторизация</h2>
       <form className="form">

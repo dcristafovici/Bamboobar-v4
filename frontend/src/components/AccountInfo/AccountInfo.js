@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 const AccountInfo = ({user}) => {
+
+  const [active, setActive] = useState(false)
+
   const [data, setData] = useState({
     name: user ?  user.name : "",
     email: user? user.email : "",
@@ -10,11 +13,17 @@ const AccountInfo = ({user}) => {
   const onChangeHandler = (event) =>{
     setData({...data, [event.target.name]: event.target.value})
   }
+
+  const onChangeStateInput = () => {
+    setActive(true)
+  }
+
   const onSubmitHandler = async(event) => {
     event.preventDefault()
     try{
       const response = await axios.post('/api/auth/update', data)
-      console.log(response)
+      if(response.status === 200)
+        setActive(false)
     } catch (err){
       console.log(err)
     }
@@ -36,11 +45,11 @@ const AccountInfo = ({user}) => {
       <div className="account-item__vertical">
         <div className="account-item__info">
           <ul>
-            <li>
+            <li className={active ? "" : "notedit"}>
               <span>Имя:</span>
               <input type="text" onChange={onChangeHandler} name={'name'} defaultValue={(user ? user.name : "")}/>
             </li>
-            <li>
+            <li className={active ? "" : "notedit"}>
               <span>Email:</span>
               <input type="text"  onChange={onChangeHandler} name={'email'}  defaultValue={(user ? user.email : "")}/>
             </li>
@@ -51,8 +60,14 @@ const AccountInfo = ({user}) => {
           </ul>
         </div>
         <div className="account-item__button">
-          <button className="button button-gray" onClick={onSubmitHandler}><span>Редактировать</span>
-          </button>
+          {(active) ? (
+            <button className="button button-gray" onClick={onSubmitHandler}>
+              <span>Сохранить</span>
+            </button>
+            ): (
+            <button className="button button-gray" onClick={onChangeStateInput}><span>Изменить</span></button>
+          )}
+
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {openRegister} from "../../redux/actions/modalAction";
 
 const AsideDeliveryButton = ({ addressReducer , user, asideReducer, openRegister }) => {
   const typename = (asideReducer.total > addressReducer.minCount) ? "" : "notedit"
+  const isDelivery = addressReducer.useTaxi && addressReducer.taxiPrice && addressReducer.withoutPayDelivery - asideReducer.total > 0
   return (
     <div className="aside-delivery__button">
     {(user) ? (
@@ -14,7 +15,7 @@ const AsideDeliveryButton = ({ addressReducer , user, asideReducer, openRegister
         time={addressReducer.time}
         typename={typename}
         isSale={addressReducer.sale ? true : false}
-        isDelivery={addressReducer.useTaxi ? true : false}
+        isDelivery={isDelivery}
         deliveryPrice={addressReducer.taxiPrice}
       />
     ): (
