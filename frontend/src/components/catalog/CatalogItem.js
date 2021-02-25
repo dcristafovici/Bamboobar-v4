@@ -45,6 +45,8 @@ const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery, cart
   return (
     products.map((product, index) => {
       const cartQuantity = cart.find(item => item.product._id === product._id)?.quantity || '';
+      const prodImage = domain + '/' + product.productImageResize
+      const prodImageRetina = domain + '/' + product.productsImageRetina
       return (
         <div
           key={index}
@@ -58,7 +60,7 @@ const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery, cart
                 <span className="woocommerce-Price-currencySymbol">₽</span></bdi></span></span>
           </div>
           <div className="catalog-item__photo">
-            <img src={domain + '/' + product.productImage} alt={product.name}/>
+            <img src={prodImage} srcSet={prodImageRetina + " 2x"} />
             <div className="catalog-photo__general">
               <div className="catalog-photo__gramme"><span>{product.weight} г</span>
               </div>
