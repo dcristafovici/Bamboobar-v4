@@ -6,9 +6,9 @@ const Menu = () => {
   const [scroll, setScroll] = useState(false)
   const [positions, setPositions] = useState([])
   const [bannerPosition, setBannerPosition] = useState(0)
-
+  const [bodyHeight, setBodyHeight] = useState(0)
   const categoriesReducer = useSelector(state => state.categoriesReducer)
-  const{categories } = categoriesReducer
+  const {categories } = categoriesReducer
   const allElements = document.querySelectorAll('.menu-nav li span')
 
 
@@ -24,11 +24,12 @@ const Menu = () => {
       for(let el of allElements){
         el.classList.remove('active')
       }
-
       if(element) element.classList.add('active')
       if(index === -1 && window.scrollY > positions[0]){
         allElements[allElements.length - 1].classList.add('active')
       }
+      const heightBody = document.querySelector('body').clientHeight
+      setBodyHeight(heightBody)
     })
 
   },[bannerPosition, positions])
@@ -48,7 +49,7 @@ const Menu = () => {
       allPositions.push(position)
     }
     setPositions(allPositions)
-  }, [categories])
+  }, [categories, bodyHeight])
 
 
   const goToCategory = (index) => {

@@ -1,5 +1,6 @@
 import React from "react"
 import {useSelector, connect} from "react-redux";
+import LazyLoad from 'react-lazyload'
 import {addQuantity, addToCart, openNotDelivery, removeFromCart, subQuantity} from "../../redux/actions/asideAction";
 import { useMediaQuery } from 'react-responsive'
 
@@ -60,7 +61,9 @@ const CatalogItem = ({products, addToCart, addressReducer, openNotDelivery, cart
                 <span className="woocommerce-Price-currencySymbol">₽</span></bdi></span></span>
           </div>
           <div className="catalog-item__photo">
-            <img src={prodImage} srcSet={prodImageRetina + " 2x"} />
+            <LazyLoad height={160}>
+              <img src={prodImage} srcSet={prodImageRetina + " 2x"} />
+            </LazyLoad>
             <div className="catalog-photo__general">
               <div className="catalog-photo__gramme"><span>{product.weight} г</span>
               </div>

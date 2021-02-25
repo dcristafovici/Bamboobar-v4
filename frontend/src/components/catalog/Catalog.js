@@ -3,6 +3,7 @@ import Aside from "../Aside/Aside";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../redux/actions/categoriesAction";
 import {fetchProducts} from "../../redux/actions/productsAction";
+
 import CatalogPoint from "./CatalogPoint";
 
 const Catalog = () => {
@@ -20,7 +21,6 @@ const Catalog = () => {
     }
     fetchData()
   }, [dispatch])
-
 
   return (
     <section className="catalog">
