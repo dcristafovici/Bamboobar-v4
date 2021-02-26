@@ -1,10 +1,12 @@
 import React from "react"
 import NotDelivery from "../modal/NotDelivery";
 import MobileShow from "../MobileShow/MobileShow";
+import NotWorking from "../modal/NotWorking";
 const Footer = () => {
   return(
     <React.Fragment>
     <NotDelivery/>
+    <NotWorking />
     <section className="footer">
       <div className="content">
         <div className="footer-wrapper">
@@ -79,25 +81,6 @@ const Footer = () => {
       </div>
     </section>
 
-      <div className="add-info">
-        <img src="/images/footer/check.svg" alt="" />
-        <span>Товар добавлен</span>
-      </div>
-      <div id="sp-up" >
-        <img src="/images/footer/up.svg" alt="Up" />
-      </div>
-      <div id="auth" className="auth">
-        <form action="sendinfo.php" method="POST" className="form">
-          <div className="form-group">
-            <input type="text" placeholder="Номер телефона" />
-          </div>
-          <div className="form-group">
-            <button className="button">
-              <span>Отправить</span>
-            </button>
-          </div>
-        </form>
-      </div>
       <MobileShow />
 
 

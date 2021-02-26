@@ -13,7 +13,7 @@ const Catalog = () => {
   const {categories, loading, error} = categoriesReducer
   const { products } = productsReducer
   const dispatch = useDispatch()
-
+  const currentTime = new Date().getHours()
   useEffect(() => {
     async function fetchData(){
       await dispatch(fetchProducts())
@@ -31,12 +31,15 @@ const Catalog = () => {
               (<h1>loading</h1>)
               : error ? (<h2>{error}</h2>)
                 : (
-                  categories.map((category, index) => {
-                    const filteredProducts = products.filter(product => product.category === category._id)
-                    return (
-                      <CatalogPoint key={index} index={index} products={filteredProducts} category={category}/>
-                    )
-                  })
+                  categories
+                    .map((category, index) => {
+                      const filteredProducts = products.filter(product => product.category === category._id)
+                      if(category._id === '6035f67346ae28731ddd71c3' && currentTime >= 13)
+                        return false
+                      return (
+                        <CatalogPoint key={index} index={index} products={filteredProducts} category={category}/>
+                      )
+                    })
                 )
             }
           </div>

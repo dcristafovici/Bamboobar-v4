@@ -3596,6 +3596,77 @@ nav.menu-nav ul li{
   background-color: #072630;
 }
 
+.worktime{
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  background: #fff;
+  display: none;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.worktime-title{
+  font-size: 25px;
+  text-align: center;
+  font-family: 'Roboto-Bold', sans-serif;
+  margin-bottom: 30px;
+}
+
+.worktime-list{
+  text-align: center;
+  margin-bottom: 30px;
+}
+.worktime-list li{
+  line-height: 1.5;
+}
+.worktime-list + p{
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+main.not-worked .worktime{
+  position: fixed;
+  top: 50%;
+  display: block;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  background: #fff;
+  padding: 40px;
+}
+main.not-worked #bamboo-ovrley{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  background: #000;
+  opacity: 0.6;
+}
+
+main.not-worked{
+  overflow: hidden;
+  height: 100vh;
+}
+main.bamboobar-main.not-worked::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 20;
+}
+
+main.not-worked .main-reverse{
+  justify-content: flex-start;
+  flex: auto;
+}
 
 @media screen and (max-width: 1200px) {
   .content {
